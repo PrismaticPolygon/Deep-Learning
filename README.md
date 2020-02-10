@@ -57,7 +57,16 @@ of the corresponding datapoints.
 If interpolating between two points in latent space produces a smooth semantic warping in data space,
 this suggests that nearby points in latent space are semantically similar. 
 
+
+
+
 ### Adversarially constrained auto-encoder interpolation (ACAI)
+
+Based on `Understanding and Improving Interpolation in Autoencoders via an Adversarial Regularizer
+(Berthelot, Raffel, Roy, and Goodfellow, 2018)`, available [here](https://arxiv.org/abs/1807.07543). Source code:
+* [TensorFlow](https://github.com/anonymous-iclr-2019/acai-iclr-2019)
+* [PyTorch](https://gist.github.com/kylemcdonald/e8ca989584b3b0e6526c0a737ed412f0)
+
 
 A critic network is fed interpolants and reconstructions and tries to predict the interpolation coefficient
 `a` corresponding to its input, with `a = 0` for reconstructions. The autoencoder is trained to fool the critic
