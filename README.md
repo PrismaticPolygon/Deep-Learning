@@ -43,3 +43,33 @@ The two neural networks must have a similar skill level.
 [Andrew Ng notes](http://cs229.stanford.edu/notes/cs229-notes2.pdf)
 
 [Get rekt](https://machinelearningmastery.com/how-to-develop-a-generative-adversarial-network-for-a-cifar-10-small-object-photographs-from-scratch/)
+
+Current state-of-the-art is a spectral norm GAN, so let's go from there.
+
+An autoencoder learns to map datapoints to a latent code from which the data can be recovered
+with minimal information loss. The latent code is lower-dimensional than the data.
+
+By mixing codes in latent space and decoding the result, an autoencoder can produce a semantically meaningul combination
+of the corresponding datapoints. 
+
+"Latent space": a representation of compressed data.
+
+If interpolating between two points in latent space produces a smooth semantic warping in data space,
+this suggests that nearby points in latent space are semantically similar. 
+
+### Adversarially constrained auto-encoder interpolation (ACAI)
+
+A critic network is fed interpolants and reconstructions and tries to predict the interpolation coefficient
+`a` corresponding to its input, with `a = 0` for reconstructions. The autoencoder is trained to fool the critic
+into outputting `a = 0` for both interpolants. 
+
+With code here: https://github.com/anonymous-iclr-2019/acai-iclr-2019
+BOOM
+
+Let's clone this repo fast!
+If I can getting it running on my PC...
+That'd be swell.
+Though he does want a collab thing. Shame. 
+
+And it's TensorFlow, so I'd have to convert to PyTorch. Smart, making it difficult.
+It means that I'll actually have to understand!
