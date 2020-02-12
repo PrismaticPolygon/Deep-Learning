@@ -10,21 +10,23 @@ Original file is located at
 # Commented out IPython magic to ensure Python compatibility.
 # %env CUDA_VISIBLE_DEVICES=0
 
+import math
 import time
 from collections import defaultdict
 
 import numpy as np
 import matplotlib.pyplot as plt
-from IPython.display import clear_output
+# from IPython.display import clear_output
 
 import torch
 from torch import nn, optim
+import torchvision
 import torch.nn.functional as F
 
 # https://github.com/kylemcdonald/python-utils
-from utils.show_array import *
-from utils.make_mosaic import *
-from utils.pixelated import *
+# from utils.show_array import *
+# from utils.make_mosaic import *
+# from utils.pixelated import *
 
 args = {
     'epochs': 100,
@@ -41,7 +43,7 @@ args = {
     'device': 'cuda'
 }
 
-from sklearn.datasets import fetch_mldata
+from sklearn.datasets import fetch_openml
 
 def build_batches(x, n):
     x = np.asarray(x)
@@ -50,7 +52,7 @@ def build_batches(x, n):
 
 def get_mnist32_batches(batch_size, data_format='channels_first'):
     channel_index = 1 if data_format == 'channels_first' else 3
-    mnist = fetch_mldata('MNIST original')
+    mnist = fetch_openml('mnist_784')
     data_x = mnist['data'].reshape(-1,28,28).astype(np.float32) / 255.
     data_x = np.pad(data_x, ((0,0), (2,2), (2,2)), mode='constant')
     data_x = np.expand_dims(data_x, channel_index)
@@ -61,7 +63,52 @@ def get_mnist32_batches(batch_size, data_format='channels_first'):
     x_batches = build_batches(data_x[indices], batch_size)
     return x_batches, y_batches
 
+# It shouldn't really matter. If I know that I can load it, then it should just be a few lines
+# that I need to change.
+
+def get_mnist32_batches_II(batch_size):
+
+    train_loader = torch.utils.data.DataLoader(
+        torchvision.datasets.MNIST('data', train=True, download=True, transform=torchvision.transforms.Compose([
+            torchvision.transforms.ToTensor()
+        ])),
+        shuffle=True, batch_size=64, drop_last=True)
+
+    return train_loader
+
+print("\nGetting batches II")
+
+x_batches = get_mnist32_batches_II(args['batch_size'])
+
+# Oh, I see. I'm definitely going to need to do more than just copy this one, alas.
+# Definitely a job for tomorrow.
+
+for i in enumerate(x_batches):
+
+    print("Label:", i[0])
+    print("List")
+
+    print(i)
+
+print(x_batches)
+
+print("Getting batches")
+
 x_batches, y_batches = get_mnist32_batches(args['batch_size'])
+
+print(x_batches.shape)
+
+#1093, 64, 1, 32, 32.
+
+# Okay. So: batches of 64, in shape 1, 32, 32. That must be the expand_dims.
+
+# Each batch is a 5D array. Christ.
+
+print(x_batches)
+# print(y_batches)
+
+
+
 x_batches = torch.FloatTensor(x_batches).to(args['device'])
 
 # pytorch doesn't support negative strides / can't flip tensors
@@ -143,7 +190,10 @@ losses = defaultdict(list)
 # helper functions for visualizing the status
 def reconstruct(x):
     out = decoder(encoder(x))
-    return make_mosaic(out.cpu().data.numpy().squeeze())
+
+    return None
+
+    # return make_mosaic(out.cpu().data.numpy().squeeze())
 
 def interpolate_2(x, side=8):
     z = encoder(x)
@@ -160,8 +210,10 @@ def interpolate_2(x, side=8):
     all.extend(x_fixed[:side])
     all.extend(x_interp)
     all.extend(x_fixed[-side:])
+
+    return None
     
-    return make_mosaic(np.asarray(all).squeeze())
+    # return make_mosaic(np.asarray(all).squeeze())
 
 def interpolate_4(x, side=8):
     z = encoder(x)
@@ -186,8 +238,10 @@ def interpolate_4(x, side=8):
     x_interp[side-1] = x_fixed[1]
     x_interp[n-side] = x_fixed[2]
     x_interp[n-1] = x_fixed[3]
-    
-    return make_mosaic(x_interp.squeeze())
+
+    return None
+
+    # return make_mosaic(x_interp.squeeze())
 
 # random samples based on a reference distribution
 def random_samples(x):
@@ -196,13 +250,18 @@ def random_samples(x):
     z_sample = np.random.normal(loc=z.mean(axis=0), scale=z.std(axis=0), size=z.shape)
     x_sample = decoder(torch.FloatTensor(z_sample).to(args['device']))
     x_sample = x_sample.data.cpu().numpy()
-    return make_mosaic(x_sample.squeeze())
+
+    return None
+
+    # return make_mosaic(x_sample.squeeze())
 
 def status():
     x = x_batches[0]
     chunks = [reconstruct(x), interpolate_2(x), interpolate_4(x), random_samples(x)]
     chunks = [np.pad(e, (0,1), mode='constant', constant_values=255) for e in chunks]
-    return make_mosaic(chunks)
+
+    return None
+    # return make_mosaic(chunks)
 
 it = 0
 start_time = time.time()
@@ -255,9 +314,10 @@ try:
                     plt.plot(x, y, label=key, lw=0.5)
                 plt.legend(loc='upper right')
                 
-                clear_output(wait=True)
+                # clear_output(wait=True)
                 plt.show()
-                show_array(img * 255)
+
+                # show_array(img * 255)
                 
                 speed = args['batch_size'] * it / (time.time() - start_time)
                 print(f'{epoch+1}/{args["epochs"]}; {speed:.2f} samples/sec')
