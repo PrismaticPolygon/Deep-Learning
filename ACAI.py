@@ -55,21 +55,6 @@ test_loader = DataLoader(test_set, batch_size=args["batch_size"], shuffle=False,
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
-# pytorch doesn't support negative strides / can't flip tensors
-# so instead this function swaps the two halves of a tensor
-# That works fine, too.
-# It doesn't matter how I do this.
-# I may as well shuffle it, to be honest.
-def swap_halves(x):
-
-    a, b = x.split(x.shape[0] // 2)
-
-    return torch.cat([b, a])
-
-# torch.lerp only support scalar weight
-def lerp(start, end, weights):
-
-    return start + weights * (end - start)
 
 class Discriminator(nn.Module):
 
@@ -86,6 +71,7 @@ class Discriminator(nn.Module):
         x = torch.mean(x, -1)
 
         return x
+
 
 encoder = build_encoder(args["scales"], args['depth'], args['latent']).to(args['device'])
 decoder = build_decoder(args["scales"], args['depth'], args['latent']).to(args['device'])
@@ -106,13 +92,6 @@ opt_d = Adam(
     weight_decay=args["weight_decay"]
 )
 
-def L2(x):
-
-    return torch.mean(x**2)
-
-
-losses = defaultdict(list)
-
 i = 0
 start_time = time.time()
 
@@ -120,20 +99,15 @@ for epoch in range(args["epochs"]):
 
     print("\nEPOCH {}/{}\n".format(epoch, args["epochs"]))
 
-    # We have x, l, and h
-
     for x, y in train_loader:
 
         x = Variable(x).cuda()
 
         encode = encoder(x)
-        # decode = decoder(h)   # What's h?
         ae = decoder(encode)
 
         # args[batch_size] = x.shape[0]. Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
         alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
-
-        # Maybe I shouldn't fuck with his implement too much...
 
         encode_mix = alpha * encode + (1 - alpha) * torch.flip(encode, [0])
         decode_mix = decoder(encode_mix)
@@ -157,4 +131,6 @@ for epoch in range(args["epochs"]):
         loss_disc.backward()
         opt_d.step()
 
-        print(loss_ae, loss_disc)
+        print(loss_ae.data, loss_disc.data)
+
+# Nice. Let's go home and have dinner. My final piece tonight will be getting some images and progress displaying.
