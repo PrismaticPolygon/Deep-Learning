@@ -7,7 +7,10 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torch.optim import Adam
 
+from lib import encoder, decoder
+
 import time
+import math
 
 from collections import defaultdict
 
@@ -21,8 +24,12 @@ args = {
     "advweight": 0.5,
     "reg": 0.2,
     "weight_decay": 1e-5,
+    "width": 32,
+    "latent_width": 4,
     "device": "cuda"
 }
+
+args["scales"] = int(math.log2(args["width"] // args["latent_width"]))
 
 # Taken from https://github.com/kuangliu/pytorch-cifar/blob/master/main.py
 normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
@@ -47,104 +54,6 @@ test_loader = DataLoader(test_set, batch_size=args["batch_size"], shuffle=False,
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
-# I'm close to leaving for the day.
-# Once it's trained, how do we test it?
-
-# I may as well follow their architecture more closely. I'm not expecting to improve it.
-
-def Encoder(scales, depth, latent):
-
-    layers = [
-        nn.Conv2d(3, depth, 1, padding=1)  # 3-16-1. Hardly the typical 4-2-1
-    ]
-
-    kp = depth
-
-    for scale in range(scales):
-
-        # in_channels, out_ch
-
-        k = depth << scale
-
-        layers.extend([nn.Conv2d(kp, k, 3, padding=1), nn.LeakyReLU()])
-        layers.extend([nn.Conv2d(k, k, 3, padding=1), nn.LeakyReLU()])
-        layers.append(nn.AvgPool2d(2))
-
-        kp = k
-
-    k = depth << scales
-
-    layers.extend([nn.Conv2d(kp, k, 3, padding=1), nn.LeakyReLU()])
-    layers.append(nn.Conv2d(k, latent, 3, padding=1))
-
-    # Initializer(layers)
-
-    """
-        Conv2d(3, 16, kernel_size=(1, 1), stride=(1, 1), padding=(1, 1))
-        Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        AvgPool2d(kernel_size=2, stride=2, padding=0)
-        Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        AvgPool2d(kernel_size=2, stride=2, padding=0)
-        Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        AvgPool2d(kernel_size=2, stride=2, padding=0)
-        Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        LeakyReLU(negative_slope=0.01)
-        Conv2d(128, 2, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    """
-
-    return nn.Sequential(*layers)
-
-def Decoder(scales, depth, latent):
-
-    layers = []
-    kp = latent
-
-    for scale in range(scales - 1, -1, -1):
-
-        k = depth << scale
-
-        layers.extend([nn.Conv2d(kp, k, 3, padding=1), nn.LeakyReLU()])
-        layers.extend([nn.Conv2d(k, k, 3, padding=1), nn.LeakyReLU()])
-        layers.append(nn.Upsample(scale_factor=2))
-
-        kp = k
-
-    layers.extend([nn.Conv2d(kp, depth, 3, padding=1), nn.LeakyReLU()])
-    layers.append(nn.Conv2d(depth, 3, 3, padding=1))
-    # Initializer(layers)
-
-    """
-    Conv2d(2, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Upsample(scale_factor=2.0, mode=nearest)
-    Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Upsample(scale_factor=2.0, mode=nearest)
-    Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Upsample(scale_factor=2.0, mode=nearest)
-    Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    LeakyReLU(negative_slope=0.01)
-    Conv2d(16, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    """
-
-    return nn.Sequential(*layers)
-
 # pytorch doesn't support negative strides / can't flip tensors
 # so instead this function swaps the two halves of a tensor
 # That works fine, too.
@@ -166,24 +75,29 @@ class Discriminator(nn.Module):
     def __init__(self, scales, depth, latent):
 
         super().__init__()
-        self.encoder = Encoder(scales, depth, latent)
+        self.encoder = encoder(scales, depth, latent)
 
     def forward(self, x):
 
-        x = self.encoder(x)
+        x = self.encoder(x) # I see only an x here.
 
         x = x.reshape(x.shape[0], -1)   # Not sure why this is necessary.
         x = torch.mean(x, -1)
 
         return x
 
-encoder = Encoder(3, args['depth'], args['latent']).to(args['device'])
-decoder = Decoder(3, args['depth'], args['latent']).to(args['device'])
-discriminator = Discriminator(3, args['advdepth'], args['latent']).to(args['device'])
+e = encoder(args["scales"], args['depth'], args['latent']).to(args['device'])
+d = decoder(args["scales"], args['depth'], args['latent']).to(args['device'])
+
+# Fuck. I don't know \textit{enough} about what I'm doing to easily debug yet.
+# Fuck Mr. Willcox for thinking I'm going to do anything fancy. Implementating this paper is pretty goddamn fancy
+# in of itself!
+
+discriminator = Discriminator(args["scales"], args['advdepth'], args['latent']).to(args['device'])
 
 # Optimiser for autoencoder parameters
 opt_ae = Adam(
-    list(encoder.parameters()) + list(decoder.parameters()),
+    list(e.parameters()) + list(d.parameters()),
     lr=args["lr"],
     weight_decay=args["weight_decay"]
 )
@@ -199,11 +113,10 @@ def L2(x):
 
     return torch.mean(x**2)
 
-# Expected object of type cuda but got device type cpu. For encoder(x).
 
 losses = defaultdict(list)
 
-it = 0
+i = 0
 start_time = time.time()
 
 for epoch in range(args["epochs"]):
@@ -216,9 +129,15 @@ for epoch in range(args["epochs"]):
 
         x = Variable(x).cuda()
 
-        encode = encoder(x)
+        encode = e(x)
+
+        # print(encode.shape)  # (64, 2, 4, 4)
+
         # decode = decoder(h)   # What's h?
-        ae = decoder(encode)
+        ae = d(encode)
+
+        # print(ae.shape)  # (64, 3, 30, 30). Forgot some padding.
+
         loss_ae_mse = F.mse_loss(x, ae)
 
         # args[batch_size] = x.shape[0]. Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
@@ -227,10 +146,15 @@ for epoch in range(args["epochs"]):
         # Maybe I shouldn't fuck with his implement too much...
 
         encode_mix = alpha * encode + (1 - alpha) * torch.flip(encode, [0])
-        decode_mix = decoder(encode_mix)
 
-        loss_disc = F.mse_loss(decode_mix, alpha.reshape(-1))
-        loss_disc_real = F.mse_loss()
+        # print(encode_mix.shape)
+
+        decode_mix = d(encode_mix)
+
+        # print(decode_mix.shape)
+
+        # loss_disc = F.mse_loss(decode_mix, alpha.reshape(-1))
+        # loss_disc_real = F.mse_loss()
 
         disc = discriminator(torch.lerp(ae, x, args['reg']))
 
@@ -238,7 +162,7 @@ for epoch in range(args["epochs"]):
 
         z_mix = lerp(encode, torch.flip(encode, [0]), alpha)
 
-        out_mix = decoder(z_mix)
+        out_mix = d(z_mix)
 
         # Judge them
         disc_mix = discriminator(out_mix)
@@ -262,6 +186,8 @@ for epoch in range(args["epochs"]):
         opt_d.zero_grad()
         loss_disc.backward()
         opt_d.step()
+
+        print(loss_ae, loss_disc)
 
         # Well, there we go.
         # So I've got this working...

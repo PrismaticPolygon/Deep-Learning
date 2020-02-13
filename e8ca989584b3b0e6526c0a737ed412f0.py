@@ -133,6 +133,8 @@ def Decoder(scales, depth, latent, colors):
     Initializer(layers)
     return nn.Sequential(*layers)
 
+# Why is the Discriminator a module, and nothing?
+
 class Discriminator(nn.Module):
 
     def __init__(self, scales, depth, latent, colors):

@@ -82,7 +82,7 @@ def decoder(scales, depth, latent, colors=3):
     layers.extend([
         nn.Conv2d(in_channels, depth, kernel_size, stride, padding),
         activation(),
-        nn.Conv2d(depth, colors, kernel_size)
+        nn.Conv2d(depth, colors, kernel_size, stride, padding)
     ])
 
     initialiser(layers)
