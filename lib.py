@@ -17,7 +17,7 @@ def initialiser(layers, slope=0.2):
             layer.bias.data.zero_()
 
 
-def encoder(scales, depth, latent, colors=3):
+def build_encoder(scales, depth, latent, colors=3):
 
     activation = nn.LeakyReLU
     kernel_size = 3
@@ -56,7 +56,7 @@ def encoder(scales, depth, latent, colors=3):
     return nn.Sequential(*layers)
 
 
-def decoder(scales, depth, latent, colors=3):
+def build_decoder(scales, depth, latent, colors=3):
 
     activation = nn.LeakyReLU
     kernel_size = 3
@@ -92,13 +92,13 @@ def decoder(scales, depth, latent, colors=3):
 
 if __name__ == "__main__":
 
-    e = encoder(3, 16, 2, 3)
+    e = build_encoder(3, 16, 2, 3)
 
     print("\nENCODER\n")
 
     print(e)
 
-    d = decoder(3, 16, 2, 3)
+    d = build_decoder(3, 16, 2, 3)
 
     print("\nDECODER\n")
 

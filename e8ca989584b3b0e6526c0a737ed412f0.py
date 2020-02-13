@@ -244,8 +244,6 @@ try:
 
         for x in x_batches:
 
-            print(x.shape)
-
             # Encode batch x
             z = encoder(x)
             # Decode z into x'. Why?
@@ -266,6 +264,16 @@ try:
 
             # Decode the interpolated images
             out_mix = decoder(z_mix)
+
+            print(out_mix.shape)    # (64, 1, 32, 32)
+            print(alpha.shape)      # (64, 1, 32, 32)
+            print(alpha[:, 0, 0, 0].shape)  # (64)
+            print(alpha.reshape(-1).shape)  # (64)
+
+            # It's not out_mix, though: it's disc out_mix.
+            # And disc takes the mean.
+
+            print(F.mse_loss(out_mix, alpha))
 
             # Judge them
             disc_mix = discriminator(out_mix)
