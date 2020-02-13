@@ -50,6 +50,8 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 # I'm close to leaving for the day.
 # Once it's trained, how do we test it?
 
+# I may as well follow their architecture more closely. I'm not expecting to improve it.
+
 def Encoder(scales, depth, latent):
 
     layers = [
@@ -59,6 +61,8 @@ def Encoder(scales, depth, latent):
     kp = depth
 
     for scale in range(scales):
+
+        # in_channels, out_ch
 
         k = depth << scale
 
