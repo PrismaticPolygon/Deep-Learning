@@ -27,24 +27,26 @@ args = {
     'device': 'cuda'    # Device to use (cpu or cuda)
 }
 
+normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+
 # Taken from https://github.com/kuangliu/pytorch-cifar/blob/master/main.py
 transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    normalize
 ])
 
 transform_test = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    normalize
 ])
 
 train_set = CIFAR10(root='./data', train=True, download=True, transform=transform_train)
-train_loader = DataLoader(train_set, batch_size=128, shuffle=True, num_workers=0)
+train_loader = DataLoader(train_set, batch_size=args["batch_size"], shuffle=True, num_workers=0)
 
 test_set = CIFAR10(root='./data', train=False, download=True, transform=transform_test)
-test_loader = DataLoader(test_set, batch_size=100, shuffle=False, num_workers=0)
+test_loader = DataLoader(test_set, batch_size=args["batch_size"], shuffle=False, num_workers=0)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
@@ -63,10 +65,10 @@ def Initializer(layers, slope=0.2):
 
             layer.bias.data.zero_()
 
-def Encoder(scales, depth, latent, colors):
+def Encoder(scales, depth, latent):
 
     layers = [
-        nn.Conv2d(colors, depth, 1, padding=1)  # 3-16-1. Hardly the typical 4-2-1
+        nn.Conv2d(3, depth, 1, padding=1)  # 3-16-1. Hardly the typical 4-2-1
     ]
 
     kp = depth
@@ -112,7 +114,7 @@ def Encoder(scales, depth, latent, colors):
 
     return nn.Sequential(*layers)
 
-def Decoder(scales, depth, latent, colors):
+def Decoder(scales, depth, latent):
 
     layers = []
     kp = latent
@@ -128,7 +130,7 @@ def Decoder(scales, depth, latent, colors):
         kp = k
 
     layers.extend([nn.Conv2d(kp, depth, 3, padding=1), nn.LeakyReLU()])
-    layers.append(nn.Conv2d(depth, colors, 3, padding=1))
+    layers.append(nn.Conv2d(depth, 3, 3, padding=1))
     Initializer(layers)
 
     """
@@ -155,10 +157,10 @@ def Decoder(scales, depth, latent, colors):
     return nn.Sequential(*layers)
 
 
-scales = int(round(math.log(args['width'] // args['latent_width'], 2))) # 3
+# scales = int(round(math.log(args['width'] // args['latent_width'], 2))) # 3
 
-encoder = Encoder(scales, args['depth'], args['latent'], args['colors']).to(args['device'])
-decoder = Decoder(scales, args['depth'], args['latent'], args['colors']).to(args['device'])
+# encoder = Encoder(scales, args['depth'], args['latent']).to(args['device'])
+# decoder = Decoder(scales, args['depth'], args['latent']).to(args['device'])
 
 # We will also need a decoder. No. Let's just encoder first.
 
@@ -168,8 +170,8 @@ class AutoEncoder(nn.Module):
 
         super(AutoEncoder, self).__init__()
 
-        self.encoder = Encoder(scales, args['depth'], args['latent'], args['colors']).to(args['device'])
-        self.decoder = Decoder(scales, args['depth'], args['latent'], args['colors']).to(args['device'])
+        self.encoder = Encoder(scales, args['depth'], args['latent']).to(args['device'])
+        self.decoder = Decoder(scales, args['depth'], args['latent']).to(args['device'])
 
     def forward(self, x):
 
@@ -192,8 +194,8 @@ for epoch in range(args["epochs"]):
     for data in train_loader:
 
         img, _ = data   # I'm not sure what this does. This is just optimising a simple autoencoder.
-        # Naturally, it will be become more complex.
-        # Once we're interpolating images.... let's watch some YouTube and eat.
+                        # Naturally, it will be become more complex.
+                        # Once we're interpolating images.... let's watch some YouTube and eat.
         img = img.view(img.size(0), -1)
         img = Variable(img).cuda()
         # ===================forward=====================
@@ -209,28 +211,3 @@ for epoch in range(args["epochs"]):
     # if epoch % 10 == 0:
     #     pic = to_img(output.cpu().data)
     #     save_image(pic, './mlp_img/image_{}.png'.format(epoch))
-
-#
-#     print("\nEPOCH {}\n".format(epoch))
-#
-#     for data in train_loader:
-#
-#         # His code really does suck, man. How hard is it to make something understandable?
-#         # It might be work getting a simple AE - DE example working. Once I've got that with CIFAR,
-#         # there isn't that much left to do.
-#
-#         #
-#
-#         tensors, labels = data
-#
-#         # print(labels)   # (128). Each element is the label of the tensor at i
-#         # print(tensors)  # (128, 3, 32, 32). 128 images of size (3, 32, 32).
-#         #
-#         # print(tensors.shape)
-#
-#         break
-#
-#         # x = encoder(label)
-#
-#     break
-# Okay. Now that we have an encoder... let's try to encode an image.

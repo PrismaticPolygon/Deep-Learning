@@ -58,7 +58,8 @@ If interpolating between two points in latent space produces a smooth semantic w
 this suggests that nearby points in latent space are semantically similar. 
 
 
-
+ToTensor converts a PIL image or np.ndarray of shape (H, W, C) in range [0, 255]
+to a torch.FloatTensor of shape (C, H, W) in range [0.0, 1.0]
 
 ### Adversarially constrained auto-encoder interpolation (ACAI)
 
