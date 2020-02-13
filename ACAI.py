@@ -180,6 +180,11 @@ class Autoencoder(nn.Module):
 
         return x
 
+# pytorch doesn't support negative strides / can't flip tensors
+# so instead this function swaps the two halves of a tensor
+# That works fine, too.
+# It doesn't matter how I do this.
+# I may as well shuffle it, to be honest.
 def swap_halves(x):
 
     a, b = x.split(x.shape[0] // 2)
@@ -240,44 +245,40 @@ for epoch in range(args["epochs"]):
 
     print("\nEPOCH {}/{}\n".format(epoch, args["epochs"]))
 
-    for data in train_loader:
+    # We have x, l, and h
 
-        # In the notebook, each input was (64, 1, 32, 32). We want each input to be (64, 3, 32, 32)
+    for x, y in train_loader:
 
-        x, _ = data  # I'm not sure what this does. This is just optimising a simple autoencoder.
-                        # Each is, indeed, (64, 3, 32, 32). Perfect.
-
-        # Convert to CUDA (?). Ah. This then breaks it. We're shaping it wrong.
-        # This flattens it out, which I'm not expecting.
-
-        # x = x.view(x.size(0), -1)
         x = Variable(x).cuda()
 
-        z = encoder(x)
-        # Decode z into x'. Why?
+        encode = encoder(x)
+        # decode = decoder(h)   # What's h?
+        ae = decoder(encode)
+        loss_ae_mse = F.mse_loss(x, ae)
 
-        out = decoder(z)
+        # Does that not imply that every pixel... no. It's one alpha per image. So why is it this shape?
+        # args[batch_size] = x.shape[0]. Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
+        alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
 
-        # print(out)
+        encode_mix = alpha * encode + (1 - alpha) * torch.flip(encode, [0])
+        decode_mix = decoder(encode_mix)
 
-        disc = discriminator(torch.lerp(out, x, args['reg']))
+        disc = discriminator(torch.lerp(ae, x, args['reg']))
+
+        # Computes the mean of elements across dimensions of a tensor.
 
         # print(disc)
-
-        # Calculate a random alpha of size (64, 1, 1, 1) in range [0, 0.5]
-        alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
         # Nice. Now for a difficult bit.
 
         # No way this will work off the bat.
         # Holy shit Batman. If that works...
-        z_mix = lerp(z, swap_halves(z), alpha)
+        z_mix = lerp(encode, swap_halves(encode), alpha)
 
         out_mix = decoder(z_mix)
 
         # Judge them
         disc_mix = discriminator(out_mix)
 
-        loss_ae_mse = F.mse_loss(out, x)
         loss_ae_L2 = L2(disc_mix) * args['advweight']
         loss_ae = loss_ae_mse + loss_ae_L2
 
