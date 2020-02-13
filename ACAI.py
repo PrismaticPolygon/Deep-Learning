@@ -7,13 +7,15 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torch.optim import Adam
+from torchvision.utils import make_grid
 
-from lib import build_encoder, build_decoder
+import numpy as np
+import matplotlib.pyplot as plt
+
+from lib import build_encoder, build_decoder, NormalizeInverse
 
 import time
 import math
-
-from collections import defaultdict
 
 args = {
     "epochs": 5,
@@ -32,8 +34,12 @@ args = {
 
 args["scales"] = int(math.log2(args["width"] // args["latent_width"]))
 
-# Taken from https://github.com/kuangliu/pytorch-cifar/blob/master/main.py
-normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+# https://github.com/kuangliu/pytorch-cifar/blob/master/main.py
+mean = np.array([0.4914, 0.4822, 0.4465])
+std = np.array([0.2023, 0.1994, 0.2010])
+
+normalize = transforms.Normalize(mean=mean, std=std)
+inverse_normalize = NormalizeInverse(mean=mean, std=std)
 
 transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
@@ -54,6 +60,13 @@ test_set = CIFAR10(root='./data', train=False, download=True, transform=transfor
 test_loader = DataLoader(test_set, batch_size=args["batch_size"], shuffle=False, num_workers=0, drop_last=True)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+
+def imshow(img):
+
+    img = inverse_normalize(img)
+    np_img = img.numpy()
+    plt.imshow(np.transpose(np_img, (1, 2, 0)))
+    plt.show()
 
 
 class Discriminator(nn.Module):
@@ -99,7 +112,14 @@ for epoch in range(args["epochs"]):
 
     print("\nEPOCH {}/{}\n".format(epoch, args["epochs"]))
 
+    # This is fairly simple.
+    # Every 100 iterations, draw the first image, the second image, the mixed image, and the alpha prediction.
+    # I preferred his GAN.
+    # How do I unnormalise when I have funky values?
+
     for x, y in train_loader:
+
+        imshow(make_grid(x))  # Display the current batch.
 
         x = Variable(x).cuda()
 

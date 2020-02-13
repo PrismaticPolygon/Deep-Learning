@@ -1,6 +1,24 @@
+import torch
 import torch.nn as nn
+import torchvision.transforms as transforms
 import numpy as np
 
+
+# https://discuss.pytorch.org/t/simple-way-to-inverse-transform-normalization/4821/3
+class NormalizeInverse(transforms.Normalize):
+
+    def __init__(self, mean, std):
+
+        mean = torch.as_tensor(mean)
+        std = torch.as_tensor(std)
+        std_inv = 1 / (std + 1e-7)
+        mean_inv = -mean * std_inv
+
+        super().__init__(mean=mean_inv, std=std_inv)
+
+    def __call__(self, tensor):
+
+        return super().__call__(tensor.clone())
 
 def initialiser(layers, slope=0.2):
 
