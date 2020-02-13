@@ -76,8 +76,11 @@ def swap_halves(x):
     a, b = x.split(x.shape[0]//2)
     return torch.cat([b, a])
 
+# But what is it?
+
 # torch.lerp only support scalar weight
 def lerp(start, end, weights):
+
     return start + weights * (end - start)
 
 def L2(x):
@@ -186,10 +189,10 @@ def interpolate_4(x, side=8):
     z = z.data.cpu().numpy()
     
     n = side*side
-    xv, yv = np.meshgrid(np.linspace(0,1,side),
-                         np.linspace(0,1,side))
-    xv = xv.reshape(n,1,1,1)
-    yv = yv.reshape(n,1,1,1)
+    xv, yv = np.meshgrid(np.linspace(0, 1, side),
+                         np.linspace(0, 1, side))
+    xv = xv.reshape(n, 1, 1, 1)
+    yv = yv.reshape(n, 1, 1, 1)
 
     z_interp = \
         z[0] * (1-xv) * (1-yv) + \
@@ -211,6 +214,7 @@ def interpolate_4(x, side=8):
 
 # random samples based on a reference distribution
 def random_samples(x):
+
     z = encoder(x_batches[0])
     z = z.data.cpu().numpy()
     z_sample = np.random.normal(loc=z.mean(axis=0), scale=z.std(axis=0), size=z.shape)
@@ -233,17 +237,38 @@ it = 0
 start_time = time.time()
 
 try:
+
     for epoch in range(args['epochs']):
+
         for x in x_batches:
+
+            print(x.shape)
+
+            # Encode batch x
             z = encoder(x)
+            # Decode z into x'. Why?
             out = decoder(z)
+
+            # I don't understand why we decode it. The discriminator is the critic.
+            # BUt isn't that the case? We have no use for the labels? I think that is indeed the case.
+            # Because we're not judging how good we are encoding, we're judging how good we are at producing images that look like they've been encoded.
+
+
             disc = discriminator(torch.lerp(out, x, args['reg']))
-        
+
+            # Calculate a random alpha of size (64, 1, 1, 1) in range [0, 0.5]
             alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
+
+            # Produce the interpolated images
             z_mix = lerp(z, swap_halves(z), alpha)
+
+            # Decode the interpolated images
             out_mix = decoder(z_mix)
+
+            # Judge them
             disc_mix = discriminator(out_mix)
 
+            # Calculate the MSE of the AE
             loss_ae_mse = F.mse_loss(out, x)
             loss_ae_l2 = L2(disc_mix) * args['advweight']
             loss_ae = loss_ae_mse + loss_ae_l2
@@ -269,15 +294,18 @@ try:
             losses['loss_ae'].append(loss_ae.item())
 
             if it % 100 == 0:
+
                 img = status()
                 
                 plt.figure(facecolor='w', figsize=(10,4))
+
                 for key in losses:
                     total = len(losses[key])
                     skip = 1 + (total // 1000)
                     y = build_batches(losses[key], skip).mean(axis=-1)
                     x = np.linspace(0, total, len(y))
                     plt.plot(x, y, label=key, lw=0.5)
+
                 plt.legend(loc='upper right')
                 
                 # clear_output(wait=True)
@@ -301,5 +329,7 @@ print(disc_mix)
 z = encoder(x_batches[0])
 z = z.data.cpu().numpy().reshape(len(z), -1).T
 for dim in z:
+
     plt.hist(dim, bins=12, alpha=0.1)
+
 plt.show()
