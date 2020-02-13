@@ -66,6 +66,7 @@ Based on `Understanding and Improving Interpolation in Autoencoders via an Adver
 (Berthelot, Raffel, Roy, and Goodfellow, 2018)`, available [here](https://arxiv.org/abs/1807.07543). Source code:
 * [TensorFlow](https://github.com/anonymous-iclr-2019/acai-iclr-2019)
 * [PyTorch](https://gist.github.com/kylemcdonald/e8ca989584b3b0e6526c0a737ed412f0)
+* [PyTorch CIFAR10](https://github.com/kuangliu/pytorch-cifar)
 
 
 A critic network is fed interpolants and reconstructions and tries to predict the interpolation coefficient

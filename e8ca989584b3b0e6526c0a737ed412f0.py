@@ -63,52 +63,11 @@ def get_mnist32_batches(batch_size, data_format='channels_first'):
     x_batches = build_batches(data_x[indices], batch_size)
     return x_batches, y_batches
 
-# It shouldn't really matter. If I know that I can load it, then it should just be a few lines
-# that I need to change.
-
-def get_mnist32_batches_II(batch_size):
-
-    train_loader = torch.utils.data.DataLoader(
-        torchvision.datasets.MNIST('data', train=True, download=True, transform=torchvision.transforms.Compose([
-            torchvision.transforms.ToTensor()
-        ])),
-        shuffle=True, batch_size=64, drop_last=True)
-
-    return train_loader
-
-print("\nGetting batches II")
-
-x_batches = get_mnist32_batches_II(args['batch_size'])
-
-# Oh, I see. I'm definitely going to need to do more than just copy this one, alas.
-# Definitely a job for tomorrow.
-
-for i in enumerate(x_batches):
-
-    print("Label:", i[0])
-    print("List")
-
-    print(i)
-
-print(x_batches)
-
-print("Getting batches")
-
+# x_batches = (1093, 64, 1, 32, 32). This is 1093 batches, of size 64, where each element is (1, 32, 32)
+# y-batches = (1093, 64). This is 1093 batches, of size 64, where each element is a label.
 x_batches, y_batches = get_mnist32_batches(args['batch_size'])
 
-print(x_batches.shape)
-
-#1093, 64, 1, 32, 32.
-
-# Okay. So: batches of 64, in shape 1, 32, 32. That must be the expand_dims.
-
-# Each batch is a 5D array. Christ.
-
-print(x_batches)
-# print(y_batches)
-
-
-
+# Convert to a tensor.
 x_batches = torch.FloatTensor(x_batches).to(args['device'])
 
 # pytorch doesn't support negative strides / can't flip tensors
@@ -128,15 +87,19 @@ activation = nn.LeakyReLU
 
 # authors use this initializer, but it doesn't seem essential
 def Initializer(layers, slope=0.2):
+
     for layer in layers:
+
         if hasattr(layer, 'weight'):
             w = layer.weight.data
             std = 1/np.sqrt((1 + slope**2) * np.prod(w.shape[:-1]))
-            w.normal_(std=std)  
+            w.normal_(std=std)
+
         if hasattr(layer, 'bias'):
             layer.bias.data.zero_()
 
 def Encoder(scales, depth, latent, colors):
+
     layers = []
     layers.append(nn.Conv2d(colors, depth, 1, padding=1))
     kp = depth
@@ -153,6 +116,7 @@ def Encoder(scales, depth, latent, colors):
     return nn.Sequential(*layers)
 
 def Decoder(scales, depth, latent, colors):
+
     layers = []
     kp = latent
     for scale in range(scales - 1, -1, -1):
@@ -167,11 +131,13 @@ def Decoder(scales, depth, latent, colors):
     return nn.Sequential(*layers)
 
 class Discriminator(nn.Module):
+
     def __init__(self, scales, depth, latent, colors):
         super().__init__()
         self.encoder = Encoder(scales, depth, latent, colors)
         
     def forward(self, x):
+
         x = self.encoder(x)
         x = x.reshape(x.shape[0], -1)
         x = torch.mean(x, -1)
