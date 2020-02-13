@@ -47,6 +47,8 @@ test_loader = DataLoader(test_set, batch_size=args["batch_size"], shuffle=False,
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
+# I'm close to leaving for the day.
+# Once it's trained, how do we test it?
 
 def Encoder(scales, depth, latent):
 
@@ -139,47 +141,6 @@ def Decoder(scales, depth, latent):
 
     return nn.Sequential(*layers)
 
-class ACAI(nn.Module):
-
-    def __init__(self):
-
-        super(ACAI, self).__init__()
-
-        self.encoder = Encoder(3, args['depth'], args['latent']).to(args['device'])
-        self.decoder = Decoder(3, args['depth'], args['latent']).to(args['device'])
-
-    def forward(self, x):
-
-        x = self.encoder(x)
-        x = self.decoder(x)
-
-        return x
-
-class Autoencoder(nn.Module):
-
-    def __init__(self):
-
-        super(Autoencoder, self).__init__()
-
-        self.encoder = nn.Sequential(
-            nn.Conv2d(3, 6, kernel_size=5),
-            nn.ReLU(True),
-            nn.Conv2d(6, 16, kernel_size=5),
-            nn.ReLU(True)).to("cuda")
-
-        self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(16, 6, kernel_size=5),
-            nn.ReLU(True),
-            nn.ConvTranspose2d(6, 3, kernel_size=5),
-            nn.ReLU(True)).to("cuda")
-
-    def forward(self, x):
-
-        x = self.encoder(x)
-        x = self.decoder(x)
-
-        return x
-
 # pytorch doesn't support negative strides / can't flip tensors
 # so instead this function swaps the two halves of a tensor
 # That works fine, too.
@@ -256,23 +217,22 @@ for epoch in range(args["epochs"]):
         ae = decoder(encode)
         loss_ae_mse = F.mse_loss(x, ae)
 
-        # Does that not imply that every pixel... no. It's one alpha per image. So why is it this shape?
         # args[batch_size] = x.shape[0]. Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
         alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
+
+        # Maybe I shouldn't fuck with his implement too much...
 
         encode_mix = alpha * encode + (1 - alpha) * torch.flip(encode, [0])
         decode_mix = decoder(encode_mix)
 
+        loss_disc = F.mse_loss(decode_mix, alpha.reshape(-1))
+        loss_disc_real = F.mse_loss()
+
         disc = discriminator(torch.lerp(ae, x, args['reg']))
 
-        # Computes the mean of elements across dimensions of a tensor.
+        # Ah, I see. This is rather complex.
 
-        # print(disc)
-        # Nice. Now for a difficult bit.
-
-        # No way this will work off the bat.
-        # Holy shit Batman. If that works...
-        z_mix = lerp(encode, swap_halves(encode), alpha)
+        z_mix = lerp(encode, torch.flip(encode, [0]), alpha)
 
         out_mix = decoder(z_mix)
 
@@ -286,11 +246,14 @@ for epoch in range(args["epochs"]):
         loss_ae.backward(retain_graph=True)
         opt_ae.step()
 
-        loss_disc_mse = F.mse_loss(disc_mix, alpha.reshape(-1))
+        # Discriminator losses and optimisation
+
+        # Why are there more losses here?
+        # Let's switch to his.
+
+        loss_disc_mse = F.mse_loss(disc_mix, alpha.reshape(-1)) # This is superior.
         loss_disc_L2 = L2(disc)
         loss_disc = loss_disc_mse + loss_disc_L2
-
-        print(loss_ae.data, loss_disc.data)
 
         opt_d.zero_grad()
         loss_disc.backward()
