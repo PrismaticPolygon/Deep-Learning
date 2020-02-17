@@ -5,7 +5,6 @@ import torch.nn as nn
 
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-from torchvision.datasets import CIFAR10
 from torch.optim import Adam
 from torchvision.utils import make_grid
 
@@ -13,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from lib import build_encoder, build_decoder, NormalizeInverse
+from data import Pegasus, PegasusSampler
 
 import time
 import math
@@ -34,9 +34,10 @@ args = {
 
 args["scales"] = int(math.log2(args["width"] // args["latent_width"]))
 
+
 # https://github.com/kuangliu/pytorch-cifar/blob/master/main.py
-mean = np.array([0.4914, 0.4822, 0.4465])
-std = np.array([0.2023, 0.1994, 0.2010])
+mean = [0.4914, 0.4822, 0.4465]
+std = [0.2023, 0.1994, 0.2010]
 
 normalize = transforms.Normalize(mean=mean, std=std)
 inverse_normalize = NormalizeInverse(mean=mean, std=std)
@@ -53,18 +54,14 @@ transform_test = transforms.Compose([
     normalize
 ])
 
-train_set = CIFAR10(root='./data', train=True, download=True, transform=transform_train)
-train_loader = DataLoader(train_set, batch_size=args["batch_size"], shuffle=True, num_workers=0, drop_last=True)
+pegasus_set = Pegasus(root='./data', train=True, download=True, transform=transform_train)
+pegasus_loader = DataLoader(pegasus_set, batch_sampler=PegasusSampler(pegasus_set, batch_size=args["batch_size"]))
 
-test_set = CIFAR10(root='./data', train=False, download=True, transform=transform_test)
-test_loader = DataLoader(test_set, batch_size=args["batch_size"], shuffle=False, num_workers=0, drop_last=True)
-
-classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 def imshow(img):
 
     img = inverse_normalize(img)
-    np_img = img.numpy()
+    np_img = img.cpu().numpy()
     plt.imshow(np.transpose(np_img, (1, 2, 0)))
     plt.show()
 
@@ -74,6 +71,7 @@ class Discriminator(nn.Module):
     def __init__(self, scales, depth, latent):
 
         super().__init__()
+
         self.encoder = build_encoder(scales, depth, latent)
 
     def forward(self, x):
@@ -112,24 +110,27 @@ for epoch in range(args["epochs"]):
 
     print("\nEPOCH {}/{}\n".format(epoch, args["epochs"]))
 
-    # This is fairly simple.
-    # Every 100 iterations, draw the first image, the second image, the mixed image, and the alpha prediction.
-    # I preferred his GAN.
-    # How do I unnormalise when I have funky values?
+    for x, y in pegasus_loader:
 
-    for x, y in train_loader:
-
-        imshow(make_grid(x))  # Display the current batch.
+        # imshow(make_grid(x))  # Display the current batch.
 
         x = Variable(x).cuda()
 
         encode = encoder(x)
         ae = decoder(encode)
 
-        # args[batch_size] = x.shape[0]. Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
+        half = args["batch_size"] // 2
+
+        # Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
         alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
 
-        encode_mix = alpha * encode + (1 - alpha) * torch.flip(encode, [0])
+        bird_half = encode[:half] + torch.flip(encode[:half], [0])
+        horse_half = encode[half:] + torch.flip(encode[half:], [0])
+
+        both = torch.cat((bird_half, horse_half), 0).to(args["device"])
+
+        encode_mix = alpha * both + (1 - alpha) * both
+
         decode_mix = decoder(encode_mix)
         disc_mix = discriminator(decode_mix)
 
@@ -152,5 +153,3 @@ for epoch in range(args["epochs"]):
         opt_d.step()
 
         print(loss_ae.data, loss_disc.data)
-
-# Nice. Let's go home and have dinner. My final piece tonight will be getting some images and progress displaying.

@@ -40,69 +40,34 @@ class Pegasus(CIFAR10):
         np.random.shuffle(bird_data)
         np.random.shuffle(horse_data)
 
-        self.data = np.zeros((20000, 32, 32, 3))
+        self.data = np.vstack((bird_data, horse_data))
+        self.targets = np.zeros((10000, 1), dtype=np.uint8)
 
-        n = 32
-
-        horse_batch = np.empty((1, 32))
-        horse_batch[:] = horse_index
-
-        bird_batch = np.empty((1, 32))
-        bird_batch[:] = bird_index
-
-        # Fuck. One of my arrays is too small.
-        # This is seriously beginning to piss me off, man.
-
-        for i in range((10000 // n) - 1):
-
-            k = 2 * n * i   # Increments of 64
-
-            self.data[k:k + n] = horse_data[n * i:n * (i + 1)]
-            self.targets[k:k + n] = horse_batch
-
-            self.data[k + n:k + (2 * n)] = bird_data[n * i:n * (i + 1)]
-            self.targets[k:k + n] = bird_batch
+        self.targets[:5000] = bird_index
+        self.targets[5000:] = horse_index
 
 
+# https://pytorch.org/docs/stable/_modules/torch/utils/data/sampler.html
 class PegasusSampler(Sampler):
 
-    def __init__(self, data_source, batch_size, drop_last):
+    def __init__(self, data_source, batch_size):
 
         super().__init__(data_source)
 
         self.data_source = data_source
         self.batch_size = batch_size
-        self.drop_last = drop_last
 
     def __iter__(self):
 
-        for n in range(len(self)):
+        batch_size = self.batch_size // 2
 
-            batch = [n * i for i in range(self.batch_size)] + [len(self) - (n * i) for i in range(self.batch_size)]
+        for n in range(len(self)):  # 156 batches
 
-            if len(batch) == self.batch_size:
+            batch = [i for i in range(n * batch_size, (n + 1) * batch_size)]
+            batch += [len(self.data_source) - i - 1 for i in range(n * batch_size, (n + 1) * batch_size)]
 
-                yield batch
-                batch = []
-
-            if len(batch) > 0 and not self.drop_last:
-
-                yield batch
+            yield batch
 
     def __len__(self):
 
-        if self.drop_last:
-
-            return len(self.data_source) // self.batch_size
-
-        else:
-
-            return (len(self.data_source) + self.batch_size - 1) // self.batch_size
-
-
-p = Pegasus("./data")
-
-horse_set = Pegasus(root='./data', classes=["horse"], train=True, download=True, transform=transform_train)
-horse_loader = DataLoader(horse_set, batch_size=args["batch_size"], shuffle=True, num_workers=0, drop_last=True)
-
-print(p)
+        return len(self.data_source) // self.batch_size

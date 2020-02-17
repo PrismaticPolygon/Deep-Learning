@@ -4,6 +4,7 @@ import torchvision.transforms as transforms
 import numpy as np
 
 
+
 # https://discuss.pytorch.org/t/simple-way-to-inverse-transform-normalization/4821/3
 class NormalizeInverse(transforms.Normalize):
 
@@ -20,6 +21,7 @@ class NormalizeInverse(transforms.Normalize):
 
         return super().__call__(tensor.clone())
 
+
 def initialiser(layers, slope=0.2):
 
     for layer in layers:
@@ -27,7 +29,7 @@ def initialiser(layers, slope=0.2):
         if hasattr(layer, 'weight'):
 
             w = layer.weight.data
-            std = 1 / np.sqrt((1 + slope**2) * np.prod(w.shape[:-1]))
+            std = 1 / np.sqrt((1 + slope ** 2) * np.prod(w.shape[:-1]))
             w.normal_(std=std)
 
         if hasattr(layer, 'bias'):
@@ -81,6 +83,7 @@ def build_decoder(scales, depth, latent, colors=3):
     stride = 1
     padding = 1
     in_channels = latent
+
     layers = []
 
     for scale in range(scales - 1, -1, -1):
