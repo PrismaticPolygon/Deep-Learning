@@ -1,22 +1,7 @@
-import torchvision.transforms as transforms
 import numpy as np
 
 from torchvision.datasets import CIFAR10
 from torch.utils.data.sampler import Sampler
-
-normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
-
-transform_train = transforms.Compose([
-    transforms.RandomCrop(32, padding=4),
-    transforms.RandomHorizontalFlip(),
-    transforms.ToTensor(),
-    normalize
-])
-
-transform_test = transforms.Compose([
-    transforms.ToTensor(),
-    normalize
-])
 
 
 # https://pytorch.org/docs/stable/_modules/torchvision/datasets/cifar.html#CIFAR10

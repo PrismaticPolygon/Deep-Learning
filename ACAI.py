@@ -3,22 +3,20 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 import torch.nn as nn
 
-from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torch.optim import Adam
-from torchvision.utils import make_grid
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-from lib import build_encoder, build_decoder, NormalizeInverse
-from data import Pegasus, PegasusSampler
-
 import time
 import math
 
+from lib import build_encoder, build_decoder, NormalizeInverse
+from data import Pegasus, PegasusSampler
+
 args = {
-    "epochs": 5,
+    "epochs": 6,
     "batch_size": 64,
     "depth": 16,
     "latent": 2,
@@ -110,14 +108,29 @@ opt_d = Adam(
     weight_decay=args["weight_decay"]
 )
 
-i = 0
 start_time = time.time()
 
-# What's with the reparameterise?
+
+def graph(ae_arr, disc_arr):
+
+    plt.plot(ae_arr, "r", label="ae")
+    plt.plot(disc_arr, "b", label="disc")
+
+    plt.ylabel("Loss")
+    plt.xlabel("Epochs")
+
+    plt.legend(loc="upper right")
+
+    plt.show()
+
+loss_ae_arr = np.zeros(0)
+loss_disc_arr = np.zeros(0)
 
 for epoch in range(args["epochs"]):
 
-    print("\nEPOCH {}/{}\n".format(epoch, args["epochs"]))
+    i = 0
+
+    print("\nEPOCH {}/{}\n".format(epoch + 1, args["epochs"]))
 
     train_loss_ae_arr = np.zeros(0)
     train_loss_disc_arr = np.zeros(0)
@@ -168,4 +181,12 @@ for epoch in range(args["epochs"]):
         loss_disc.backward()
         opt_d.step()
 
-        print(loss_ae.item(), loss_disc.item())
+        print("{}/156: {:.2f}, {:.2f}".format(i + 1, loss_ae.item(), loss_disc.item()))
+
+        i += 1
+
+    loss_ae_arr = np.append(loss_ae_arr, train_loss_ae_arr.mean())
+    loss_disc_arr = np.append(loss_disc_arr, train_loss_disc_arr.mean())
+
+    graph(loss_ae_arr, loss_disc_arr)
+
