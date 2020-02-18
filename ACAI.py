@@ -54,9 +54,16 @@ transform_test = transforms.Compose([
     normalize
 ])
 
-pegasus_set = Pegasus(root='./data', train=True, download=True, transform=transform_train)
-pegasus_loader = DataLoader(pegasus_set, batch_sampler=PegasusSampler(pegasus_set, batch_size=args["batch_size"]))
+# So the auto-encoder reconstructs images.
+# I need to get these images back out of PyTorch!
 
+train_set = Pegasus(root='./data', train=True, download=True, transform=transform_train)
+train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
+
+test_set = Pegasus(root='./data', train=False, download=True, transform=transform_test)
+test_loader = DataLoader(test_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
+
+# No luck. Let's get onto colab, me thinks.
 
 def imshow(img):
 
@@ -106,15 +113,20 @@ opt_d = Adam(
 i = 0
 start_time = time.time()
 
+# What's with the reparameterise?
+
 for epoch in range(args["epochs"]):
 
     print("\nEPOCH {}/{}\n".format(epoch, args["epochs"]))
 
-    for x, y in pegasus_loader:
+    train_loss_ae_arr = np.zeros(0)
+    train_loss_disc_arr = np.zeros(0)
+
+    for x, y in train_loader:
 
         # imshow(make_grid(x))  # Display the current batch.
 
-        x = Variable(x).cuda()
+        x = x.to(args["device"])
 
         encode = encoder(x)
         ae = decoder(encode)
@@ -124,7 +136,7 @@ for epoch in range(args["epochs"]):
         # Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
         alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
 
-        bird_half = encode[:half] + torch.flip(encode[:half], [0])
+        bird_half = encode[:half] + encode[:half]   # If we flip both we train it on the same set of images twice
         horse_half = encode[half:] + torch.flip(encode[half:], [0])
 
         both = torch.cat((bird_half, horse_half), 0).to(args["device"])
@@ -142,14 +154,18 @@ for epoch in range(args["epochs"]):
 
         loss_ae = loss_ae + args["advweight"] * loss_ae_disc
 
+        train_loss_ae_arr = np.append(train_loss_ae_arr, loss_ae.item())
+
         opt_ae.zero_grad()
         loss_ae.backward(retain_graph=True)
         opt_ae.step()
 
         loss_disc = loss_disc + loss_disc_real
 
+        train_loss_disc_arr = np.append(train_loss_disc_arr, loss_disc.item())
+
         opt_d.zero_grad()
         loss_disc.backward()
         opt_d.step()
 
-        print(loss_ae.data, loss_disc.data)
+        print(loss_ae.item(), loss_disc.item())
