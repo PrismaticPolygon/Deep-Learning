@@ -52,8 +52,6 @@ transform_test = transforms.Compose([
     normalize
 ])
 
-# So the auto-encoder reconstructs images.
-# I need to get these images back out of PyTorch!
 
 train_set = Pegasus(root='./data', train=True, download=True, transform=transform_train)
 train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
@@ -61,7 +59,6 @@ train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, bat
 test_set = Pegasus(root='./data', train=False, download=True, transform=transform_test)
 test_loader = DataLoader(test_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
 
-# No luck. Let's get onto colab, me thinks.
 
 def imshow(img):
 
@@ -70,7 +67,15 @@ def imshow(img):
     plt.imshow(np.transpose(np_img, (1, 2, 0)))
     plt.show()
 
-# I need to have a think about what this does.
+# I'll think about the Discriminator, then.
+# Weirdly simple:
+
+
+
+
+"""return tf.reduce_mean(layers.encoder(x, scales, advdepth, latent, 'disc'), axis=[1, 2, 3])"""
+
+
 class Discriminator(nn.Module):
 
     def __init__(self, scales, depth, latent):
@@ -81,18 +86,12 @@ class Discriminator(nn.Module):
 
     def forward(self, x):
 
-        x = self.encoder(x)
+        x = self.encoder(x)  # (64, 2, 4, 4)
 
-        x = x.reshape(x.shape[0], -1)
-        x = torch.mean(x, -1)
-
-        return x
+        return torch.mean(x, [1, 2, 3])  # (64)
 
 
 def graph(ae_arr, disc_arr):
-
-    print(ae_arr)
-    print(disc_arr)
 
     plt.plot(ae_arr, "r", label="ae")
     plt.plot(disc_arr, "b", label="disc")
@@ -104,10 +103,13 @@ def graph(ae_arr, disc_arr):
 
     plt.show()
 
+# They use a benchmark. It would be a LOT of effort to crib, so I'm not going to.
 
 def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
     """
-    Calculate the loss of the discriminator.
+    Calculate the loss of the discriminator. The first term attempts to recover alpha. The second term is not crucial
+    but enforces that the critic outputs 0 for non-interpolated data and that the critic is exposed to realistic data
+    even when the autoencoder reconstructions are of poor quality.
     :param x: the input. A Tensor of shape (64, 32, 32, 3)
     :param x_hat: x encoded then decoded. A Tensor for shape (64, 32, 32, 3)
     :param discriminator: the discriminator / critic network
@@ -126,7 +128,8 @@ def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
 
 def calc_loss_ae(x, x_hat, disc_mix):
     """
-    Calculate the loss of the autoencoder
+    Calculate the loss of the autoencoder. THe first term attempts to reconstruct the input. The second term tries to
+    make the critic network output 0 at all times.
     :param x: the input. A Tensor of shape (64, 32, 32, 3)
     :param x_hat: x encoded then decoded. A Tensor of shape (64, 32, 32, 3)
     :param disc_mix: discriminator predictions for alpha

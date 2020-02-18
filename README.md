@@ -17,3 +17,5 @@ or writing a custom half-and-half sampler. This is likely the better approach, b
 * Add image output
 * Add alpha tuning. There is likely to be an optimum value for alpha.
 * 
+
+Recently examined in ASIC
