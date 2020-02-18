@@ -70,7 +70,7 @@ def imshow(img):
     plt.imshow(np.transpose(np_img, (1, 2, 0)))
     plt.show()
 
-
+# I need to have a think about what this does.
 class Discriminator(nn.Module):
 
     def __init__(self, scales, depth, latent):
@@ -89,29 +89,10 @@ class Discriminator(nn.Module):
         return x
 
 
-encoder = build_encoder(args["scales"], args['depth'], args['latent']).to(args['device'])
-decoder = build_decoder(args["scales"], args['depth'], args['latent']).to(args['device'])
-
-discriminator = Discriminator(args["scales"], args['advdepth'], args['latent']).to(args['device'])
-
-# Optimiser for autoencoder parameters
-opt_ae = Adam(
-    list(encoder.parameters()) + list(decoder.parameters()),
-    lr=args["lr"],
-    weight_decay=args["weight_decay"]
-)
-
-# Optimiser for discriminator parameters
-opt_d = Adam(
-    discriminator.parameters(),
-    lr=args["lr"],
-    weight_decay=args["weight_decay"]
-)
-
-start_time = time.time()
-
-
 def graph(ae_arr, disc_arr):
+
+    print(ae_arr)
+    print(disc_arr)
 
     plt.plot(ae_arr, "r", label="ae")
     plt.plot(disc_arr, "b", label="disc")
@@ -157,8 +138,31 @@ def calc_loss_ae(x, x_hat, disc_mix):
 
     return loss + regulariser
 
-loss_ae_arr = np.zeros(0)
-loss_disc_arr = np.zeros(0)
+
+encoder = build_encoder(args["scales"], args['depth'], args['latent']).to(args['device'])
+decoder = build_decoder(args["scales"], args['depth'], args['latent']).to(args['device'])
+
+discriminator = Discriminator(args["scales"], args['advdepth'], args['latent']).to(args['device'])
+
+# Optimiser for autoencoder parameters
+opt_ae = Adam(
+    list(encoder.parameters()) + list(decoder.parameters()),
+    lr=args["lr"],
+    weight_decay=args["weight_decay"]
+)
+
+# Optimiser for discriminator parameters
+opt_d = Adam(
+    discriminator.parameters(),
+    lr=args["lr"],
+    weight_decay=args["weight_decay"]
+)
+
+start_time = time.time()
+
+
+loss_ae_arr = np.zeros(args["epochs"])
+loss_disc_arr = np.zeros(args["epochs"])
 
 for epoch in range(args["epochs"]):
 
@@ -166,14 +170,14 @@ for epoch in range(args["epochs"]):
 
     print("\nEPOCH {}/{}\n".format(epoch + 1, args["epochs"]))
 
-    train_loss_ae_arr = np.zeros(0)
-    train_loss_disc_arr = np.zeros(0)
-
     for x, y in train_loader:
 
         x = x.to(args["device"])
 
         # Via a convex combination. What IS a convex combination?
+        # A convex combination is a linear combination of points where all coefficients
+        # are negative and sum to 1. Definitely not what I've done.
+        # A bunch of reshaping, I suspect.
 
         z = encoder(x)
         x_hat = decoder(z)
@@ -195,7 +199,7 @@ for epoch in range(args["epochs"]):
 
         loss_ae = calc_loss_ae(x, x_hat, disc_mix)
 
-        train_loss_ae_arr = np.append(train_loss_ae_arr, loss_ae.item())
+        loss_ae_arr[epoch] += loss_ae.item()
 
         opt_ae.zero_grad()
         loss_ae.backward(retain_graph=True)
@@ -203,7 +207,7 @@ for epoch in range(args["epochs"]):
 
         loss_disc = calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha)
 
-        train_loss_disc_arr = np.append(train_loss_disc_arr, loss_disc.item())
+        loss_disc_arr[epoch] += loss_disc.item()
 
         opt_d.zero_grad()
         loss_disc.backward()
@@ -213,8 +217,8 @@ for epoch in range(args["epochs"]):
 
         i += 1
 
-    loss_ae_arr = np.append(loss_ae_arr, train_loss_ae_arr.mean())
-    loss_disc_arr = np.append(loss_disc_arr, train_loss_disc_arr.mean())
+    loss_disc_arr[epoch] /= len(train_loader)
+    loss_ae_arr[epoch] /= len(train_loader)
 
-    graph(loss_ae_arr, loss_disc_arr)
+    graph(loss_ae_arr[:epoch + 1], loss_disc_arr[:epoch + 1])
 
