@@ -123,6 +123,29 @@ def graph(ae_arr, disc_arr):
 
     plt.show()
 
+
+def calc_loss_disc(x, ae, discriminator, disc_mix, alpha):
+
+    loss_disc = torch.mean(torch.pow(disc_mix - alpha.reshape(-1), 2))
+    loss_disc_real = torch.mean(torch.pow(discriminator(ae + args["reg"] * (x - ae)), 2))
+
+    return loss_disc + loss_disc_real
+
+
+def calc_loss_ae(x, x_hat, disc_mix):
+    """
+
+    :param x: the input. A Tensor of shape (64, 32, 32, 3)
+    :param x_hat: x encoded then decoded. A Tensor of shape (64, 32, 32, 3)
+    :param disc_mix: discriminator predictions for alpha
+    :return: the loss of the AE
+    """
+
+    loss = F.mse_loss(x, x_hat)                                         # ||x - g_phi(f_theta(x))||^2
+    regularisation = args["advweight"] * (torch.mean(disc_mix) ** 2)    # lambda * || d_omega(x^_alpha) ||^2
+
+    return loss + regularisation
+
 loss_ae_arr = np.zeros(0)
 loss_disc_arr = np.zeros(0)
 
@@ -137,20 +160,20 @@ for epoch in range(args["epochs"]):
 
     for x, y in train_loader:
 
-        # imshow(make_grid(x))  # Display the current batch.
-
         x = x.to(args["device"])
 
-        encode = encoder(x)
-        ae = decoder(encode)
+        # Via a convex combination. What IS a convex combination?
+
+        z = encoder(x)
+        x_hat = decoder(z)
 
         half = args["batch_size"] // 2
 
         # Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
         alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
 
-        bird_half = encode[:half] + encode[:half]   # If we flip both we train it on the same set of images twice
-        horse_half = encode[half:] + torch.flip(encode[half:], [0])
+        bird_half = z[:half] + z[:half]   # If we flip both we train it on the same set of images twice
+        horse_half = z[half:] + torch.flip(z[half:], [0])
 
         both = torch.cat((bird_half, horse_half), 0).to(args["device"])
 
@@ -159,13 +182,7 @@ for epoch in range(args["epochs"]):
         decode_mix = decoder(encode_mix)
         disc_mix = discriminator(decode_mix)
 
-        loss_disc = torch.mean(torch.pow(disc_mix - alpha.reshape(-1), 2))
-        loss_disc_real = torch.mean(torch.pow(discriminator(ae + args["reg"] * (x - ae)), 2))
-
-        loss_ae = F.mse_loss(x, ae)
-        loss_ae_disc = torch.mean(torch.pow(disc_mix, 2))
-
-        loss_ae = loss_ae + args["advweight"] * loss_ae_disc
+        loss_ae = calc_loss_ae(x, x_hat, disc_mix)
 
         train_loss_ae_arr = np.append(train_loss_ae_arr, loss_ae.item())
 
@@ -173,7 +190,7 @@ for epoch in range(args["epochs"]):
         loss_ae.backward(retain_graph=True)
         opt_ae.step()
 
-        loss_disc = loss_disc + loss_disc_real
+        loss_disc = calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha)
 
         train_loss_disc_arr = np.append(train_loss_disc_arr, loss_disc.item())
 

@@ -5,6 +5,10 @@ Implementation of `Adversarially Constrained Autoencoder Interpolation (ACAI)`, 
 * [TensorFlow](https://github.com/anonymous-iclr-2019/acai-iclr-2019)
 * [PyTorch](https://gist.github.com/kylemcdonald/e8ca989584b3b0e6526c0a737ed412f0)
 
+Notes [here](https://www.kdnuggets.com/2019/03/interpolation-autoencoders-adversarial-regularizer.html)
+YouTube discussion of paper [here]
+
+
 #### TO-DO
 * Switch back to one dataset, with each batch half horses and the other birds. Will require sorting a tensor by a label,
 or writing a custom half-and-half sampler. This is likely the better approach, but locks us in to birds and horses. 
