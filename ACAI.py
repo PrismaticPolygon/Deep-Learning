@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 import time
 import math
 
-from lib import build_encoder, build_decoder, NormalizeInverse
+from lib import Encoder, Decoder, NormalizeInverse
 from data import Pegasus, PegasusSampler
 
 args = {
-    "epochs": 10,
+    "epochs": 100,
     "batch_size": 64,
     "depth": 16,
     "latent": 2,
@@ -42,15 +42,15 @@ normalize = transforms.Normalize(mean=mean, std=std)
 inverse_normalize = NormalizeInverse(mean=mean, std=std)
 
 transform_train = transforms.Compose([
-    transforms.RandomCrop(32, padding=4),
-    transforms.RandomHorizontalFlip(),
+    # transforms.RandomCrop(32, padding=4),
+    # transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    normalize
+    # normalize
 ])
 
 transform_test = transforms.Compose([
     transforms.ToTensor(),
-    normalize
+    # normalize
 ])
 
 
@@ -61,21 +61,25 @@ test_set = Pegasus(root='./data', train=False, download=True, transform=transfor
 test_loader = DataLoader(test_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
 
 
-def imshow(tensor, inv=False):
+def imshow(tensor, filename=None, inv=False):
 
     tensor = tensor.detach().cpu()  # (64, 3, 32, 32) (B, C, W, H)
 
     img = torchvision.utils.make_grid(tensor)
 
-    if inv:
-
-        img = inverse_normalize(img)
+    # if inv:
+    #
+    #     img = inverse_normalize(img)
 
     np_img = img.numpy()
 
     transposed = np.transpose(np_img, (1, 2, 0))
 
     plt.imshow(transposed, interpolation='nearest')  # Expects(M, N, 3)
+
+    if filename is not None:
+
+        plt.savefig(filename)
 
     plt.show()
 
@@ -90,7 +94,7 @@ class Discriminator(nn.Module):
 
         super().__init__()
 
-        self.encoder = build_encoder(scales, depth, latent)
+        self.encoder = Encoder()
 
     def forward(self, x):
 
@@ -143,6 +147,8 @@ def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
     return loss + regulariser
 
 
+criterion = nn.BCELoss()
+
 def calc_loss_ae(x, x_hat, disc_mix):
     """
     Calculate the loss of the autoencoder. THe first term attempts to reconstruct the input. The second term tries to
@@ -153,23 +159,27 @@ def calc_loss_ae(x, x_hat, disc_mix):
     :return: L_{f, g}
     """
 
-    loss = F.mse_loss(x, x_hat)                                         # ||x - g_phi(f_theta(x))||^2
-    regulariser = args["advweight"] * (torch.mean(disc_mix) ** 2)       # lambda * || d_omega(x^_alpha) ||^2
+    loss = criterion(x_hat, x)                                               # ||x - g_phi(f_theta(x))||^2
+    regulariser = args["advweight"] * (torch.mean(disc_mix) ** 2)             # lambda * || d_omega(x^_alpha) ||^2
 
     return loss + regulariser
 
 
-encoder = build_encoder(args["scales"], args['depth'], args['latent']).to(args['device'])
-decoder = build_decoder(args["scales"], args['depth'], args['latent']).to(args['device'])
+encoder = Encoder().to(args['device'])
+decoder = Decoder().to(args['device'])
 
 discriminator = Discriminator(args["scales"], args['advdepth'], args['latent']).to(args['device'])
 
 # Optimiser for autoencoder parameters
 opt_ae = Adam(
     list(encoder.parameters()) + list(decoder.parameters()),
-    lr=args["lr"],
-    weight_decay=args["weight_decay"]
+    # lr=args["lr"],
+    # weight_decay=args["weight_decay"]
 )
+
+# Surely it's not because this one is module and mine isn't?
+
+# And it did indeed take about 7 epochs. I'm going to want some output.
 
 # Optimiser for discriminator parameters
 opt_d = Adam(
@@ -183,6 +193,12 @@ start_time = time.time()
 loss_ae_arr = np.zeros(args["epochs"])
 loss_disc_arr = np.zeros(args["epochs"])
 
+# criterion = nn.BCELoss()
+
+# Now we're back in business.
+
+# Alrighty roo.
+
 for epoch in range(args["epochs"]):
 
     i = 0
@@ -194,60 +210,32 @@ for epoch in range(args["epochs"]):
         x = x.to(args["device"])
         half = args["batch_size"] // 2
 
-        # bird_half = torch.cat((x[:half], x[:half]), 0).to(args["device"])  # If we flip both we train it on the same set of graphs twice
-        # horse_half = torch.cat((x[half:], torch.flip(x[half:], [0])), 0).to(args["device"])
-        #
-        # imshow(bird_half, inv=True)
-        # imshow(horse_half, inv=True)
-
         # Shape (64, 1, 1, 1) is broadcastable, allowing elementwise multiplication: (64) x (64, 3, 32, 32)
-        alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
+        alpha = torch.rand(half, 1, 1, 1).to(args['device']) / 2
 
-        # x_mix = alpha * bird_half + (1 - alpha) * horse_half  # Nice.
-
-        # Okay. That works. Fine. Hell, it could be the actual encoder at fault.
-        # It is not necessarily the nicest solution.
-        #
-
-        # imshow(x_mix, inv=True)
+        imshow(x, inv=True)  # Input images
 
         z = encoder(x)
         x_hat = decoder(z)
 
-        # Generate random alpha of shape (64, 1, 1, 1) in range [0, 0.5]
-        # alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
+        imshow(x_hat, "images/x_hat/{}-{}.png".format(epoch, i), inv=True)  # Encoded images
 
-        bird_half = torch.cat((z[:half], z[:half]), 0).to(args["device"])   # If we flip both we train it on the same set of graphs twice
-        horse_half = torch.cat((z[half:], torch.flip(z[half:], [0])), 0).to(args["device"])
+        horses = z[half:]
+        birds = z[:half]
 
-        # print(bird_half.shape)  # That's more like it. Now it's
-        # print(horse_half.shape)
+        encode_mix = alpha * birds + (1 - alpha) * horses
+        decode_mix = decoder(encode_mix)
 
-        # If my alpha is 1.... It should be all birds.
-        # We could check if it works for the plain images.
-
-        encode_mix = alpha * bird_half + (1 - alpha) * horse_half   # Nice.
-
-        # print(encode_mix.shape)
-
-        decode_mix = decoder(encode_mix)                # (64, 3, 32, 32). Image space.
-
-        # I reckon my encode_mix doesn't do what I think it should.
-        # Expected deice cpu but got cuda... when I was trying to mix them. Even AFTER I've sent them to the GPU.
-
-        # print(decode_mix.shape)
-
-        # So the problem now is the grey output for my decode mix. IT is just guessing, and this is the first round, so maybe it's fair enough?
-        # I'll run it for an epoch and see what happens.
-
-        imshow(decode_mix, inv=True)  # This should be my output images!
-
+        imshow(decode_mix, "images/disc/{}-{}.png".format(epoch, i), inv=True)  # Mixed images
         disc_mix = discriminator(decode_mix)
 
+        # So NOW I get weird values.
+        # Oh, right!
+
+        # loss_ae = criterion(x_hat, x)
+
         loss_ae = calc_loss_ae(x, x_hat, disc_mix)
-
         loss_ae_arr[epoch] += loss_ae.item()
-
         opt_ae.zero_grad()
         loss_ae.backward(retain_graph=True)
         opt_ae.step()
@@ -257,24 +245,15 @@ for epoch in range(args["epochs"]):
         loss_disc_arr[epoch] += loss_disc.item()
 
         opt_d.zero_grad()
-        loss_disc.backward()
+        loss_disc.backward(retain_graph=True)
         opt_d.step()
 
         print("{}/156: {:.2f}, {:.2f}".format(i + 1, loss_ae.item(), loss_disc.item()))
+    
 
         i += 1
 
     loss_disc_arr[epoch] /= len(train_loader)
     loss_ae_arr[epoch] /= len(train_loader)
 
-    if epoch > 0:
-
-        graph(loss_ae_arr[:epoch + 1], loss_disc_arr[:epoch + 1], save=True)
-
-# HOW do I now do images?
-# The example I followed output stuff every now and then, right?
-# So we can also visualise how well the auto-encoder is doing. Fuck IT. Let's just output something, Dom.
-
-# Nice.
-# Now: think
 

@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
-import numpy as np
 
 
 # https://discuss.pytorch.org/t/simple-way-to-inverse-transform-normalization/4821/3
@@ -21,107 +20,39 @@ class NormalizeInverse(transforms.Normalize):
         return super().__call__(tensor.clone())
 
 
-def initialiser(layers, slope=0.2):
+def Encoder():
 
-    for layer in layers:
+    return nn.Sequential(
+        nn.Conv2d(3, 12, 4, stride=2, padding=1),   # [batch, 12, 16, 16]
+        nn.ReLU(),
+        nn.Conv2d(12, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
+        nn.ReLU(),
+        nn.Conv2d(24, 48, 4, stride=2, padding=1),  # [batch, 48, 4, 4]
+        nn.ReLU()
+    )
 
-        if hasattr(layer, 'weight'):
+def Decoder():
 
-            w = layer.weight.data
-            std = 1 / np.sqrt((1 + slope ** 2) * np.prod(w.shape[:-1]))
-            w.normal_(std=std)
-
-        if hasattr(layer, 'bias'):
-
-            layer.bias.data.zero_()
-
-
-def build_encoder(scales, depth, latent, colors=3):
-
-    activation = nn.LeakyReLU
-    kernel_size = 3
-    padding = 1
-    stride = 1
-    in_channels = depth
-
-    layers = [
-        nn.Conv2d(colors, depth, 1, stride, padding)
-    ]
-
-    for scale in range(scales):
-
-        out_channels = depth << scale
-
-        layers.extend([
-            nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
-            activation(),
-            nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding),
-            activation(),
-            nn.AvgPool2d(2)
-        ])
-
-        in_channels = out_channels
-
-    out_channels = depth << scales
-
-    layers.extend([
-        nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
-        activation(),
-        nn.Conv2d(out_channels, latent, kernel_size, stride, padding)
-    ])
-
-    initialiser(layers)
-
-    return nn.Sequential(*layers)
-
-
-def build_decoder(scales, depth, latent, colors=3):
-
-    activation = nn.LeakyReLU
-    kernel_size = 3
-    stride = 1
-    padding = 1
-    in_channels = latent
-
-    layers = []
-
-    for scale in range(scales - 1, -1, -1):
-
-        out_channels = depth << scale
-
-        layers.extend([
-            nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
-            activation(),
-            nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding),
-            activation(),
-            nn.Upsample(scale_factor=2)
-        ])
-
-        in_channels = out_channels
-
-    layers.extend([
-        nn.Conv2d(in_channels, depth, kernel_size, stride, padding),
-        activation(),
-        nn.Conv2d(depth, colors, kernel_size, stride, padding)
-    ])
-
-    initialiser(layers)
-
-    return nn.Sequential(*layers)
+    return nn.Sequential(
+        nn.ConvTranspose2d(48, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
+        nn.ReLU(),
+        nn.ConvTranspose2d(24, 12, 4, stride=2, padding=1),  # [batch, 12, 16, 16]
+        nn.ReLU(),
+        nn.ConvTranspose2d(12, 3, 4, stride=2, padding=1),   # [batch, 3, 32, 32]
+        nn.Sigmoid()
+    )
 
 
 if __name__ == "__main__":
 
-    e = build_encoder(3, 16, 2, 3)
+    e = Encoder()
 
     print("\nENCODER\n")
 
     print(e)
 
-    d = build_decoder(3, 16, 2, 3)
+    d = Decoder()
 
     print("\nDECODER\n")
 
     print(d)
-
-
