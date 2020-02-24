@@ -251,7 +251,7 @@ try:
 
             # I don't understand why we decode it. The discriminator is the critic.
             # BUt isn't that the case? We have no use for the labels? I think that is indeed the case.
-            # Because we're not judging how good we are encoding, we're judging how good we are at producing images that look like they've been encoded.
+            # Because we're not judging how good we are encoding, we're judging how good we are at producing graphs that look like they've been encoded.
 
 
             disc = discriminator(torch.lerp(out, x, args['reg']))
@@ -259,10 +259,10 @@ try:
             # Calculate a random alpha of size (64, 1, 1, 1) in range [0, 0.5]
             alpha = torch.rand(args['batch_size'], 1, 1, 1).to(args['device']) / 2
 
-            # Produce the interpolated images
+            # Produce the interpolated graphs
             z_mix = lerp(z, swap_halves(z), alpha)
 
-            # Decode the interpolated images
+            # Decode the interpolated graphs
             out_mix = decoder(z_mix)
 
             print(out_mix.shape)    # (64, 1, 32, 32)
