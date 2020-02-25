@@ -77,6 +77,8 @@ def imshow(tensor, filename):
 
 losses = np.zeros(EPOCHS)
 
+# I'm not sure what it is. It appears to be performing worse than my old ones, though.
+
 for epoch in range(EPOCHS):
 
     i = 0
