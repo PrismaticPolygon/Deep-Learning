@@ -42,7 +42,7 @@ train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, bat
 
 ae = ACAIAutoEncoder().to("cuda")
 
-criterion = nn.MSELoss().to("cuda")
+criterion = nn.BCELoss().to("cuda")
 optimiser = Adam(ae.parameters())
 
 # https://www.jeremyjordan.me/autoencoders/
@@ -51,6 +51,8 @@ optimiser = Adam(ae.parameters())
 # https://medium.com/analytics-vidhya/dimension-manipulation-using-autoencoder-in-pytorch-on-mnist-dataset-7454578b018
 # https://blog.paperspace.com/adversarial-autoencoders-with-pytorch/
 
+# This might be a while, of course.
+# But now that I'm happy with this... nope. Spectral Normalisation.
 
 def imshow(tensor, filename):
 
@@ -63,8 +65,6 @@ def imshow(tensor, filename):
     plt.imshow(transposed, interpolation='nearest')  # Expects(M, N, 3)
 
     plt.savefig("images/ae/" + filename + ".png")
-
-    plt.show()
 
 
 losses = np.zeros(EPOCHS)
@@ -91,8 +91,8 @@ for epoch in range(EPOCHS):
 
         if i == 155:    # Last batch
 
-            imshow(x, "x/{}".format(epoch))
-            imshow(x_hat, "x_hat/{}".format(epoch))
+            imshow(x, "x_bce/{}".format(epoch))
+            imshow(x_hat, "x_hat_bce/{}".format(epoch))
 
         i += 1
 
