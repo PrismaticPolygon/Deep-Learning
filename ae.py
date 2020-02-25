@@ -17,7 +17,7 @@ import time
 from data import Pegasus, PegasusSampler
 
 BATCH_SIZE = 64
-EPOCHS = 100
+EPOCHS = 1000
 
 
 class ACAIAutoEncoder(nn.Module):
@@ -71,16 +71,14 @@ losses = np.zeros(EPOCHS)
 
 for epoch in range(EPOCHS):
 
-    print("\nEPOCH {}/{}\n".format(epoch, EPOCHS))
-
     i = 0
     epoch_loss = 0
+    start = time.time()
 
     for x, y in train_loader:
 
         x = x.to("cuda")
 
-        start = time.time()
         z, x_hat = ae(x)
 
         loss = criterion(x_hat, x)
@@ -89,23 +87,27 @@ for epoch in range(EPOCHS):
         loss.backward(retain_graph=True)
         optimiser.step()
 
-        print("{}/156: {:.3f} ({:.2f}s)".format(i + 1, loss.item(), time.time() - start))
-
         epoch_loss += loss.item()
 
         if i == 155:    # Last batch
 
             imshow(x, "x/{}".format(epoch))
-            imshow(x_hat, "x_hat/".format(epoch))
+            imshow(x_hat, "x_hat/{}".format(epoch))
 
         i += 1
 
-    losses[epoch] = epoch_loss / 156
+    epoch_loss = epoch_loss / 156
 
-    print("\n", losses)
+    print("{}/{}: {:.5f} ({:.2f}s)".format(epoch + 1, EPOCHS, epoch_loss, time.time() - start))
+
+    losses[epoch] = epoch_loss
+
+print("\n", losses)
 
 if not os.path.exists('./weights'):
 
     os.mkdir('./weights')
 
 torch.save(ae.state_dict(), "./weights/autoencoder.pkl")
+
+np.save("ae/losses.npy", losses)

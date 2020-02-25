@@ -85,7 +85,8 @@ def ACAI_Decoder(scales, depth, latent):
     layers.extend([
         nn.Conv2d(in_channels, depth, kernel_size, padding=1),
         activation(),
-        nn.Conv2d(depth, 3, kernel_size, padding=1)
+        nn.Conv2d(depth, 3, kernel_size, padding=1),
+        nn.Sigmoid()    # To convert output to [0, 1]
     ])
 
     initialiser(layers)
