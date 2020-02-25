@@ -26,6 +26,7 @@ import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 from torchvision.datasets import CIFAR10
 from torch.utils.data.sampler import Sampler
 from torch.nn.utils import spectral_norm
@@ -49,6 +50,7 @@ args = {
     "width": 32,            # ?
     "latent_width": 4,      # Latent space is of shape (latent_depth, latent_width, latent_width)
     "device": "cuda",       # Device to use.
+    "wings": "planes",       # Which image class to get wings from
     "disc_train": 0,        # How many rounds to overtrain the discriminator for spectral normalisation
 }
 
@@ -62,7 +64,14 @@ class Pegasus(CIFAR10):
 
         super().__init__(root, train, transform, target_transform, download)
 
-        bird_index = 0  # May work better with planes (index = 0)
+        if args["wings"] == "birds":
+
+            bird_index = 2  # Birds
+
+        else:
+
+            bird_index = 0  # Planes
+
         horse_index = 7
 
         indices = np.arange(len(self.targets))
@@ -267,6 +276,11 @@ train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, bat
 
 train_iterator = iter(cycle(train_loader))
 
+test_set = Pegasus(root='./data', train=False, download=True, transform=transform_train)
+test_loader = DataLoader(test_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
+
+test_iterator = iter(cycle(test_loader))
+
 
 criterion_disc = nn.MSELoss()
 
@@ -404,5 +418,36 @@ for epoch in range(args["epochs"]):
 
     # liveloss.update(logs)
     # liveloss.draw()
+    # I could also conceivably do birds and horses, though I think that this might confuse it.
+    #
 
     print("{}/{}: {:.4f}, {:.4f} ({:.2f}s)".format(epoch + 1, args["epochs"], loss_ae_sum, loss_d_sum, time.time() - start))
+
+print("Training complete")
+
+torch.save(ae.state_dict(), "./content/gdrive/My Drive/ACAI/autoencoder.pkl")
+torch.save(d.state_dict(), "./content/gdrive/My Drive/ACAI/discriminator.pkl")
+
+for x, y in train_loader:
+
+    x = x.to(args["device"])
+    z, x_hat = ae(x)
+    half = args["batch_size"] // 2
+
+    alpha = torch.rand(half, 1, 1, 1).to(args['device']) / 2
+
+    horses = z[half:]
+    birds = z[:half]
+
+    x_hat_alpha = ae.decoder(alpha * birds + (1 - alpha) * horses)  # Decoded combined latent space
+
+    disc_mix = d(x_hat_alpha)  # Estimates of alpha
+
+    alpha = alpha.squeeze()
+
+    for i, img in enumerate(x_hat_alpha):
+
+        print(img.shape)
+
+        imsave(img, "pegasi/{}-{}-{}".format(args["wings"], alpha[i], disc_mix[i]))
+
