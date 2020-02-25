@@ -37,7 +37,13 @@ class ACAIAutoEncoder(nn.Module):
         return encoded, decoded
 
 
-train_set = Pegasus(root='./data', train=True, download=True, transform=transforms.ToTensor())
+transform = transforms.Compose([
+    # transforms.RandomCrop(32, padding=4),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor()
+])
+
+train_set = Pegasus(root='./data', train=True, download=True, transform=transform)
 train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, batch_size=BATCH_SIZE))
 
 ae = ACAIAutoEncoder().to("cuda")
@@ -53,6 +59,8 @@ optimiser = Adam(ae.parameters())
 
 # This might be a while, of course.
 # But now that I'm happy with this... nope. Spectral Normalisation.
+# Hell, we could double the size of our dataset.
+
 
 def imshow(tensor, filename):
 

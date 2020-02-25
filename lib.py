@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import numpy as np
 
@@ -18,14 +19,6 @@ def initialiser(layers, slope=0.2):
 
             layer.bias.data.zero_()
 
-# All convolutions are zero-padded.
-
-# THe encoder consists of blocks of two consecutive 3 x 3 convolutional layers followed by 2 x 2 average pooling
-
-# Ah. By the time we pool, we've run out of size. I wonder if they compress... no.
-
-# Where am I supposed to put my spectral normalisation layers?
-# Us
 
 def ACAI_Encoder(scales, depth, latent):
 
@@ -96,6 +89,38 @@ def ACAI_Decoder(scales, depth, latent):
     initialiser(layers)
 
     return nn.Sequential(*layers)
+
+
+class ACAIAutoEncoder(nn.Module):
+
+    def __init__(self, scales, depth, latent):
+
+        super().__init__()
+
+        self.encoder = ACAI_Encoder(scales, depth, latent)
+        self.decoder = ACAI_Decoder(scales, depth, latent)
+
+    def forward(self, x):
+
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+
+        return encoded, decoded
+
+
+class ACAIDiscriminator(nn.Module):
+
+    def __init__(self, scales, depth, latent):
+
+        super().__init__()
+
+        self.encoder = ACAIAutoEncoder(scales, depth, latent)
+
+    def forward(self, x):
+
+        x, _ = self.encoder(x)  # (64, 2, 4, 4)
+
+        return torch.mean(x, [1, 2, 3])  # (64)
 
 
 if __name__ == "__main__":

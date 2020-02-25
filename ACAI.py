@@ -1,11 +1,11 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
-import torch.nn.functional as F
 import torch.nn as nn
 
 from torch.utils.data import DataLoader
 from torch.optim import Adam
+from torchvision.utils import make_grid
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,37 +14,16 @@ import time
 import math
 
 from data import Pegasus, PegasusSampler
+from lib import ACAIAutoEncoder, ACAIDiscriminator
 
-def Encoder():
-
-    return nn.Sequential(
-        nn.Conv2d(3, 12, 4, stride=2, padding=1),   # [batch, 12, 16, 16]
-        nn.ReLU(),
-        nn.Conv2d(12, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
-        nn.ReLU(),
-        nn.Conv2d(24, 48, 4, stride=2, padding=1),  # [batch, 48, 4, 4]
-        nn.ReLU()
-    )
-
-
-def Decoder():
-
-    return nn.Sequential(
-        nn.ConvTranspose2d(48, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
-        nn.ReLU(),
-        nn.ConvTranspose2d(24, 12, 4, stride=2, padding=1),  # [batch, 12, 16, 16]
-        nn.ReLU(),
-        nn.ConvTranspose2d(12, 3, 4, stride=2, padding=1),   # [batch, 3, 32, 32]
-        nn.Sigmoid()
-    )
 
 # https://blog.paperspace.com/adversarial-autoencoders-with-pytorch/
 
 args = {
-    "epochs": 10,
-    "batch_size": 16,
+    "epochs": 200,
+    "batch_size": 64,
     "depth": 16,
-    "latent": 2,
+    "latent": 16,
     "lr": 0.0001,
     "advdepth": 16,
     "advweight": 0.5,
@@ -58,70 +37,18 @@ args = {
 args["scales"] = int(math.log2(args["width"] // args["latent_width"]))
 
 
-# https://github.com/kuangliu/pytorch-cifar/blob/master/main.py
-mean = [0.4914, 0.4822, 0.4465]
-std = [0.2023, 0.1994, 0.2010]
-
-normalize = transforms.Normalize(mean=mean, std=std)
-inverse_normalize = NormalizeInverse(mean=mean, std=std)
-
 transform_train = transforms.Compose([
     # transforms.RandomCrop(32, padding=4),
     # transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    # normalize
 ])
 
 transform_test = transforms.Compose([
     transforms.ToTensor(),
-    # normalize
 ])
-
-# Let's add back the normalise
 
 train_set = Pegasus(root='./data', train=True, download=True, transform=transform_train)
 train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
-
-test_set = Pegasus(root='./data', train=False, download=True, transform=transform_test)
-test_loader = DataLoader(test_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
-
-
-def imshow(tensor, filename=None, inv=False):
-
-    tensor = tensor.detach().cpu()  # (64, 3, 32, 32) (B, C, W, H)
-
-    img = torchvision.utils.make_grid(tensor)
-
-    # if inv:
-    #
-    #     img = inverse_normalize(img)
-
-    np_img = img.numpy()
-
-    transposed = np.transpose(np_img, (1, 2, 0))
-
-    plt.imshow(transposed, interpolation='nearest')  # Expects(M, N, 3)
-
-    if filename is not None:
-
-        plt.savefig(filename)
-
-    plt.show()
-
-
-class Discriminator(nn.Module):
-
-    def __init__(self, scales, depth, latent):
-
-        super().__init__()
-
-        self.encoder = Encoder()
-
-    def forward(self, x):
-
-        x = self.encoder(x)  # (64, 2, 4, 4)
-
-        return torch.mean(x, [1, 2, 3])  # (64)
 
 
 def graph(ae_arr, disc_arr, save=False):
@@ -143,7 +70,7 @@ def graph(ae_arr, disc_arr, save=False):
     plt.show()
 
 
-criterion_disc = nn.BCELoss()
+criterion_disc = nn.MSELoss()
 
 
 def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
@@ -161,7 +88,7 @@ def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
 
     gamma = args["reg"]
 
-    loss = criterion_disc(alpha.squeeze(), disc_mix)                                    # || d_omega(x^_alpha) - alpha||^2
+    loss = criterion_disc(disc_mix, alpha.squeeze())                                    # || d_omega(x^_alpha) - alpha||^2
     regulariser = torch.mean(discriminator(gamma * x + (1 - gamma) * x_hat)) ** 2       # || d_omega(gamma * x + (1 - gamma) x^) ||^2
 
     return loss + regulariser
@@ -186,20 +113,31 @@ def calc_loss_ae(x, x_hat, disc_mix):
     return loss + regulariser
 
 
-encoder = Encoder().to(args['device'])
-decoder = Decoder().to(args['device'])
+def imsave(tensor, filename):
 
-discriminator = Discriminator(args["scales"], args['advdepth'], args['latent']).to(args['device'])
+    tensor = tensor.detach().cpu()
+    img = make_grid(tensor)
+
+    np_img = img.numpy()
+    transposed = np.transpose(np_img, (1, 2, 0))
+
+    plt.imshow(transposed, interpolation='nearest')  # Expects(M, N, 3)
+
+    plt.savefig("images/acai/" + filename + ".png")
+
+
+ae = ACAIAutoEncoder(args["scales"], args["depth"], args["latent"]).to(args["device"])
+discriminator = ACAIDiscriminator(args["scales"], args['advdepth'], args['latent']).to(args['device'])
 
 # Optimiser for autoencoder parameters
-opt_ae = Adam(
-    list(encoder.parameters()) + list(decoder.parameters()),
+optimiser_ae = Adam(
+    ae.parameters(),
     lr=args["lr"],
     weight_decay=args["weight_decay"]
 )
 
 # Optimiser for discriminator parameters
-opt_d = Adam(
+optimiser_d = Adam(
     discriminator.parameters(),
     lr=args["lr"],
     weight_decay=args["weight_decay"]
@@ -207,64 +145,62 @@ opt_d = Adam(
 
 start_time = time.time()
 
-loss_ae_arr = np.zeros(args["epochs"])
-loss_disc_arr = np.zeros(args["epochs"])
+losses_ae = np.zeros(args["epochs"])
+losses_d = np.zeros(args["epochs"])
 
+# Nice.
+# Now to add some logging, and we're peachy.
 
 for epoch in range(args["epochs"]):
 
     i = 0
-
-    print("\nEPOCH {}/{}\n".format(epoch + 1, args["epochs"]))
-
-    # Well, it's ground truth. So now we want to improve our auto-encoder.
-    # I'll build a special suite for that.
+    start = time.time()
 
     for x, y in train_loader:
 
-        x = x.to(args["device"])
+        x = x.to(args["device"])    # Input images
+        z, x_hat = ae(x)            # Encoded and decoded images
         half = args["batch_size"] // 2
 
-        # Shape (64, 1, 1, 1) is broadcastable, allowing elementwise multiplication: (64) x (64, 3, 32, 32)
         alpha = torch.rand(half, 1, 1, 1).to(args['device']) / 2
-
-        imshow(x, inv=True)  # Input images
-
-        z = encoder(x)
-        x_hat = decoder(z)
-
-        imshow(x_hat, "images/x_hat/{}-{}.png".format(epoch, i), inv=True)  # Encoded images
 
         horses = z[half:]
         birds = z[:half]
 
-        encode_mix = alpha * birds + (1 - alpha) * horses
-        decode_mix = decoder(encode_mix)
+        encode_mix = alpha * birds + (1 - alpha) * horses   # Combined latent space
+        decode_mix = ae.decoder(encode_mix)                 # Decoded combined latent space
 
-        imshow(decode_mix, "images/disc/{}-{}.png".format(epoch, i), inv=True)  # Mixed images
-        disc_mix = discriminator(decode_mix)
-
+        disc_mix = discriminator(decode_mix)                # Estimates of alpha
 
         loss_ae = calc_loss_ae(x, x_hat, disc_mix)
-        loss_ae_arr[epoch] += loss_ae.item()
-        opt_ae.zero_grad()
+        losses_ae[epoch] += loss_ae.item()
+
+        optimiser_ae.zero_grad()
         loss_ae.backward(retain_graph=True)
-        opt_ae.step()
+        optimiser_ae.step()
 
-        loss_disc = calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha)
+        loss_d = calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha)
+        losses_d[epoch] += loss_d.item()
 
-        loss_disc_arr[epoch] += loss_disc.item()
-
-        opt_d.zero_grad()
-        loss_disc.backward(retain_graph=True)
-        opt_d.step()
-
-        print("{}/156: {:.2f}, {:.2f}".format(i + 1, loss_ae.item(), loss_disc.item()))
-    
+        optimiser_d.zero_grad()
+        loss_d.backward(retain_graph=True)
+        optimiser_d.step()
 
         i += 1
 
-    loss_disc_arr[epoch] /= len(train_loader)
-    loss_ae_arr[epoch] /= len(train_loader)
+        # But we do really need alpha in there somehow.
+        # Wait a second. We constrain alpha to 0.5 because it doesn't matter in their dataset. But for ours,
+        # it does. What's the reasoning? "To resolve the ambiguity between predicting
+
+        if i == len(train_loader) - 1:
+
+            imsave(x, "x/{}".format(epoch))
+            imsave(x_hat, "x_hat/{}".format(epoch))
+            imsave(decode_mix, "d/{}".format(epoch))
+
+    losses_d[epoch] /= len(train_loader)
+    losses_ae[epoch] /= len(train_loader)
+
+    print("{}/{}: {:.4f}, {:.4f} ({:.2f}s)".format(epoch, args["epochs"], losses_ae[epoch], losses_d[epoch], time.time() - start))
 
 
