@@ -13,6 +13,7 @@ class Pegasus(CIFAR10):
 
         bird_index = 2
         horse_index = 7
+        # plane_index =
 
         indices = np.arange(len(self.targets))
 
@@ -28,8 +29,8 @@ class Pegasus(CIFAR10):
         self.data = np.vstack((bird_data, horse_data))
         self.targets = np.zeros((10000, 1), dtype=np.uint8)
 
-        self.targets[:5000] = bird_index
         self.targets[5000:] = horse_index
+        self.targets[:5000] = bird_index
 
 
 # https://pytorch.org/docs/stable/_modules/torch/utils/data/sampler.html
