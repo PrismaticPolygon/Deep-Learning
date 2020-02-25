@@ -1,6 +1,8 @@
 import torch.nn as nn
 import numpy as np
 
+from torch.nn.utils import spectral_norm
+
 
 def initialiser(layers, slope=0.2):
 
@@ -22,6 +24,8 @@ def initialiser(layers, slope=0.2):
 
 # Ah. By the time we pool, we've run out of size. I wonder if they compress... no.
 
+# Where am I supposed to put my spectral normalisation layers?
+# Us
 
 def ACAI_Encoder(scales, depth, latent):
 
@@ -73,9 +77,9 @@ def ACAI_Decoder(scales, depth, latent):
         out_channels = depth << scale
 
         layers.extend([
-            nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
+            spectral_norm(nn.Conv2d(in_channels, out_channels, kernel_size, padding=1)),
             activation(),
-            nn.Conv2d(out_channels, out_channels, kernel_size, padding=1),
+            spectral_norm(nn.Conv2d(out_channels, out_channels, kernel_size, padding=1)),
             activation(),
             nn.Upsample(scale_factor=2)
         ])
@@ -83,9 +87,9 @@ def ACAI_Decoder(scales, depth, latent):
         in_channels = out_channels
 
     layers.extend([
-        nn.Conv2d(in_channels, depth, kernel_size, padding=1),
+        spectral_norm(nn.Conv2d(in_channels, depth, kernel_size, padding=1)),
         activation(),
-        nn.Conv2d(depth, 3, kernel_size, padding=1),
+        spectral_norm(nn.Conv2d(depth, 3, kernel_size, padding=1)),
         nn.Sigmoid()    # To convert output to [0, 1]
     ])
 

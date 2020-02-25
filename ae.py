@@ -91,8 +91,8 @@ for epoch in range(EPOCHS):
 
         if i == 155:    # Last batch
 
-            imshow(x, "x_bce/{}".format(epoch))
-            imshow(x_hat, "x_hat_bce/{}".format(epoch))
+            imshow(x, "x_sn/{}".format(epoch))
+            imshow(x_hat, "x_hat_sn/{}".format(epoch))
 
         i += 1
 
