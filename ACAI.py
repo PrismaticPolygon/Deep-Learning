@@ -13,12 +13,36 @@ import matplotlib.pyplot as plt
 import time
 import math
 
-from lib import Encoder, Decoder, NormalizeInverse
 from data import Pegasus, PegasusSampler
 
+def Encoder():
+
+    return nn.Sequential(
+        nn.Conv2d(3, 12, 4, stride=2, padding=1),   # [batch, 12, 16, 16]
+        nn.ReLU(),
+        nn.Conv2d(12, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
+        nn.ReLU(),
+        nn.Conv2d(24, 48, 4, stride=2, padding=1),  # [batch, 48, 4, 4]
+        nn.ReLU()
+    )
+
+
+def Decoder():
+
+    return nn.Sequential(
+        nn.ConvTranspose2d(48, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
+        nn.ReLU(),
+        nn.ConvTranspose2d(24, 12, 4, stride=2, padding=1),  # [batch, 12, 16, 16]
+        nn.ReLU(),
+        nn.ConvTranspose2d(12, 3, 4, stride=2, padding=1),   # [batch, 3, 32, 32]
+        nn.Sigmoid()
+    )
+
+# https://blog.paperspace.com/adversarial-autoencoders-with-pytorch/
+
 args = {
-    "epochs": 100,
-    "batch_size": 64,
+    "epochs": 10,
+    "batch_size": 16,
     "depth": 16,
     "latent": 2,
     "lr": 0.0001,
@@ -53,6 +77,7 @@ transform_test = transforms.Compose([
     # normalize
 ])
 
+# Let's add back the normalise
 
 train_set = Pegasus(root='./data', train=True, download=True, transform=transform_train)
 train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
@@ -82,10 +107,6 @@ def imshow(tensor, filename=None, inv=False):
         plt.savefig(filename)
 
     plt.show()
-
-
-
-"""return tf.reduce_mean(layers.encoder(x, scales, advdepth, latent, 'disc'), axis=[1, 2, 3])"""
 
 
 class Discriminator(nn.Module):
@@ -122,6 +143,9 @@ def graph(ae_arr, disc_arr, save=False):
     plt.show()
 
 
+criterion_disc = nn.BCELoss()
+
+
 def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
     """
     Calculate the loss of the discriminator. The first term attempts to recover alpha. The second term is not crucial
@@ -135,19 +159,16 @@ def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
     :return: L_d
     """
 
-    # Wait. Alpha should be a tensor of shape batch_size.
-    # Christ this is frustrating. It the same alpha for every element in the batch, right?
-    # Wait: no. It's supposed to be random for each. Gotcha.
-
     gamma = args["reg"]
 
-    loss = F.mse_loss(disc_mix, alpha.squeeze())                                    # || d_omega(x^_alpha) - alpha||^2
-    regulariser = torch.mean(discriminator(gamma * x + (1 - gamma) * x_hat)) ** 2   # || d_omega(gamma * x + (1 - gamma) x^) ||^2
+    loss = criterion_disc(alpha.squeeze(), disc_mix)                                    # || d_omega(x^_alpha) - alpha||^2
+    regulariser = torch.mean(discriminator(gamma * x + (1 - gamma) * x_hat)) ** 2       # || d_omega(gamma * x + (1 - gamma) x^) ||^2
 
     return loss + regulariser
 
 
-criterion = nn.BCELoss()
+criterion_ae = nn.BCELoss()
+
 
 def calc_loss_ae(x, x_hat, disc_mix):
     """
@@ -159,7 +180,7 @@ def calc_loss_ae(x, x_hat, disc_mix):
     :return: L_{f, g}
     """
 
-    loss = criterion(x_hat, x)                                               # ||x - g_phi(f_theta(x))||^2
+    loss = criterion_ae(x_hat, x)                                               # ||x - g_phi(f_theta(x))||^2
     regulariser = args["advweight"] * (torch.mean(disc_mix) ** 2)             # lambda * || d_omega(x^_alpha) ||^2
 
     return loss + regulariser
@@ -173,13 +194,9 @@ discriminator = Discriminator(args["scales"], args['advdepth'], args['latent']).
 # Optimiser for autoencoder parameters
 opt_ae = Adam(
     list(encoder.parameters()) + list(decoder.parameters()),
-    # lr=args["lr"],
-    # weight_decay=args["weight_decay"]
+    lr=args["lr"],
+    weight_decay=args["weight_decay"]
 )
-
-# Surely it's not because this one is module and mine isn't?
-
-# And it did indeed take about 7 epochs. I'm going to want some output.
 
 # Optimiser for discriminator parameters
 opt_d = Adam(
@@ -193,17 +210,15 @@ start_time = time.time()
 loss_ae_arr = np.zeros(args["epochs"])
 loss_disc_arr = np.zeros(args["epochs"])
 
-# criterion = nn.BCELoss()
-
-# Now we're back in business.
-
-# Alrighty roo.
 
 for epoch in range(args["epochs"]):
 
     i = 0
 
     print("\nEPOCH {}/{}\n".format(epoch + 1, args["epochs"]))
+
+    # Well, it's ground truth. So now we want to improve our auto-encoder.
+    # I'll build a special suite for that.
 
     for x, y in train_loader:
 
@@ -229,10 +244,6 @@ for epoch in range(args["epochs"]):
         imshow(decode_mix, "images/disc/{}-{}.png".format(epoch, i), inv=True)  # Mixed images
         disc_mix = discriminator(decode_mix)
 
-        # So NOW I get weird values.
-        # Oh, right!
-
-        # loss_ae = criterion(x_hat, x)
 
         loss_ae = calc_loss_ae(x, x_hat, disc_mix)
         loss_ae_arr[epoch] += loss_ae.item()

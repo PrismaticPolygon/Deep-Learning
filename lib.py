@@ -1,57 +1,107 @@
-import torch
 import torch.nn as nn
-import torchvision.transforms as transforms
+import numpy as np
 
 
-# https://discuss.pytorch.org/t/simple-way-to-inverse-transform-normalization/4821/3
-class NormalizeInverse(transforms.Normalize):
+def initialiser(layers, slope=0.2):
 
-    def __init__(self, mean, std):
+    for layer in layers:
 
-        mean = torch.as_tensor(mean)
-        std = torch.as_tensor(std)
-        std_inv = 1 / (std + 1e-7)
-        mean_inv = -mean * std_inv
+        if hasattr(layer, 'weight'):
 
-        super().__init__(mean=mean_inv, std=std_inv)
+            w = layer.weight.data
+            std = 1 / np.sqrt((1 + slope ** 2) * np.prod(w.shape[:-1]))
+            w.normal_(std=std)
 
-    def __call__(self, tensor):
+        if hasattr(layer, 'bias'):
 
-        return super().__call__(tensor.clone())
+            layer.bias.data.zero_()
+
+# All convolutions are zero-padded.
+
+# THe encoder consists of blocks of two consecutive 3 x 3 convolutional layers followed by 2 x 2 average pooling
+
+# Ah. By the time we pool, we've run out of size. I wonder if they compress... no.
 
 
-def Encoder():
+def ACAI_Encoder(scales, depth, latent):
 
-    return nn.Sequential(
-        nn.Conv2d(3, 12, 4, stride=2, padding=1),   # [batch, 12, 16, 16]
-        nn.ReLU(),
-        nn.Conv2d(12, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
-        nn.ReLU(),
-        nn.Conv2d(24, 48, 4, stride=2, padding=1),  # [batch, 48, 4, 4]
-        nn.ReLU()
-    )
+    activation = nn.LeakyReLU
+    kernel_size = 3
+    in_channels = depth
 
-def Decoder():
+    layers = [
+        nn.Conv2d(3, depth, 1, padding=1)
+    ]
 
-    return nn.Sequential(
-        nn.ConvTranspose2d(48, 24, 4, stride=2, padding=1),  # [batch, 24, 8, 8]
-        nn.ReLU(),
-        nn.ConvTranspose2d(24, 12, 4, stride=2, padding=1),  # [batch, 12, 16, 16]
-        nn.ReLU(),
-        nn.ConvTranspose2d(12, 3, 4, stride=2, padding=1),   # [batch, 3, 32, 32]
-        nn.Sigmoid()
-    )
+    for scale in range(scales):
+
+        out_channels = depth << scale
+
+        layers.extend([
+            nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
+            activation(),
+            nn.Conv2d(out_channels, out_channels, kernel_size, padding=1),
+            activation(),
+            nn.AvgPool2d(2)
+        ])
+
+        in_channels = out_channels
+
+    out_channels = depth << scales
+
+    layers.extend([
+        nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
+        activation(),
+        nn.Conv2d(out_channels, latent, kernel_size, padding=1)
+    ])
+
+    initialiser(layers)
+
+    return nn.Sequential(*layers)
+
+
+def ACAI_Decoder(scales, depth, latent):
+
+    activation = nn.LeakyReLU
+    kernel_size = 3
+    in_channels = latent
+
+    layers = []
+
+    for scale in range(scales - 1, -1, -1):     # Descend from 64 to 16
+
+        out_channels = depth << scale
+
+        layers.extend([
+            nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
+            activation(),
+            nn.Conv2d(out_channels, out_channels, kernel_size, padding=1),
+            activation(),
+            nn.Upsample(scale_factor=2)
+        ])
+
+        in_channels = out_channels
+
+    layers.extend([
+        nn.Conv2d(in_channels, depth, kernel_size, padding=1),
+        activation(),
+        nn.Conv2d(depth, 3, kernel_size, padding=1)
+    ])
+
+    initialiser(layers)
+
+    return nn.Sequential(*layers)
 
 
 if __name__ == "__main__":
 
-    e = Encoder()
+    e = ACAI_Encoder(3, 16, 16)
 
     print("\nENCODER\n")
 
     print(e)
 
-    d = Decoder()
+    d = ACAI_Decoder(3, 16, 16)
 
     print("\nDECODER\n")
 

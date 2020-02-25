@@ -158,6 +158,11 @@ opt_d = optim.Adam(discriminator.parameters(), lr=args['lr'], weight_decay=1e-5)
 
 losses = defaultdict(list)
 
+# print(encoder)
+print(decoder)
+
+# Does presume that this code is correct, mind you.
+
 # helper functions for visualizing the status
 def reconstruct(x):
     out = decoder(encoder(x))
