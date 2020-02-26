@@ -252,9 +252,9 @@ class Discriminator(nn.Module):
 
     def forward(self, x):
 
-        x = self.encoder(x)  # (64, 2, 4, 4)
+        x = self.encoder(x)                 # (batch, 3, 32, 32) -> (batch, 16, 4, 4)
 
-        return torch.mean(x, [1, 2, 3])  # (64)
+        return torch.mean(x, [1, 2, 3])     # (batch, 16, 4, 4) -> (batch)
 
 
 def cycle(iterable):

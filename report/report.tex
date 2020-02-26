@@ -37,6 +37,9 @@
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage[backend=biber]{biblatex}
+
+\addbibresource{report.bib}
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
@@ -50,12 +53,6 @@
 \allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
 % (This matches ConTeXt defaults)
 
-%%% ToC (table of contents) APPEARANCE
-\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
-
 %%% END Article customizations
 
 \title{Deep Learning}
@@ -66,35 +63,101 @@
 \begin{document}
 \maketitle
 
-\tikzstyle{block} = [draw,minimum size=2em]
-\tikzstyle{data} = [draw,shape=circle,minimum size=2em]
-% diameter of semicircle used to indicate that two lines are not connected
-\def\radius{.7mm}
-\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
-\begin{tikzpicture}[>=latex']
-\node[data] at (0,0) (input) {C};
-\node[block] at (1.2,0) (l1) {$Linear$};
-\draw[->] (input) -- (l1);
-\node[block] at (2.8,0) (unpool2) {$Unpool_2$};
-\draw[->] (l1) -- (unpool2);
-\node[block] at (4.4,0) (dconv3) {$DConv_3$};
-\draw[->] (unpool2) -- (dconv3);
-\node[block] at (5.9,0) (relu3) {$ReLU$};
-\draw[->] (dconv3) -- (relu3);
-\node[block] at (7.4,0) (unpool1) {$Unpool_1$};
-\draw[->] (relu3) -- (unpool1);
-\node[block] at (9,0) (dconv2) {$DConv_2$};
-\draw[->] (unpool1) -- (dconv2);
-\node[block] at (10.5,0) (relu2) {$ReLU$};
-\draw[->] (dconv2) -- (relu2);
-\node[block] at (12,0) (dconv1) {$DConv_1$};
-\draw[->] (relu2) -- (dconv1);
-\node[block] at (13.5,0) (relu1) {$ReLU$};
-\draw[->] (dconv1) -- (relu1);
-\node[data] at (14.7,0) (output) {$\hat{\mathrm{I}}$};
-\draw[->] (relu1) -- (output);
-\end{tikzpicture}
+This submission is an implementation of Adversially Constrained Autoencoder Interpolation (ACAI) \cite{berthelot_et_al_2019}. It is based on three sources: the original paper \cite{berthelot_et_al_2019}, the authors' TensorFlow implementation \footnote{ https://github.com/anonymous-iclr-2019/acai-iclr-2019}, and a PyTorch implementation \footnote{https://gist.github.com/kylemcdonald/e8ca989584b3b0e6526c0a737ed412f0}.
 
-Where discrepancies exist between the paper and the source code, I have used the paper. For instance, the TensorFlow version calculcates
+\section{Design}
+
+\subsection{Autoencoder}
+
+Autoencoders are typically 'shallow', consisting of only a single-layer encoder and single-layer decoder, but 'deep' autoencoders have been shown to have numerous advantages \cite{goodfellow_et_al_2016} and experimentally yield better compression \cite{hinton_salakhutdinov_2006}. The autoencoder used here is very deep: $18$ layers with the final configuration of hyperparameters.\\
+
+The encoder $f_\theta$ (appendix $3.1$) consists of 'blocks' of two consecutive $3 \times 3$ convolutional layers (\verb|torch.nn.Conv2d|) followed by $2 \times 2$ average pooling (\verb|torch.nn.AvgPool2d|). The number of blocks is computed in such a way to determine the dimension of the latent space. The authors found best results on real-life datasets with a latent space of dimension of $256$ ($16, 4, 4$), which is also used here. After each block is a \verb|LeakyReLU| activation function. Using \verb|LeakyReLU| activation functions with a negative slope of 0.2 appears to be current best practice \cite{bertholot_et_al_2019} \cite{heljakka_solin_kannala_2018}. \verb|tanh| was also tested, but found to offer no improvement.\\
+
+The decoder $g_\phi$ (appendix $3.2$) also consists of 'blocks' of $2 \times 2$ convolutional layers, also with \verb|LeakyReLU|, and followed by $2 \times 2$ nearest neighbour upsampling. The number of channels is halved after each upsampling layer. After the blocks, two more $3 \times 3$ convolutions are used, with $3$ channels, followed by a final \verb|sigmoid| activation, to convert results to $[0, 1]$ range suitable for display.\\ 
+
+Parameters are optimised with Adam \cite{kingma_welling_2014}. The values for the learning rate \verb|l_r = 1e-3| and weight decay \verb|weight_decay = 1e-5| given in the paper were found to inhibit performance compared to the defaults of \verb|l_r = 1e-5| and \verb|weight_decay = 0|, which are used instead.\\
+
+Binary-cross entropy loss (\verb|torch.nn.BCELoss|) was found to offer superior results to the standard mean-squared error used in the paper, so was used instead in conjunction with the original regularisation term.
+
+\subsection{Discriminator}
+
+The discriminator $d_\omega$ uses the same network structure as $f_\theta$. The output of $d_\omega(x)$ is a scalar value, computed as the mean of the encoded input $z = f_\theta(x)$. The discriminator uses spectral normalisation \cite{miyato_2018} to limit variance in discriminator loss, with an over-training ratio controlled by the parameter \verb|disc_train|. Large values ($ >5$) were found to negatively impact the performance of the autoencoder; $2$ was used. However, loss still fluctuates heavily. 
+
+\subsection{Datasets, samplers, and augmentation}
+
+A custom subclass of \verb|torchvision.datasets.CIFAR10| was used. This comprised $10,000$ images. The first $5000$ images are horses; the second $5000$ are either birds or planes. A custom batch sampler was used, such that, in each batch, the first half comprised horses, and the second half birds or planes.\\
+
+Standard data augmentations were tested.  Random crops and noise were found to decrease the performance of the model. Normalisation is unnecessary when using the built-in transform \verb|torch.transforms.ToTensor|, which converts images to type \verb|torch.FloatTensor|, in the range $[0, 1]$, suitable both for BCE loss functions and sigmoid activation functions. The only augmentation therefore used is a random horizontal flip. 
+
+\subsection{Training}
+
+The model was trained for $150$ epochs, with batches of size $64$. This was found to offer a good balance between convergence and Colab not disconnecting the runtime. Discriminator loss, though fluctuating considerably between epochs, remained fairly constant. During development, saved images are outputted to Google Drive, where they can be easily examined. This functionality has been disabled for this submission. The model uses GPU hardware acceleration by default. The model was trained twice, once with birds, and once with planes.
+
+\clearpage
+\section{Results}
+
+Below are a selection of the best images produced by my model. They are combinations of either horses and birds or horses and planes. Also included is the $\alpha$ used to combine the latent spaces of the two input images.
+
+\clearpage
+\section{Appendices}
+
+\subsection{Encoder}
+
+\begin{verbatim}
+
+Sequential(
+  (0): Conv2d(3, 16, kernel_size=(1, 1), stride=(1, 1), padding=(1, 1))
+  (1): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (2): LeakyReLU(negative_slope=0.01)
+  (3): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (4): LeakyReLU(negative_slope=0.01)
+  (5): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (6): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (7): LeakyReLU(negative_slope=0.01)
+  (8): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (9): LeakyReLU(negative_slope=0.01)
+  (10): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (11): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (12): LeakyReLU(negative_slope=0.01)
+  (13): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (14): LeakyReLU(negative_slope=0.01)
+  (15): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (16): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (17): LeakyReLU(negative_slope=0.01)
+  (18): Conv2d(128, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+)
+
+\end{verbatim}
+
+\clearpage
+\subsection{Decoder}
+
+\begin{verbatim}
+
+Sequential(
+  (0): Conv2d(16, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (1): LeakyReLU(negative_slope=0.01)
+  (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (3): LeakyReLU(negative_slope=0.01)
+  (4): Upsample(scale_factor=2.0, mode=nearest)
+  (5): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (6): LeakyReLU(negative_slope=0.01)
+  (7): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (8): LeakyReLU(negative_slope=0.01)
+  (9): Upsample(scale_factor=2.0, mode=nearest)
+  (10): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (11): LeakyReLU(negative_slope=0.01)
+  (12): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (13): LeakyReLU(negative_slope=0.01)
+  (14): Upsample(scale_factor=2.0, mode=nearest)
+  (15): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (16): LeakyReLU(negative_slope=0.01)
+  (17): Conv2d(16, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (18): Sigmoid()
+)
+
+\end{verbatim}
+
+\printbibliography
 
 \end{document}

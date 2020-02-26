@@ -1,0 +1,240 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{berthelot_et_al_2019}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=2b637540293a774a612f359db2bbe654}{%
+           family={Berthelot},
+           familyi={B\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=81a5a94e2388c149a73a86381db45e07}{%
+           family={Raffel},
+           familyi={R\bibinitperiod},
+           given={Colin},
+           giveni={C\bibinitperiod}}}%
+        {{hash=ce96a36a7c207405c9e5c1d141609137}{%
+           family={Roy},
+           familyi={R\bibinitperiod},
+           given={Aurko},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
+           family={Goodfellow},
+           familyi={G\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{091ab5ab875d8defa4e6ec9793ed20f2}
+      \strng{fullhash}{a9b5298a0d0eacd0d9426186d077a9d2}
+      \strng{bibnamehash}{091ab5ab875d8defa4e6ec9793ed20f2}
+      \strng{authorbibnamehash}{091ab5ab875d8defa4e6ec9793ed20f2}
+      \strng{authornamehash}{091ab5ab875d8defa4e6ec9793ed20f2}
+      \strng{authorfullhash}{a9b5298a0d0eacd0d9426186d077a9d2}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Understanding and Improving Interpolation in Autoencoders via an Adversarial Regularizer}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1807.07543
+      \endverb
+    \endentry
+    \entry{goodfellow_et_al_2016}{book}{}
+      \name{author}{3}{}{%
+        {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
+           family={Goodfellow},
+           familyi={G\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={Yoshua},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ccec1ccd2e1aa86960eb2e872c6b7020}{%
+           family={Courville},
+           familyi={C\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{fullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{bibnamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorbibnamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authornamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorfullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \field{sortinit}{G}
+      \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{\url{http://www.deeplearningbook.org}}
+      \field{title}{Deep Learning}
+      \field{year}{2016}
+    \endentry
+    \entry{heljakka_solin_kannala_2018}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=a0ec6f775e2b085fa30b1d4b953c3420}{%
+           family={Heljakka},
+           familyi={H\bibinitperiod},
+           given={Ari},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4592dc3c98e842594b9416db6b6470ae}{%
+           family={Solin},
+           familyi={S\bibinitperiod},
+           given={Arno},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8d20e3f80f9d860f9a91b6f18054e4b1}{%
+           family={Kannala},
+           familyi={K\bibinitperiod},
+           given={Juho},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{431229a4b23f13cc87c53cbf1383bd32}
+      \strng{fullhash}{431229a4b23f13cc87c53cbf1383bd32}
+      \strng{bibnamehash}{431229a4b23f13cc87c53cbf1383bd32}
+      \strng{authorbibnamehash}{431229a4b23f13cc87c53cbf1383bd32}
+      \strng{authornamehash}{431229a4b23f13cc87c53cbf1383bd32}
+      \strng{authorfullhash}{431229a4b23f13cc87c53cbf1383bd32}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Asian Conference on Computer Vision (ACCV)}
+      \field{title}{Pioneer Networks: Progressively Growing Generative Autoencoder}
+      \field{year}{2018}
+    \endentry
+    \entry{hinton_salakhutdinov_2006}{article}{}
+      \name{author}{2}{}{%
+        {{hash=9c5f7dcfa6f8cfad7a98e00d2c3b338d}{%
+           family={Hinton},
+           familyi={H\bibinitperiod},
+           given={G.\bibnamedelimi E.},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=e6701fc7aa9cd445d296353e35936e3a}{%
+           family={Salakhutdinov},
+           familyi={S\bibinitperiod},
+           given={R.R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{15de7bae4c3c4fef246a3299810a2dd5}
+      \strng{fullhash}{15de7bae4c3c4fef246a3299810a2dd5}
+      \strng{bibnamehash}{15de7bae4c3c4fef246a3299810a2dd5}
+      \strng{authorbibnamehash}{15de7bae4c3c4fef246a3299810a2dd5}
+      \strng{authornamehash}{15de7bae4c3c4fef246a3299810a2dd5}
+      \strng{authorfullhash}{15de7bae4c3c4fef246a3299810a2dd5}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science}
+      \field{number}{5786}
+      \field{title}{Reducing the Dimensionality of Data with Neural Networks}
+      \field{volume}{313}
+      \field{year}{2006}
+      \field{pages}{504\bibrangedash 507}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1126/science.1127647
+      \endverb
+    \endentry
+    \entry{kingma_welling_2014}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=b6fbd171848aad4edf3925543f1f1522}{%
+           family={Kingma},
+           familyi={K\bibinitperiod},
+           given={Diederik\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=8aa66e8231cc2fdbe67aa4f18ca970c6}{%
+           family={Ba},
+           familyi={B\bibinitperiod},
+           given={Jimmy},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{fullhash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{bibnamehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{authorbibnamehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{authornamehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{authorfullhash}{a09df9f123146b8e2c7f1134c9496932}
+      \field{sortinit}{K}
+      \field{sortinithash}{d3edc18d54b9438a72c24c925bfb38f4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Adam: A Method for Stochastic Optimization}
+      \field{year}{2014}
+      \verb{eprint}
+      \verb 1412.6980
+      \endverb
+    \endentry
+    \entry{miyato_2018}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=8457e939735fb91de3d84cc0637781d3}{%
+           family={Miyato},
+           familyi={M\bibinitperiod},
+           given={Takeru},
+           giveni={T\bibinitperiod}}}%
+        {{hash=b600f98f58db5cd29843c7a7ae8630cf}{%
+           family={Kataoka},
+           familyi={K\bibinitperiod},
+           given={Toshiki},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d18b784f7f35111bc05bcbd245a34ce7}{%
+           family={Koyama},
+           familyi={K\bibinitperiod},
+           given={Masanori},
+           giveni={M\bibinitperiod}}}%
+        {{hash=533a96e0549ba0ebe33580995731a148}{%
+           family={Yoshida},
+           familyi={Y\bibinitperiod},
+           given={Yuichi},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{9ea3399b53c2fde34fbc1ee4d3bc1a7a}
+      \strng{fullhash}{c8cc16fd8c2a5f5bf28d470b38580bfe}
+      \strng{bibnamehash}{9ea3399b53c2fde34fbc1ee4d3bc1a7a}
+      \strng{authorbibnamehash}{9ea3399b53c2fde34fbc1ee4d3bc1a7a}
+      \strng{authornamehash}{9ea3399b53c2fde34fbc1ee4d3bc1a7a}
+      \strng{authorfullhash}{c8cc16fd8c2a5f5bf28d470b38580bfe}
+      \field{sortinit}{M}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Spectral Normalization for Generative Adversarial Networks}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1802.05957
+      \endverb
+    \endentry
+  \enddatalist
+  \missing{bertholot_et_al_2019}
+\endrefsection
+\endinput
+
