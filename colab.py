@@ -425,8 +425,8 @@ for epoch in range(args["epochs"]):
 
 print("Training complete")
 
-torch.save(ae.state_dict(), "./content/gdrive/My Drive/ACAI/autoencoder.pkl")
-torch.save(d.state_dict(), "./content/gdrive/My Drive/ACAI/discriminator.pkl")
+torch.save(ae.state_dict(), "./content/gdrive/My Drive/ACAI/autoencoder_bird.pkl")
+torch.save(d.state_dict(), "./content/gdrive/My Drive/ACAI/discriminator_bird.pkl")
 
 for x, y in train_loader:
 

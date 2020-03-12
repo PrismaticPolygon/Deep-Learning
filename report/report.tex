@@ -34,10 +34,34 @@
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
 
-\usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage[backend=biber]{biblatex}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, latexsym}
+\usepackage{tikz}
+
+\usepackage{xcolor}
+\definecolor{fc}{HTML}{1E90FF}
+\definecolor{h}{HTML}{228B22}
+\definecolor{bias}{HTML}{87CEFA}
+\definecolor{noise}{HTML}{8B008B}
+\definecolor{conv}{HTML}{FFA500}
+\definecolor{pool}{HTML}{B22222}
+\definecolor{up}{HTML}{B22222}
+\definecolor{view}{HTML}{FFFFFF}
+\definecolor{bn}{HTML}{FFD700}
+\tikzset{fc/.style={black,draw=black,fill=fc,rectangle,minimum height=1cm}}
+\tikzset{h/.style={black,draw=black,fill=h,rectangle,minimum height=1cm}}
+\tikzset{bias/.style={black,draw=black,fill=bias,rectangle,minimum height=1cm}}
+\tikzset{noise/.style={black,draw=black,fill=noise,rectangle,minimum height=1cm}}
+\tikzset{conv/.style={black,draw=black,fill=conv,rectangle,minimum height=1cm}}
+\tikzset{pool/.style={black,draw=black,fill=pool,rectangle,minimum height=1cm}}
+\tikzset{up/.style={black,draw=black,fill=up,rectangle,minimum height=1cm}}
+\tikzset{view/.style={black,draw=black,fill=view,rectangle,minimum height=1cm}}
+\tikzset{bn/.style={black,draw=black,fill=bn,rectangle,minimum height=1cm}}
+
 
 \addbibresource{report.bib}
 
@@ -63,40 +87,51 @@
 \begin{document}
 \maketitle
 
-This submission is an implementation of Adversially Constrained Autoencoder Interpolation (ACAI) \cite{berthelot_et_al_2019}. It is based on three sources: the original paper \cite{berthelot_et_al_2019}, the authors' TensorFlow implementation \footnote{ https://github.com/anonymous-iclr-2019/acai-iclr-2019}, and a PyTorch implementation \footnote{https://gist.github.com/kylemcdonald/e8ca989584b3b0e6526c0a737ed412f0}.
-
+This submission is an implementation of Adversially Constrained Autoencoder Interpolation (ACAI) \cite{berthelot_et_al_2019}. It is based on the the original paper \cite{berthelot_et_al_2019} and the authors' TensorFlow implementation \footnote{ https://github.com/anonymous-iclr-2019/acai-iclr-2019}.
 \section{Design}
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{structure.png}
+  \caption{A discriminator / critic network is fed interpolants and reconstructions and tries to predict the interpolation coefficient $\alpha$, with $\alpha = 0$ for reconstructions. The autoencoder is trained to fool the critic into outputting $\alpha = 0$ for interpolants.}
+\end{figure}
 
 \subsection{Autoencoder}
 
 Autoencoders are typically 'shallow', consisting of only a single-layer encoder and single-layer decoder, but 'deep' autoencoders have been shown to have numerous advantages \cite{goodfellow_et_al_2016} and experimentally yield better compression \cite{hinton_salakhutdinov_2006}. The autoencoder used here is very deep: $18$ layers with the final configuration of hyperparameters.\\
 
-The encoder $f_\theta$ (appendix $3.1$) consists of 'blocks' of two consecutive $3 \times 3$ convolutional layers (\verb|torch.nn.Conv2d|) followed by $2 \times 2$ average pooling (\verb|torch.nn.AvgPool2d|). The number of blocks is computed in such a way to determine the dimension of the latent space. The authors found best results on real-life datasets with a latent space of dimension of $256$ ($16, 4, 4$), which is also used here. After each block is a \verb|LeakyReLU| activation function. Using \verb|LeakyReLU| activation functions with a negative slope of 0.2 appears to be current best practice \cite{bertholot_et_al_2019} \cite{heljakka_solin_kannala_2018}. \verb|tanh| was also tested, but found to offer no improvement.\\
+The encoder $f_\theta$ (appendix $3.1$) consists of 'blocks' of two consecutive $3 \times 3$ convolutional layers (\verb|torch.nn.Conv2d|) followed by $2 \times 2$ average pooling (\verb|torch.nn.AvgPool2d|). The number of blocks is computed in such a way to determine the dimension of the latent space. The authors found best results on real-life datasets with a latent space of dimension of $256$ ($16, 4, 4$), which is also used here. After each block is a \verb|LeakyReLU| activation function. Using \verb|LeakyReLU| activation functions with a negative slope of 0.2 appears to be current best practice \cite{berthelot_et_al_2019} \cite{heljakka_solin_kannala_2018}. \verb|tanh| was also tested, but found to offer no improvement.\\
 
-The decoder $g_\phi$ (appendix $3.2$) also consists of 'blocks' of $2 \times 2$ convolutional layers, also with \verb|LeakyReLU|, and followed by $2 \times 2$ nearest neighbour upsampling. The number of channels is halved after each upsampling layer. After the blocks, two more $3 \times 3$ convolutions are used, with $3$ channels, followed by a final \verb|sigmoid| activation, to convert results to $[0, 1]$ range suitable for display.\\ 
+The decoder $g_\phi$ (appendix $3.2$) also consists of 'blocks' of $2 \times 2$ convolutional layers, also with \verb|LeakyReLU|, and followed by $2 \times 2$ nearest neighbour upsampling (\verb|torch.nn.Upsample|). The number of channels is halved after each upsampling layer. After the blocks, two more $3 \times 3$ convolutions are used, with $3$ channels, followed by a final \verb|sigmoid| activation, to convert results to $[0, 1]$ range suitable for display. The use of \verb|torch.nn.ConvTranspose2d| was considered, but current best practice is to use \verb|torch.nn.Upsample| instead to avoid checkboard effects in decoded images.\\ 
 
-Parameters are optimised with Adam \cite{kingma_welling_2014}. The values for the learning rate \verb|l_r = 1e-3| and weight decay \verb|weight_decay = 1e-5| given in the paper were found to inhibit performance compared to the defaults of \verb|l_r = 1e-5| and \verb|weight_decay = 0|, which are used instead.\\
+Parameters are optimised with Adam \cite{kingma_welling_2014}. The values for the learning rate \verb|l_r = 1e-3| and weight decay \verb|weight_decay = 1e-5| given in \cite{berthelot_et_al_2019} were found to inhibit performance compared to the defaults of \verb|l_r = 1e-5| and \verb|weight_decay = 0|, which are used instead. The authors's custom initialisation of zero-mean Gaussian random variables was discarded. \\
 
-Binary-cross entropy loss (\verb|torch.nn.BCELoss|) was found to offer superior results to the standard mean-squared error used in the paper, so was used instead in conjunction with the original regularisation term.
+Binary-cross entropy loss (\verb|torch.nn.BCELoss|) was found to offer superior results to the standard mean-squared error (\verb|torch.nn.MSELoss|) used in \cite{berthelot_et_al_2019} so was used instead in conjunction with the original regularisation term.
 
 \subsection{Discriminator}
 
-The discriminator $d_\omega$ uses the same network structure as $f_\theta$. The output of $d_\omega(x)$ is a scalar value, computed as the mean of the encoded input $z = f_\theta(x)$. The discriminator uses spectral normalisation \cite{miyato_2018} to limit variance in discriminator loss, with an over-training ratio controlled by the parameter \verb|disc_train|. Large values ($ >5$) were found to negatively impact the performance of the autoencoder; $2$ was used. However, loss still fluctuates heavily. 
+The discriminator $d_\omega$ uses the same network structure as $f_\theta$. The output of $d_\omega(x)$ is a scalar value, computed as the mean of the encoded input $z = f_\theta(x)$. The discriminator uses spectral normalisation \cite{miyato_2018} to limit variance in discriminator loss, with an over-training ratio controlled by the parameter \verb|disc_train|. Large values ($ >5$) were found to negatively impact the performance of the autoencoder; $1$ was used, i.e. for every batch trained on the autoencoder, the discriminator was trained on $2$. However, loss still fluctuates heavily. 
 
 \subsection{Datasets, samplers, and augmentation}
 
-A custom subclass of \verb|torchvision.datasets.CIFAR10| was used. This comprised $10,000$ images. The first $5000$ images are horses; the second $5000$ are either birds or planes. A custom batch sampler was used, such that, in each batch, the first half comprised horses, and the second half birds or planes.\\
+A custom subclass of \verb|torchvision.datasets.CIFAR10| was used. This comprised $20,000$ images. The first $10,000$ images are horses or deer, the 'body' of the pegasus; the second $10,000$ are birds or planes, the 'wings'. A custom batch sampler was used, such that, in each batch, the first half comprised horses, and the second half birds or planes.\\
 
 Standard data augmentations were tested.  Random crops and noise were found to decrease the performance of the model. Normalisation is unnecessary when using the built-in transform \verb|torch.transforms.ToTensor|, which converts images to type \verb|torch.FloatTensor|, in the range $[0, 1]$, suitable both for BCE loss functions and sigmoid activation functions. The only augmentation therefore used is a random horizontal flip. 
 
 \subsection{Training}
 
-The model was trained for $150$ epochs, with batches of size $64$. This was found to offer a good balance between convergence and Colab not disconnecting the runtime. Discriminator loss, though fluctuating considerably between epochs, remained fairly constant. During development, saved images are outputted to Google Drive, where they can be easily examined. This functionality has been disabled for this submission. The model uses GPU hardware acceleration by default. The model was trained twice, once with birds, and once with planes.
+The model was trained for $150$ epochs, with batches of size $64$, significantly less than the authors' $2^{24}$ samples, but commensurate with available resources. This was found to offer a good balance between convergence and Colab not disconnecting the runtime. Discriminator loss, though fluctuating considerably between epochs, remained fairly constant. During development, saved images are outputted to Google Drive, where they can be easily examined. This functionality has been disabled for this submission. The model uses GPU hardware acceleration by default. The model is designed to be trained once, with weights saved, then used on a testing dataset in which every generated image of every batch is output individually for ease of selection.
 
 \clearpage
 \section{Results}
 
 Below are a selection of the best images produced by my model. They are combinations of either horses and birds or horses and planes. Also included is the $\alpha$ used to combine the latent spaces of the two input images.
+
+\section{Evaluation}
+
+It proved extremely difficult to balance the autoencoder and discriminator. Autoencoder loss would frequently skyrocket as the discriminator reached a tipping point, usually around epoch $20$, at which it considered the problem of predicting $\alpha$ "solved". As generated images are entirely based on discriminator output, this resulted in poor results: images of block colour, in most cases. Attempts to remedy this essentially constrained the performance of the discriminator: removing spectral normalisation, using SGD instead of Adam for optimisation, removing overtraining, and so on. Even with these measures, good results were few and far between. \\
+
+It seems that ACAI is perhaps not the best model for this task. This is believed to be a consequence of the non-convex nature of CIFAR10. MNIST, on which ACAI was first developed, is a very simple dataset. It can be 'solved' using $k$-means clustering. CIFAR10 is very complex. As a result, the latent space manifold is very complex as well. The autoencoder, linearly interpolating between a horse / deer and a bird / plane, likely produces a latent code \textit{outside} the learned space, for which it has little information. Consequently, output images are poor, and the discriminator easily distinguishes between real and reconstructed images. The resulting imbalance produces a convergence in discriminator $\alpha$ predictions, and correspondingly poor pegasi.
+\printbibliography
 
 \clearpage
 \section{Appendices}
@@ -157,7 +192,5 @@ Sequential(
 )
 
 \end{verbatim}
-
-\printbibliography
 
 \end{document}

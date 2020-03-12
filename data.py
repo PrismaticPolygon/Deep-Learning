@@ -9,6 +9,8 @@ class Pegasus(CIFAR10):
 
     def __init__(self, root, train=True, transform=None, target_transform=None, download=False):
 
+        np.seed
+
         super().__init__(root, train, transform, target_transform, download)
 
         bird_index = 2
@@ -22,6 +24,11 @@ class Pegasus(CIFAR10):
 
         bird_data = np.take(self.data, bird_indices, axis=0)
         horse_data = np.take(self.data, horse_indices, axis=0)
+
+        # I should merge the two. It's hell of a lot of effort, though.
+        # Except, of course, we always print the last batch, and it's never shuffled. We need
+        # to shuffle the batches!
+        # Just shuffles on the first axis.
 
         np.random.shuffle(bird_data)
         np.random.shuffle(horse_data)

@@ -118,6 +118,6 @@ if not os.path.exists('./weights'):
 
     os.mkdir('./weights')
 
-torch.save(ae.state_dict(), "./weights/autoencoder.pkl")
+torch.save(ae.state_dict(), "./weights/autoencoder_bird.pkl")
 
 np.save("ae/losses.npy", losses)

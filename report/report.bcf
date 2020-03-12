@@ -2186,10 +2186,12 @@
     <bcf:citekey order="2">berthelot_et_al_2019</bcf:citekey>
     <bcf:citekey order="3">goodfellow_et_al_2016</bcf:citekey>
     <bcf:citekey order="4">hinton_salakhutdinov_2006</bcf:citekey>
-    <bcf:citekey order="5">bertholot_et_al_2019</bcf:citekey>
+    <bcf:citekey order="5">berthelot_et_al_2019</bcf:citekey>
     <bcf:citekey order="6">heljakka_solin_kannala_2018</bcf:citekey>
     <bcf:citekey order="7">kingma_welling_2014</bcf:citekey>
-    <bcf:citekey order="8">miyato_2018</bcf:citekey>
+    <bcf:citekey order="8">berthelot_et_al_2019</bcf:citekey>
+    <bcf:citekey order="9">berthelot_et_al_2019</bcf:citekey>
+    <bcf:citekey order="10">miyato_2018</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

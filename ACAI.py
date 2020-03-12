@@ -150,11 +150,14 @@ losses_d = np.zeros(args["epochs"])
 
 # Nice.
 # Now to add some logging, and we're peachy.
+# Ah. Fine. Let's bring it up to date.
+# It does seem t
 
 for epoch in range(args["epochs"]):
 
     i = 0
     start = time.time()
+    k =
 
     for x, y in train_loader:
 
@@ -188,10 +191,6 @@ for epoch in range(args["epochs"]):
 
         i += 1
 
-        # But we do really need alpha in there somehow.
-        # Wait a second. We constrain alpha to 0.5 because it doesn't matter in their dataset. But for ours,
-        # it does. What's the reasoning? "To resolve the ambiguity between predicting
-
         if i == len(train_loader) - 1:
 
             imsave(x, "x/{}".format(epoch))
@@ -203,4 +202,5 @@ for epoch in range(args["epochs"]):
 
     print("{}/{}: {:.4f}, {:.4f} ({:.2f}s)".format(epoch, args["epochs"], losses_ae[epoch], losses_d[epoch], time.time() - start))
 
-
+    torch.save(ae.state_dict(), "weights/ae_old.pkl")
+    torch.save(d.state_dict(), "weights/d_old.pkl")
