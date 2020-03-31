@@ -1,7 +1,7 @@
 import torch.nn as nn
 import os
 import torch
-from lib import ACAI_Encoder, ACAI_Decoder
+from lib import Encoder, Decoder
 
 from torchvision.utils import make_grid
 import torchvision.transforms as transforms
@@ -26,8 +26,8 @@ class ACAIAutoEncoder(nn.Module):
 
         super().__init__()
 
-        self.encoder = ACAI_Encoder(3, 16, 16)
-        self.decoder = ACAI_Decoder(3, 16, 16)
+        self.encoder = Encoder(3, 16, 16)
+        self.decoder = Decoder(3, 16, 16)
 
     def forward(self, x):
 
