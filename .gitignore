@@ -1,7 +1,7 @@
 .idea
 data
-graphs
 images
 candidates
 ~$*.docx
 *.tmp
+runs

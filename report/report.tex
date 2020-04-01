@@ -42,27 +42,6 @@
 \usepackage{amsmath, amssymb, latexsym}
 \usepackage{tikz}
 
-\usepackage{xcolor}
-\definecolor{fc}{HTML}{1E90FF}
-\definecolor{h}{HTML}{228B22}
-\definecolor{bias}{HTML}{87CEFA}
-\definecolor{noise}{HTML}{8B008B}
-\definecolor{conv}{HTML}{FFA500}
-\definecolor{pool}{HTML}{B22222}
-\definecolor{up}{HTML}{B22222}
-\definecolor{view}{HTML}{FFFFFF}
-\definecolor{bn}{HTML}{FFD700}
-\tikzset{fc/.style={black,draw=black,fill=fc,rectangle,minimum height=1cm}}
-\tikzset{h/.style={black,draw=black,fill=h,rectangle,minimum height=1cm}}
-\tikzset{bias/.style={black,draw=black,fill=bias,rectangle,minimum height=1cm}}
-\tikzset{noise/.style={black,draw=black,fill=noise,rectangle,minimum height=1cm}}
-\tikzset{conv/.style={black,draw=black,fill=conv,rectangle,minimum height=1cm}}
-\tikzset{pool/.style={black,draw=black,fill=pool,rectangle,minimum height=1cm}}
-\tikzset{up/.style={black,draw=black,fill=up,rectangle,minimum height=1cm}}
-\tikzset{view/.style={black,draw=black,fill=view,rectangle,minimum height=1cm}}
-\tikzset{bn/.style={black,draw=black,fill=bn,rectangle,minimum height=1cm}}
-
-
 \addbibresource{report.bib}
 
 %%% HEADERS & FOOTERS
@@ -92,7 +71,7 @@ This submission is an implementation of Adversially Constrained Autoencoder Inte
 
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{structure.png}
-  \caption{A discriminator / critic network is fed interpolants and reconstructions and tries to predict the interpolation coefficient $\alpha$, with $\alpha = 0$ for reconstructions. The autoencoder is trained to fool the critic into outputting $\alpha = 0$ for interpolants.}
+  \caption{ACAI. A discriminator / critic network is fed interpolants and reconstructions and tries to predict the interpolation coefficient $\alpha$, with $\alpha = 0$ for reconstructions. The autoencoder is trained to fool the critic into outputting $\alpha = 0$ for interpolants.}
 \end{figure}
 
 \subsection{Autoencoder}
@@ -109,22 +88,42 @@ Binary-cross entropy loss (\verb|torch.nn.BCELoss|) was found to offer superior 
 
 \subsection{Discriminator}
 
-The discriminator $d_\omega$ uses the same network structure as $f_\theta$. The output of $d_\omega(x)$ is a scalar value, computed as the mean of the encoded input $z = f_\theta(x)$. The discriminator uses spectral normalisation \cite{miyato_2018} to limit variance in discriminator loss, with an over-training ratio controlled by the parameter \verb|disc_train|. Large values ($ >5$) were found to negatively impact the performance of the autoencoder; $1$ was used, i.e. for every batch trained on the autoencoder, the discriminator was trained on $2$. However, loss still fluctuates heavily. 
+The discriminator $d_\omega$ uses the same network structure as $f_\theta$. The output of $d_\omega(x)$ is a scalar value, computed as the mean of the encoded input $z = f_\theta(x)$. The discriminator uses spectral normalisation \cite{miyato_2018} to limit variance in discriminator loss, with an over-training ratio controlled by the parameter \verb|disc_train|. Large values ($ >5$) were found to negatively impact the performance of the autoencoder; ultimately, $0$ was used, which likely served to constrain the discriminator.
 
 \subsection{Datasets, samplers, and augmentation}
 
-A custom subclass of \verb|torchvision.datasets.CIFAR10| was used. This comprised $20,000$ images. The first $10,000$ images are horses or deer, the 'body' of the pegasus; the second $10,000$ are birds or planes, the 'wings'. A custom batch sampler was used, such that, in each batch, the first half comprised horses, and the second half birds or planes.\\
+A custom subclass of \verb|torchvision.datasets.CIFAR10| was used. This comprised $20,000$ images. The first $10,000$ images are horses or deer, the 'body' of the pegasus; the second $10,000$ are birds or planes, the 'wings'. A custom batch sampler was used, such that, in each batch, the first half comprised horses and / or deer, and the second half birds and / or planes.\\
 
-Standard data augmentations were tested.  Random crops and noise were found to decrease the performance of the model. Normalisation is unnecessary when using the built-in transform \verb|torch.transforms.ToTensor|, which converts images to type \verb|torch.FloatTensor|, in the range $[0, 1]$, suitable both for BCE loss functions and sigmoid activation functions. The only augmentation therefore used is a random horizontal flip. 
+Standard data augmentations were tested.  Random crops and noise were found to decrease the performance of the model. Normalisation is unnecessary when using the built-in transform \verb|torch.transforms.ToTensor|, which converts images to type \verb|torch.FloatTensor|, in the range $[0, 1]$, suitable both for BCE loss functions and sigmoid activation functions. The only augmentation used is a random horizontal flip. 
 
 \subsection{Training}
 
-The model was trained for $150$ epochs, with batches of size $64$, significantly less than the authors' $2^{24}$ samples, but commensurate with available resources. This was found to offer a good balance between convergence and Colab not disconnecting the runtime. Discriminator loss, though fluctuating considerably between epochs, remained fairly constant. During development, saved images are outputted to Google Drive, where they can be easily examined. This functionality has been disabled for this submission. The model uses GPU hardware acceleration by default. The model is designed to be trained once, with weights saved, then used on a testing dataset in which every generated image of every batch is output individually for ease of selection.
+The model was trained for $250$ epochs, with batches of size $64$, significantly less than the authors' $2^{24}$ samples, but commensurate with available resources. Beyond $250$ losses for both models stopped improving. Training took place on a reasonably powerful machine, with 16GB of RAM, an i5-6660K CPU, and a NVIDA 980GT TI GPU with 8GB of VRAM; each epoch took around $25$s to train. The model uses GPU hardware acceleration by default. 
+
+\begin{figure}[h!]
+    \centering
+    \subfloat[Autoencoder]{{\includegraphics[width=.45\linewidth]{ae.png} }}
+    \qquad
+    \subfloat[Discriminator]{{\includegraphics[width=.45\linewidth]{d.png} }}
+    \caption{Loss}
+\end{figure}
 
 \clearpage
 \section{Results}
 
-Below are a selection of the best images produced by my model. They are combinations of either horses and birds or horses and planes. Also included is the $\alpha$ used to combine the latent spaces of the two input images.
+Results are presented below. They are horse / bird and horse / plane, trained separately.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics{best.png}
+  \caption{The best pegasi.}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics{batch.png}
+  \caption{A curated batch of 64 pegasi.}
+\end{figure}
 
 \section{Evaluation}
 

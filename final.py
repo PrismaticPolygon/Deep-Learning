@@ -4,14 +4,14 @@ import math
 from PIL import Image
 
 
-images = [Image.open("final/" + file) for file in os.listdir("final")]
+images = [Image.open("pegasi/" + file) for file in os.listdir("pegasi")]
 
 size = math.ceil(len(images) ** 0.5)
 w, h = images[0].size
 
-border = 2
-width = w * size + (size - 2) * border
-height = h * size + (size - 2) * border
+border = 3
+width = w * size + (size - 1) * border
+height = h * size + (size - 1) * border
 
 dst = Image.new("RGB", (width, height), color=(255, 255, 255))
 
@@ -33,4 +33,4 @@ for i, image in enumerate(images):
 
     dst.paste(image, (width, height))
 
-dst.save("report/final.png")
+dst.save("report/batch.png")

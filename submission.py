@@ -8,13 +8,181 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 
+import torch.nn as nn
+import torch.nn.functional as F
+
+from functools import partial
+
 from torch.utils.data import DataLoader
 from torch.optim import Adam
 from torchvision.utils import make_grid
-import torch.nn.functional as F
+from torchvision.datasets import CIFAR10
+from torch.utils.data.sampler import Sampler
+from torch.nn.utils import spectral_norm
 
-from data import Pegasus, PegasusSampler
-from lib import AutoEncoder, Discriminator
+
+# https://pytorch.org/docs/stable/_modules/torchvision/datasets/cifar.html#CIFAR10
+class Pegasus(CIFAR10):
+
+    def __init__(self, root="./data", train=True, transform=None, target_transform=None, download=False):
+
+        super().__init__(root, train, transform, target_transform, download)
+
+        wing_indices = [2]  # 0 = planes, 2 = birds,
+        body_indices = [7]  # 4 = deer, 7 = horses
+
+        indices = np.arange(len(self.targets))
+
+        # Get all indices for targets with value in body_indices
+        body_indices = np.array([i for i in indices if self.targets[i] in body_indices])
+
+        # Get all indices for targets with value in wing_indices
+        wing_indices = np.array([i for i in indices if self.targets[i] in wing_indices])
+
+        # Shuffle indices
+        np.random.shuffle(body_indices)
+        np.random.shuffle(wing_indices)
+
+        body_data = np.take(self.data, body_indices, axis=0)
+        wing_data = np.take(self.data, wing_indices, axis=0)
+
+        body_targets = np.take(self.targets, body_indices, axis=0)
+        wing_targets = np.take(self.targets, wing_indices, axis=0)
+
+        # Stack arrays in sequence vertically
+        self.data = np.vstack((body_data, wing_data))
+
+        # Stack arrays in sequence horizontally
+        self.targets = np.hstack((body_targets, wing_targets))
+
+
+# https://pytorch.org/docs/stable/_modules/torch/utils/data/sampler.html
+class PegasusSampler(Sampler):
+
+    def __init__(self, data_source, batch_size=64):
+
+        super().__init__(data_source)
+
+        self.data_source = data_source
+        self.batch_size = batch_size
+
+    def __iter__(self):
+
+        batch_size = self.batch_size // 2
+
+        for n in range(len(self)):  # 10000 / 64 = 156 batches
+
+            bodies = np.arange(n * batch_size, (n + 1) * batch_size)
+            wings = -bodies + len(self.data_source) - 1
+
+            np.random.shuffle(bodies)
+            np.random.shuffle(wings)
+
+            yield np.concatenate([bodies, wings])
+
+    def __len__(self):
+
+        return len(self.data_source) // self.batch_size
+
+
+def Encoder(scales, depth, latent):
+
+    activation = partial(nn.LeakyReLU, negative_slope=0.2)
+    kernel_size = 3
+    in_channels = depth
+
+    layers = [
+        nn.Conv2d(3, depth, 1, padding=1)
+    ]
+
+    for scale in range(scales):
+
+        out_channels = depth << scale   # Left shift by scale
+
+        layers.extend([
+            nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
+            activation(),
+            nn.Conv2d(out_channels, out_channels, kernel_size, padding=1),
+            activation(),
+            nn.AvgPool2d(2)
+        ])
+
+        in_channels = out_channels
+
+    out_channels = depth << scales
+
+    layers.extend([
+        nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
+        activation(),
+        nn.Conv2d(out_channels, latent, kernel_size, padding=1)
+    ])
+
+    return nn.Sequential(*layers)
+
+
+def Decoder(scales, depth, latent):
+
+    activation = partial(nn.LeakyReLU, negative_slope=0.2)
+    kernel_size = 3
+    in_channels = latent
+
+    layers = []
+
+    for scale in range(scales - 1, -1, -1):     # Descend from 64 to 16
+
+        out_channels = depth << scale   # Left shift by scale
+
+        layers.extend([
+            spectral_norm(nn.Conv2d(in_channels, out_channels, kernel_size, padding=1)),
+            activation(),
+            spectral_norm(nn.Conv2d(out_channels, out_channels, kernel_size, padding=1)),
+            activation(),
+            nn.Upsample(scale_factor=2)
+        ])
+
+        in_channels = out_channels
+
+    layers.extend([
+        spectral_norm(nn.Conv2d(in_channels, depth, kernel_size, padding=1)),
+        activation(),
+        spectral_norm(nn.Conv2d(depth, 3, kernel_size, padding=1)),
+        nn.Sigmoid()    # To convert output to [0, 1]
+    ])
+
+    return nn.Sequential(*layers)
+
+
+class AutoEncoder(nn.Module):
+
+    def __init__(self, scales, depth, latent):
+
+        super().__init__()
+
+        self.encoder = Encoder(scales, depth, latent)
+        self.decoder = Decoder(scales, depth, latent)
+
+    def forward(self, x):
+
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+
+        return encoded, decoded
+
+
+class Discriminator(nn.Module):
+
+    def __init__(self, scales, advdepth, latent):
+
+        super().__init__()
+
+        self.encoder = AutoEncoder(scales, advdepth, latent)
+
+    def forward(self, x):
+
+        x, _ = self.encoder(x)  # (64, 2, 4, 4)
+
+        return torch.mean(x, [1, 2, 3])  # (64)
+
 
 args = {
     "epochs": 250,
@@ -26,10 +194,11 @@ args = {
     "advweight": 0.5,
     "reg": 0.2,
     "weight_decay": 1e-5,
+    "disc_train": 0,
     "width": 32,
     "latent_width": 4,
-    "write": False,
-    "device": "cuda"
+    "device": "cuda",
+    "write": False
 }
 
 args["scales"] = int(math.log2(args["width"] // args["latent_width"]))
@@ -69,14 +238,6 @@ start_time = time.time()
 losses_ae = np.zeros(args["epochs"])
 losses_d = np.zeros(args["epochs"])
 
-root = "runs"
-run = datetime.datetime.today().strftime("%Y%m%d_%H%M")
-path = os.path.join(root, run)
-
-print("\n***** RUN {} *****\n".format(run))
-
-os.mkdir(path)
-
 if args["write"]:
 
     # Create output directories
@@ -88,6 +249,7 @@ if args["write"]:
 
     # Create a new directory for this run
 
+    run = datetime.datetime.today().strftime("%Y%m%d_%H%M")
     path = os.path.join(root, run)
 
     print("\n***** RUN {} *****\n".format(run))
@@ -118,7 +280,6 @@ def imsave(tensor, folder, epoch):
     plt.savefig(os.path.join(root, run, "images", folder, str(epoch) + ".png"))
 
 
-# The figure is consuming memory!
 def output(tensor, y, alpha, preds, epoch):
 
     alpha = alpha.detach().cpu().squeeze().numpy()
@@ -217,12 +378,14 @@ for epoch in range(args["epochs"]):
 
         raise Exception("Unacceptable autoencoder loss")
 
-    elif args["write"]:
+    else:
 
-        torch.save(ae.state_dict(), os.path.join(root, run, "weights", "ae.pkl"))
-        torch.save(d.state_dict(), os.path.join(root, run, "weights", "d.pkl"))
+        if args["write"]:
 
-# if args["write"]:
+            torch.save(ae.state_dict(), os.path.join(root, run, "weights", "ae.pkl"))
+            torch.save(d.state_dict(),os.path.join(root, run, "weights", "d.pkl"))
 
-np.save(os.path.join(root, run, "losses_d"), losses_d)
-np.save(os.path.join(root, run, "losses_ae"), losses_ae)
+if args["write"]:
+
+    np.save(os.path.join(root, run, "losses_d"), losses_d)
+    np.save(os.path.join(root, run, "losses_ae"), losses_ae)

@@ -1,182 +1,182 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.12)  11 MAR 2020 13:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2019.11.19)  1 APR 2020 21:14
 entering extended mode
 **./report.tex
 (report.tex
-LaTeX2e <2020-02-02> patch level 1
-L3 programming layer <2020-02-08>
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\article.cls"
-Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size11.clo"
-File: size11.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+LaTeX2e <2019-10-01> patch level 3
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\article.cls"
+Document Class: article 2019/10/25 v1.4k Standard LaTeX document class
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size11.clo"
+File: size11.clo 2019/10/25 v1.4k Standard LaTeX file (size option)
 )
-\c@part=\count167
-\c@section=\count168
-\c@subsection=\count169
-\c@subsubsection=\count170
-\c@paragraph=\count171
-\c@subparagraph=\count172
-\c@figure=\count173
-\c@table=\count174
-\abovecaptionskip=\skip47
-\belowcaptionskip=\skip48
-\bibindent=\dimen134
-) ("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\inputenc.st
-y"
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\inputenc.sty"
 Package: inputenc 2018/08/11 v1.3c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.
-sty"
-Package: geometry 2020/01/02 v5.9 Page Geometry
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.st
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.st
 y"
+Package: geometry 2018/04/16 v5.8 Page Geometry
+
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
-)
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifvtex.sty
-"
-Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
- ("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\iftex.sty
-"
+) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifpdf.sty"
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\iftex.sty"
 Package: iftex 2019/11/07 v1.0c TeX engine tests
-))
-\Gm@cnth=\count175
-\Gm@cntv=\count176
-\c@Gm@tempcnt=\count177
-\Gm@bindingoffset=\dimen135
-\Gm@wd@mp=\dimen136
-\Gm@odd@mp=\dimen137
-\Gm@even@mp=\dimen138
-\Gm@layoutwidth=\dimen139
-\Gm@layoutheight=\dimen140
-\Gm@layouthoffset=\dimen141
-\Gm@layoutvoffset=\dimen142
+)) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifvtex.st
+y"
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifxetex.st
+y"
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count88
+\Gm@cntv=\count89
+\c@Gm@tempcnt=\count90
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks17
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.
-cfg"))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.
-sty"
-Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.cf
+g"))
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.st
+y"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphics.
-sty"
-Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphics.st
+y"
+Package: graphics 2019/11/01 v1.3d Standard LaTeX Graphics (DPC,SPQR)
+ ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\graph
-ics.cfg"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\graphic
+s.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pdfte
-x.def"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pdftex.
+def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen143
-\Gin@req@width=\dimen144
+\Gin@req@height=\dimen111
+\Gin@req@width=\dimen112
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/frontendlayer\
-tikz.sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/basiclayer\pgf
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/frontendlayer\ti
+kz.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/basiclayer\pgf.s
+ty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgfrcs
 .sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgfr
-cs.sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-futil-common.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfu
+til-common.tex"
 \pgfutil@everybye=\toks18
-\pgfutil@tempdima=\dimen145
-\pgfutil@tempdimb=\dimen146
+\pgfutil@tempdima=\dimen113
+\pgfutil@tempdimb=\dimen114
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-futil-common-lists.tex"))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-futil-latex.def"
-\pgfutil@abb=\box45
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfu
+til-common-lists.tex"))
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfu
+til-latex.def"
+\pgfutil@abb=\box27
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ms\everyshi.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ms\everyshi.sty"
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-frcs.code.tex"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf\pgf.revision
-.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfr
+cs.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf\pgf.revision.t
+ex")
 Package: pgfrcs 2020/01/08 v3.1.5b (3.1.5b)
 ))
 Package: pgf 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/basiclayer\pgf
-core.sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/systemlayer\pg
-fsys.sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\
-pgfsys.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/basiclayer\pgfco
+re.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/systemlayer\pgfs
+ys.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pg
+fsys.code.tex"
 Package: pgfsys 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-fkeys.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfk
+eys.code.tex"
 \pgfkeys@pathtoks=\toks19
 \pgfkeys@temptoks=\toks20
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-fkeysfiltered.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfk
+eysfiltered.code.tex"
 \pgfkeys@tmptoks=\toks21
 ))
-\pgf@x=\dimen147
-\pgf@y=\dimen148
-\pgf@xa=\dimen149
-\pgf@ya=\dimen150
-\pgf@xb=\dimen151
-\pgf@yb=\dimen152
-\pgf@xc=\dimen153
-\pgf@yc=\dimen154
-\pgf@xd=\dimen155
-\pgf@yd=\dimen156
+\pgf@x=\dimen115
+\pgf@y=\dimen116
+\pgf@xa=\dimen117
+\pgf@ya=\dimen118
+\pgf@xb=\dimen119
+\pgf@yb=\dimen120
+\pgf@xc=\dimen121
+\pgf@yc=\dimen122
+\pgf@xd=\dimen123
+\pgf@yd=\dimen124
 \w@pgf@writea=\write3
-\r@pgf@reada=\read2
-\c@pgf@counta=\count178
-\c@pgf@countb=\count179
-\c@pgf@countc=\count180
-\c@pgf@countd=\count181
+\r@pgf@reada=\read1
+\c@pgf@counta=\count91
+\c@pgf@countb=\count92
+\c@pgf@countc=\count93
+\c@pgf@countd=\count94
 \t@pgf@toka=\toks22
 \t@pgf@tokb=\toks23
 \t@pgf@tokc=\toks24
-\pgf@sys@id@count=\count182
+\pgf@sys@id@count=\count95
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\
-pgf.cfg"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pg
+f.cfg"
 File: pgf.cfg 2020/01/08 v3.1.5b (3.1.5b)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\
-pgfsys-pdftex.def"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pg
+fsys-pdftex.def"
 File: pgfsys-pdftex.def 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\
-pgfsys-common-pdf.def"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pg
+fsys-common-pdf.def"
 File: pgfsys-common-pdf.def 2020/01/08 v3.1.5b (3.1.5b)
 )))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\
-pgfsyssoftpath.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pg
+fsyssoftpath.code.tex"
 File: pgfsyssoftpath.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfsyssoftpath@smallbuffer@items=\count183
-\pgfsyssoftpath@bigbuffer@items=\count184
+\pgfsyssoftpath@smallbuffer@items=\count96
+\pgfsyssoftpath@bigbuffer@items=\count97
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\
-pgfsysprotocol.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pg
+fsysprotocol.code.tex"
 File: pgfsysprotocol.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\color
-.cfg"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\color.c
+fg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -190,599 +190,601 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcore.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+core.code.tex"
 Package: pgfcore 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-.code.tex"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-calc.code.tex"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-util.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-parser.code.tex"
-\pgfmath@dimen=\dimen157
-\pgfmath@count=\count185
-\pgfmath@box=\box46
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.c
+ode.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathca
+lc.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathut
+il.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathpa
+rser.code.tex"
+\pgfmath@dimen=\dimen125
+\pgfmath@count=\count98
+\pgfmath@box=\box28
 \pgfmath@toks=\toks25
 \pgfmath@stack@operand=\toks26
 \pgfmath@stack@operation=\toks27
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.code.tex"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.basic.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.trigonometric.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.random.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.comparison.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.base.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.round.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.misc.code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-functions.integerarithmetics.code.tex")))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-float.code.tex"
-\c@pgfmathroundto@lastzeros=\count186
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.basic.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.trigonometric.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.random.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.comparison.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.base.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.round.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.misc.code.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfu
+nctions.integerarithmetics.code.tex")))
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfl
+oat.code.tex"
+\c@pgfmathroundto@lastzeros=\count99
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfint.
-code.tex")
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorepoints.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfint.co
+de.tex")
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corepoints.code.tex"
 File: pgfcorepoints.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@picminx=\dimen158
-\pgf@picmaxx=\dimen159
-\pgf@picminy=\dimen160
-\pgf@picmaxy=\dimen161
-\pgf@pathminx=\dimen162
-\pgf@pathmaxx=\dimen163
-\pgf@pathminy=\dimen164
-\pgf@pathmaxy=\dimen165
-\pgf@xx=\dimen166
-\pgf@xy=\dimen167
-\pgf@yx=\dimen168
-\pgf@yy=\dimen169
-\pgf@zx=\dimen170
-\pgf@zy=\dimen171
+\pgf@picminx=\dimen126
+\pgf@picmaxx=\dimen127
+\pgf@picminy=\dimen128
+\pgf@picmaxy=\dimen129
+\pgf@pathminx=\dimen130
+\pgf@pathmaxx=\dimen131
+\pgf@pathminy=\dimen132
+\pgf@pathmaxy=\dimen133
+\pgf@xx=\dimen134
+\pgf@xy=\dimen135
+\pgf@yx=\dimen136
+\pgf@yy=\dimen137
+\pgf@zx=\dimen138
+\pgf@zy=\dimen139
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorepathconstruct.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corepathconstruct.code.tex"
 File: pgfcorepathconstruct.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@path@lastx=\dimen172
-\pgf@path@lasty=\dimen173
+\pgf@path@lastx=\dimen140
+\pgf@path@lasty=\dimen141
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorepathusage.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corepathusage.code.tex"
 File: pgfcorepathusage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@shorten@end@additional=\dimen174
-\pgf@shorten@start@additional=\dimen175
+\pgf@shorten@end@additional=\dimen142
+\pgf@shorten@start@additional=\dimen143
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorescopes.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corescopes.code.tex"
 File: pgfcorescopes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfpic=\box47
-\pgf@hbox=\box48
-\pgf@layerbox@main=\box49
-\pgf@picture@serial@count=\count187
+\pgfpic=\box29
+\pgf@hbox=\box30
+\pgf@layerbox@main=\box31
+\pgf@picture@serial@count=\count100
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoregraphicstate.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coregraphicstate.code.tex"
 File: pgfcoregraphicstate.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgflinewidth=\dimen176
+\pgflinewidth=\dimen144
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoretransformations.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coretransformations.code.tex"
 File: pgfcoretransformations.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@pt@x=\dimen177
-\pgf@pt@y=\dimen178
-\pgf@pt@temp=\dimen179
+\pgf@pt@x=\dimen145
+\pgf@pt@y=\dimen146
+\pgf@pt@temp=\dimen147
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorequick.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corequick.code.tex"
 File: pgfcorequick.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoreobjects.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coreobjects.code.tex"
 File: pgfcoreobjects.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorepathprocessing.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corepathprocessing.code.tex"
 File: pgfcorepathprocessing.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorearrows.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corearrows.code.tex"
 File: pgfcorearrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfarrowsep=\dimen180
+\pgfarrowsep=\dimen148
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoreshade.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coreshade.code.tex"
 File: pgfcoreshade.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@max=\dimen181
-\pgf@sys@shading@range@num=\count188
-\pgf@shadingcount=\count189
+\pgf@max=\dimen149
+\pgf@sys@shading@range@num=\count101
+\pgf@shadingcount=\count102
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoreimage.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coreimage.code.tex"
 File: pgfcoreimage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoreexternal.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coreexternal.code.tex"
 File: pgfcoreexternal.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfexternal@startupbox=\box50
+\pgfexternal@startupbox=\box32
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorelayers.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corelayers.code.tex"
 File: pgfcorelayers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcoretransparency.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+coretransparency.code.tex"
 File: pgfcoretransparency.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorepatterns.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corepatterns.code.tex"
 File: pgfcorepatterns.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\p
-gfcorerdf.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgf
+corerdf.code.tex"
 File: pgfcorerdf.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfm
-oduleshapes.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfmod
+uleshapes.code.tex"
 File: pgfmoduleshapes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfnodeparttextbox=\box51
+\pgfnodeparttextbox=\box33
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfm
-oduleplot.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfmod
+uleplot.code.tex"
 File: pgfmoduleplot.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/compatibility\
-pgfcomp-version-0-65.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/compatibility\pg
+fcomp-version-0-65.sty"
 Package: pgfcomp-version-0-65 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@nodesepstart=\dimen182
-\pgf@nodesepend=\dimen183
+\pgf@nodesepstart=\dimen150
+\pgf@nodesepend=\dimen151
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/compatibility\
-pgfcomp-version-1-18.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/compatibility\pg
+fcomp-version-1-18.sty"
 Package: pgfcomp-version-1-18 2020/01/08 v3.1.5b (3.1.5b)
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgff
-or.sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgfk
-eys.sty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-fkeys.code.tex"))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/math\pgfmath.s
-ty"
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-.code.tex"))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pg
-ffor.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgffor
+.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgfkey
+s.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfk
+eys.code.tex"))
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/math\pgfmath.sty
+"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.c
+ode.tex"))
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgff
+or.code.tex"
 Package: pgffor 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath
-.code.tex")
-\pgffor@iter=\dimen184
-\pgffor@skip=\dimen185
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.c
+ode.tex")
+\pgffor@iter=\dimen152
+\pgffor@skip=\dimen153
 \pgffor@stack=\toks28
 \pgffor@toks=\toks29
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlaye
-r/tikz\tikz.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlayer/
+tikz\tikz.code.tex"
 Package: tikz 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/libraries\pg
-flibraryplothandlers.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/libraries\pgfl
+ibraryplothandlers.code.tex"
 File: pgflibraryplothandlers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@plot@mark@count=\count190
-\pgfplotmarksize=\dimen186
+\pgf@plot@mark@count=\count103
+\pgfplotmarksize=\dimen154
 )
-\tikz@lastx=\dimen187
-\tikz@lasty=\dimen188
-\tikz@lastxsaved=\dimen189
-\tikz@lastysaved=\dimen190
-\tikz@lastmovetox=\dimen191
-\tikz@lastmovetoy=\dimen192
-\tikzleveldistance=\dimen193
-\tikzsiblingdistance=\dimen194
-\tikz@figbox=\box52
-\tikz@figbox@bg=\box53
-\tikz@tempbox=\box54
-\tikz@tempbox@bg=\box55
-\tikztreelevel=\count191
-\tikznumberofchildren=\count192
-\tikznumberofcurrentchild=\count193
-\tikz@fig@count=\count194
+\tikz@lastx=\dimen155
+\tikz@lasty=\dimen156
+\tikz@lastxsaved=\dimen157
+\tikz@lastysaved=\dimen158
+\tikz@lastmovetox=\dimen159
+\tikz@lastmovetoy=\dimen160
+\tikzleveldistance=\dimen161
+\tikzsiblingdistance=\dimen162
+\tikz@figbox=\box34
+\tikz@figbox@bg=\box35
+\tikz@tempbox=\box36
+\tikz@tempbox@bg=\box37
+\tikztreelevel=\count104
+\tikznumberofchildren=\count105
+\tikznumberofcurrentchild=\count106
+\tikz@fig@count=\count107
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfm
-odulematrix.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfmod
+ulematrix.code.tex"
 File: pgfmodulematrix.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfmatrixcurrentrow=\count195
-\pgfmatrixcurrentcolumn=\count196
-\pgf@matrix@numberofcolumns=\count197
+\pgfmatrixcurrentrow=\count108
+\pgfmatrixcurrentcolumn=\count109
+\pgf@matrix@numberofcolumns=\count110
 )
-\tikz@expandcount=\count198
+\tikz@expandcount=\count111
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlaye
-r/tikz/libraries\tikzlibrarytopaths.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlayer/
+tikz/libraries\tikzlibrarytopaths.code.tex"
 File: tikzlibrarytopaths.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 )))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlaye
-r/tikz/libraries\tikzlibraryarrows.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlayer/
+tikz/libraries\tikzlibraryarrows.code.tex"
 File: tikzlibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/libraries\pg
-flibraryarrows.code.tex"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/libraries\pgfl
+ibraryarrows.code.tex"
 File: pgflibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\arrowsize=\dimen195
+\arrowsize=\dimen163
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/booktabs\booktabs.
-sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/booktabs\booktabs.st
+y"
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen196
-\lightrulewidth=\dimen197
-\cmidrulewidth=\dimen198
-\belowrulesep=\dimen199
-\belowbottomsep=\dimen256
-\aboverulesep=\dimen257
-\abovetopsep=\dimen258
-\cmidrulesep=\dimen259
-\cmidrulekern=\dimen260
-\defaultaddspace=\dimen261
-\@cmidla=\count199
-\@cmidlb=\count266
-\@aboverulesep=\dimen262
-\@belowrulesep=\dimen263
-\@thisruleclass=\count267
-\@lastruleclass=\count268
-\@thisrulewidth=\dimen264
-)
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.sty"
+\heavyrulewidth=\dimen164
+\lightrulewidth=\dimen165
+\cmidrulewidth=\dimen166
+\belowrulesep=\dimen167
+\belowbottomsep=\dimen168
+\aboverulesep=\dimen169
+\abovetopsep=\dimen170
+\cmidrulesep=\dimen171
+\cmidrulekern=\dimen172
+\defaultaddspace=\dimen173
+\@cmidla=\count112
+\@cmidlb=\count113
+\@aboverulesep=\dimen174
+\@belowrulesep=\dimen175
+\@thisruleclass=\count114
+\@lastruleclass=\count115
+\@thisrulewidth=\dimen176
+) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.sty"
 Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
-\col@sep=\dimen265
-\ar@mcellbox=\box56
-\extrarowheight=\dimen266
+\col@sep=\dimen177
+\ar@mcellbox=\box38
+\extrarowheight=\dimen178
 \NC@list=\toks30
-\extratabsurround=\skip49
-\backup@length=\skip50
-\ar@cellbox=\box57
+\extratabsurround=\skip43
+\backup@length=\skip44
+\ar@cellbox=\box39
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/paralist\paralist.
-sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/paralist\paralist.st
+y"
 Package: paralist 2017/01/22 v2.7 Extended list environments
-\pltopsep=\skip51
-\plpartopsep=\skip52
-\plitemsep=\skip53
-\plparsep=\skip54
+\pltopsep=\skip45
+\plpartopsep=\skip46
+\plitemsep=\skip47
+\plparsep=\skip48
 \pl@lab=\toks31
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\verbatim.sty
-"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\verbatim.sty"
 Package: verbatim 2019/11/10 v1.5r LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks32
 \verbatim@line=\toks33
-\verbatim@in@stream=\read3
-)
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/subfig\subfig.sty"
+\verbatim@in@stream=\read2
+) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/subfig\subfig.sty"
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption.st
-y"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption.sty"
 Package: caption 2020/01/03 v3.4h Customizing captions (AR)
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption3.s
-ty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption3.sty
+"
 Package: caption3 2020/01/03 v1.8h caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 61.
-\captionmargin=\dimen267
-\captionmargin@=\dimen268
-\captionwidth=\dimen269
-\caption@tempdima=\dimen270
-\caption@indent=\dimen271
-\caption@parindent=\dimen272
-\caption@hangindent=\dimen273
+\captionmargin=\dimen179
+\captionmargin@=\dimen180
+\captionwidth=\dimen181
+\caption@tempdima=\dimen182
+\caption@indent=\dimen183
+\caption@parindent=\dimen184
+\caption@hangindent=\dimen185
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count269
-\c@continuedfloat=\count270
+\c@caption@flags=\count116
+\c@continuedfloat=\count117
 )
-\c@KVtest=\count271
-\sf@farskip=\skip55
-\sf@captopadj=\dimen274
-\sf@capskip=\skip56
-\sf@nearskip=\skip57
-\c@subfigure=\count272
-\c@subfigure@save=\count273
-\c@lofdepth=\count274
-\c@subtable=\count275
-\c@subtable@save=\count276
-\c@lotdepth=\count277
-\sf@top=\skip58
-\sf@bottom=\skip59
+\c@KVtest=\count118
+\sf@farskip=\skip49
+\sf@captopadj=\dimen186
+\sf@capskip=\skip50
+\sf@nearskip=\skip51
+\c@subfigure=\count119
+\c@subfigure@save=\count120
+\c@lofdepth=\count121
+\c@subtable=\count122
+\c@subtable@save=\count123
+\c@lotdepth=\count124
+\sf@top=\skip52
+\sf@bottom=\skip53
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/algorithms\algorit
-hm.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/algorithms\algorithm
+.sty"
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
 nment
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/float\float.sty"
+ ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count278
+\c@float@type=\count125
 \float@exts=\toks34
-\float@box=\box58
+\float@box=\box40
 \@float@everytoks=\toks35
-\@floatcapt=\box59
-)
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.sty"
+\@floatcapt=\box41
+) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.sty"
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \@float@every@algorithm=\toks36
-\c@algorithm=\count279
+\c@algorithm=\count126
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/algorithmicx\algps
-eudocode.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/algorithmicx\algpseu
+docode.sty"
 Package: algpseudocode 
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/algorithmicx\algor
-ithmicx.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/algorithmicx\algorit
+hmicx.sty"
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count280
-\c@ALG@rem=\count281
-\c@ALG@nested=\count282
-\ALG@tlm=\skip60
-\ALG@thistlm=\skip61
-\c@ALG@Lnr=\count283
-\c@ALG@blocknr=\count284
-\c@ALG@storecount=\count285
-\c@ALG@tmpcounter=\count286
-\ALG@tmplength=\skip62
+\c@ALG@line=\count127
+\c@ALG@rem=\count128
+\c@ALG@nested=\count129
+\ALG@tlm=\skip54
+\ALG@thistlm=\skip55
+\c@ALG@Lnr=\count130
+\c@ALG@blocknr=\count131
+\c@ALG@storecount=\count132
+\c@ALG@tmpcounter=\count133
+\ALG@tmplength=\skip56
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.
-sty"
-Package: biblatex 2019/12/01 v3.14 programmable bibliographies (PK/MW)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.st
+y"
+Package: biblatex 2019/08/31 v3.13a programmable bibliographies (PK/MW)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pdftexcmds\pdftexc
-mds.sty"
-Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\pdftexcmd
+s.sty"
+Package: pdftexcmds 2019/07/25 v0.30 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/infwarerr\infwar
-err.sty"
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\infwarerr
+.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/ltxcmds\ltxcmds.
-sty"
-Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifluatex.sty
+"
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 )
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.s
+ty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.
-sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.st
+y"
 Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count287
+\etb@tempcnta=\count134
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/kvoptions\kvoption
-s.sty"
-Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.s
+ty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/generic/kvsetkeys\kvsetk
-eys.sty"
-Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
-))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvsetkeys
+.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\etexcmds.
+sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+)))
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.sty"
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count288
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.def"
+\lrq@indent=\count135
+
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.def"
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
-)) ("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
-\Urlmuskip=\muskip16
+)) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
+\Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\c@tabx@nest=\count289
-\c@listtotal=\count290
-\c@listcount=\count291
-\c@liststart=\count292
-\c@liststop=\count293
-\c@citecount=\count294
-\c@citetotal=\count295
-\c@multicitecount=\count296
-\c@multicitetotal=\count297
-\c@instcount=\count298
-\c@maxnames=\count299
-\c@minnames=\count300
-\c@maxitems=\count301
-\c@minitems=\count302
-\c@citecounter=\count303
-\c@maxcitecounter=\count304
-\c@savedcitecounter=\count305
-\c@uniquelist=\count306
-\c@uniquename=\count307
-\c@refsection=\count308
-\c@refsegment=\count309
-\c@maxextratitle=\count310
-\c@maxextratitleyear=\count311
-\c@maxextraname=\count312
-\c@maxextradate=\count313
-\c@maxextraalpha=\count314
-\c@abbrvpenalty=\count315
-\c@highnamepenalty=\count316
-\c@lownamepenalty=\count317
-\c@maxparens=\count318
-\c@parenlevel=\count319
-\blx@tempcnta=\count320
-\blx@tempcntb=\count321
-\blx@tempcntc=\count322
-\blx@maxsection=\count323
-\blx@maxsegment@0=\count324
-\blx@notetype=\count325
-\blx@parenlevel@text=\count326
-\blx@parenlevel@foot=\count327
-\blx@sectionciteorder@0=\count328
-\blx@entrysetcounter=\count329
-\labelnumberwidth=\skip63
-\labelalphawidth=\skip64
-\biblabelsep=\skip65
-\bibitemsep=\skip66
-\bibnamesep=\skip67
-\bibinitsep=\skip68
-\bibparsep=\skip69
-\bibhang=\skip70
-\blx@bcfin=\read4
+\c@tabx@nest=\count136
+\c@listtotal=\count137
+\c@listcount=\count138
+\c@liststart=\count139
+\c@liststop=\count140
+\c@citecount=\count141
+\c@citetotal=\count142
+\c@multicitecount=\count143
+\c@multicitetotal=\count144
+\c@instcount=\count145
+\c@maxnames=\count146
+\c@minnames=\count147
+\c@maxitems=\count148
+\c@minitems=\count149
+\c@citecounter=\count150
+\c@maxcitecounter=\count151
+\c@savedcitecounter=\count152
+\c@uniquelist=\count153
+\c@uniquename=\count154
+\c@refsection=\count155
+\c@refsegment=\count156
+\c@maxextratitle=\count157
+\c@maxextratitleyear=\count158
+\c@maxextraname=\count159
+\c@maxextradate=\count160
+\c@maxextraalpha=\count161
+\c@abbrvpenalty=\count162
+\c@highnamepenalty=\count163
+\c@lownamepenalty=\count164
+\c@maxparens=\count165
+\c@parenlevel=\count166
+\blx@tempcnta=\count167
+\blx@tempcntb=\count168
+\blx@tempcntc=\count169
+\blx@maxsection=\count170
+\blx@maxsegment@0=\count171
+\blx@notetype=\count172
+\blx@parenlevel@text=\count173
+\blx@parenlevel@foot=\count174
+\blx@sectionciteorder@0=\count175
+\blx@entrysetcounter=\count176
+\labelnumberwidth=\skip57
+\labelalphawidth=\skip58
+\biblabelsep=\skip59
+\bibitemsep=\skip60
+\bibnamesep=\skip61
+\bibinitsep=\skip62
+\bibparsep=\skip63
+\bibhang=\skip64
+\blx@bcfin=\read3
 \blx@bcfout=\write4
-\blx@langwohyphens=\language78
-\c@mincomprange=\count330
-\c@maxcomprange=\count331
-\c@mincompwidth=\count332
+\blx@langwohyphens=\language82
+\c@mincomprange=\count177
+\c@maxcomprange=\count178
+\c@mincompwidth=\count179
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-dm.de
-f"
-File: blx-dm.def 2019/12/01 v3.14 biblatex localization (PK/MW)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-dm.def"
+File: blx-dm.def 2019/08/31 v3.13a biblatex localization (PK/MW)
 )
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count333
-\c@savedafterword=\count334
-\c@annotator=\count335
-\c@savedannotator=\count336
-\c@author=\count337
-\c@savedauthor=\count338
-\c@bookauthor=\count339
-\c@savedbookauthor=\count340
-\c@commentator=\count341
-\c@savedcommentator=\count342
-\c@editor=\count343
-\c@savededitor=\count344
-\c@editora=\count345
-\c@savededitora=\count346
-\c@editorb=\count347
-\c@savededitorb=\count348
-\c@editorc=\count349
-\c@savededitorc=\count350
-\c@foreword=\count351
-\c@savedforeword=\count352
-\c@holder=\count353
-\c@savedholder=\count354
-\c@introduction=\count355
-\c@savedintroduction=\count356
-\c@namea=\count357
-\c@savednamea=\count358
-\c@nameb=\count359
-\c@savednameb=\count360
-\c@namec=\count361
-\c@savednamec=\count362
-\c@translator=\count363
-\c@savedtranslator=\count364
-\c@shortauthor=\count365
-\c@savedshortauthor=\count366
-\c@shorteditor=\count367
-\c@savedshorteditor=\count368
-\c@labelname=\count369
-\c@savedlabelname=\count370
-\c@institution=\count371
-\c@savedinstitution=\count372
-\c@lista=\count373
-\c@savedlista=\count374
-\c@listb=\count375
-\c@savedlistb=\count376
-\c@listc=\count377
-\c@savedlistc=\count378
-\c@listd=\count379
-\c@savedlistd=\count380
-\c@liste=\count381
-\c@savedliste=\count382
-\c@listf=\count383
-\c@savedlistf=\count384
-\c@location=\count385
-\c@savedlocation=\count386
-\c@organization=\count387
-\c@savedorganization=\count388
-\c@origlocation=\count389
-\c@savedoriglocation=\count390
-\c@origpublisher=\count391
-\c@savedorigpublisher=\count392
-\c@publisher=\count393
-\c@savedpublisher=\count394
-\c@language=\count395
-\c@savedlanguage=\count396
-\c@origlanguage=\count397
-\c@savedoriglanguage=\count398
-\c@pageref=\count399
-\c@savedpageref=\count400
-\shorthandwidth=\skip71
-\shortjournalwidth=\skip72
-\shortserieswidth=\skip73
-\shorttitlewidth=\skip74
-\shortauthorwidth=\skip75
-\shorteditorwidth=\skip76
-\locallabelnumberwidth=\skip77
-\locallabelalphawidth=\skip78
-\localshorthandwidth=\skip79
-\localshortjournalwidth=\skip80
-\localshortserieswidth=\skip81
-\localshorttitlewidth=\skip82
-\localshortauthorwidth=\skip83
-\localshorteditorwidth=\skip84
+\c@afterword=\count180
+\c@savedafterword=\count181
+\c@annotator=\count182
+\c@savedannotator=\count183
+\c@author=\count184
+\c@savedauthor=\count185
+\c@bookauthor=\count186
+\c@savedbookauthor=\count187
+\c@commentator=\count188
+\c@savedcommentator=\count189
+\c@editor=\count190
+\c@savededitor=\count191
+\c@editora=\count192
+\c@savededitora=\count193
+\c@editorb=\count194
+\c@savededitorb=\count195
+\c@editorc=\count196
+\c@savededitorc=\count197
+\c@foreword=\count198
+\c@savedforeword=\count199
+\c@holder=\count266
+\c@savedholder=\count267
+\c@introduction=\count268
+\c@savedintroduction=\count269
+\c@namea=\count270
+\c@savednamea=\count271
+\c@nameb=\count272
+\c@savednameb=\count273
+\c@namec=\count274
+\c@savednamec=\count275
+\c@translator=\count276
+\c@savedtranslator=\count277
+\c@shortauthor=\count278
+\c@savedshortauthor=\count279
+\c@shorteditor=\count280
+\c@savedshorteditor=\count281
+\c@labelname=\count282
+\c@savedlabelname=\count283
+\c@institution=\count284
+\c@savedinstitution=\count285
+\c@lista=\count286
+\c@savedlista=\count287
+\c@listb=\count288
+\c@savedlistb=\count289
+\c@listc=\count290
+\c@savedlistc=\count291
+\c@listd=\count292
+\c@savedlistd=\count293
+\c@liste=\count294
+\c@savedliste=\count295
+\c@listf=\count296
+\c@savedlistf=\count297
+\c@location=\count298
+\c@savedlocation=\count299
+\c@organization=\count300
+\c@savedorganization=\count301
+\c@origlocation=\count302
+\c@savedoriglocation=\count303
+\c@origpublisher=\count304
+\c@savedorigpublisher=\count305
+\c@publisher=\count306
+\c@savedpublisher=\count307
+\c@language=\count308
+\c@savedlanguage=\count309
+\c@origlanguage=\count310
+\c@savedoriglanguage=\count311
+\c@pageref=\count312
+\c@savedpageref=\count313
+\shorthandwidth=\skip65
+\shortjournalwidth=\skip66
+\shortserieswidth=\skip67
+\shorttitlewidth=\skip68
+\shortauthorwidth=\skip69
+\shorteditorwidth=\skip70
+\locallabelnumberwidth=\skip71
+\locallabelalphawidth=\skip72
+\localshorthandwidth=\skip73
+\localshortjournalwidth=\skip74
+\localshortserieswidth=\skip75
+\localshorttitlewidth=\skip76
+\localshortauthorwidth=\skip77
+\localshorteditorwidth=\skip78
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-compa
-t.def"
-File: blx-compat.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-compat.
+def"
+File: blx-compat.def 2019/08/31 v3.13a biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.
-def"
-File: biblatex.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
-\c@textcitecount=\count401
-\c@textcitetotal=\count402
-\c@textcitemaxnames=\count403
-\c@biburlbigbreakpenalty=\count404
-\c@biburlbreakpenalty=\count405
-\c@biburlnumpenalty=\count406
-\c@biburlucpenalty=\count407
-\c@biburllcpenalty=\count408
-\biburlbigskip=\muskip17
-\biburlnumskip=\muskip18
-\biburlucskip=\muskip19
-\biburllcskip=\muskip20
-\c@smartand=\count409
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.de
+f"
+File: biblatex.def 2019/08/31 v3.13a biblatex compatibility (PK/MW)
+\c@textcitecount=\count314
+\c@textcitetotal=\count315
+\c@textcitemaxnames=\count316
+\c@biburlbigbreakpenalty=\count317
+\c@biburlbreakpenalty=\count318
+\c@biburlnumpenalty=\count319
+\c@biburlucpenalty=\count320
+\c@biburllcpenalty=\count321
+\biburlbigskip=\muskip11
+\biburlnumskip=\muskip12
+\biburlucskip=\muskip13
+\biburllcskip=\muskip14
+\c@smartand=\count322
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\numer
-ic.bbx"
-File: numeric.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\numeric
+.bbx"
+File: numeric.bbx 2019/08/31 v3.13a biblatex bibliography style (PK/MW)
 Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\stand
-ard.bbx"
-File: standard.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count410
-\c@bbx:relatedtotal=\count411
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\standar
+d.bbx"
+File: standard.bbx 2019/08/31 v3.13a biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count323
+\c@bbx:relatedtotal=\count324
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/cbx\numer
-ic.cbx"
-File: numeric.cbx 2019/12/01 v3.14 biblatex citation style (PK/MW)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/cbx\numeric
+.cbx"
+File: numeric.cbx 2019/08/31 v3.13a biblatex citation style (PK/MW)
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
 Package biblatex Info: Redefining '\footcite'.
@@ -798,80 +800,72 @@ Package biblatex Info: Redefining '\smartcites'.
 Package biblatex Info: Trying to load configuration file...
 Package biblatex Info: ... file 'biblatex.cfg' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.
-cfg"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.cf
+g"
 File: biblatex.cfg 
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath.st
-y"
-Package: amsmath 2020/01/20 v2.17e AMS math features
-\@mathmargin=\skip85
-
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath.sty"
+Package: amsmath 2019/04/01 v2.17c AMS math features
+\@mathmargin=\skip79
 For additional information on amsmath, use the `?' option.
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext.st
-y"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext.sty"
 Package: amstext 2000/06/29 v2.01 AMS text
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty
-"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks37
-\ex@=\dimen275
-))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty
-"
+\ex@=\dimen187
+)) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.st
+y"
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen276
-)
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty
+\pmbraise@=\dimen188
+) ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty
 "
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count412
+\inf@bad=\count325
 LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count413
-\leftroot@=\count414
+\uproot@=\count326
+\leftroot@=\count327
 LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count415
-\DOTSCASE@=\count416
+\classnum@=\count328
+\DOTSCASE@=\count329
 LaTeX Info: Redefining \ldots on input line 486.
 LaTeX Info: Redefining \dots on input line 489.
 LaTeX Info: Redefining \cdots on input line 610.
-\Mathstrutbox@=\box60
-\strutbox@=\box61
-\big@size=\dimen277
+\Mathstrutbox@=\box42
+\strutbox@=\box43
+\big@size=\dimen189
 LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count417
-\c@MaxMatrixCols=\count418
-\dotsspace@=\muskip21
-\c@parentequation=\count419
-\dspbrk@lvl=\count420
+\macc@depth=\count330
+\c@MaxMatrixCols=\count331
+\dotsspace@=\muskip15
+\c@parentequation=\count332
+\dspbrk@lvl=\count333
 \tag@help=\toks38
-\row@=\count421
-\column@=\count422
-\maxfields@=\count423
+\row@=\count334
+\column@=\count335
+\maxfields@=\count336
 \andhelp@=\toks39
-\eqnshift@=\dimen278
-\alignsep@=\dimen279
-\tagshift@=\dimen280
-\tagwidth@=\dimen281
-\totwidth@=\dimen282
-\lineht@=\dimen283
+\eqnshift@=\dimen190
+\alignsep@=\dimen191
+\tagshift@=\dimen192
+\tagwidth@=\dimen193
+\totwidth@=\dimen194
+\lineht@=\dimen195
 \@envbody=\toks40
-\multlinegap=\skip86
-\multlinetaggap=\skip87
+\multlinegap=\skip80
+\multlinetaggap=\skip81
 \mathdisplay@stack=\toks41
-LaTeX Info: Redefining \[ on input line 2859.
-LaTeX Info: Redefining \] on input line 2860.
+LaTeX Info: Redefining \[ on input line 2855.
+LaTeX Info: Redefining \] on input line 2856.
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amssymb.s
-ty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amssymb.sty
+"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.
-sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.st
+y"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
@@ -879,31 +873,29 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\latexsym.sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\latexsym.sty"
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancyhdr\fancyhdr.
-sty"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancyhdr\fancyhdr.st
+y"
 Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
 s
-\f@nch@headwidth=\skip88
-\f@nch@O@elh=\skip89
-\f@nch@O@erh=\skip90
-\f@nch@O@olh=\skip91
-\f@nch@O@orh=\skip92
-\f@nch@O@elf=\skip93
-\f@nch@O@erf=\skip94
-\f@nch@O@olf=\skip95
-\f@nch@O@orf=\skip96
+\f@nch@headwidth=\skip82
+\f@nch@O@elh=\skip83
+\f@nch@O@erh=\skip84
+\f@nch@O@olh=\skip85
+\f@nch@O@orh=\skip86
+\f@nch@O@elf=\skip87
+\f@nch@O@erf=\skip88
+\f@nch@O@olf=\skip89
+\f@nch@O@orf=\skip90
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/sectsty\sectsty.st
-y"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/sectsty\sectsty.sty"
 Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
 les
-
 
 LaTeX Warning: Command \underbar  has changed.
                Check if current package is valid.
@@ -913,31 +905,30 @@ LaTeX Warning: Command \underline  has changed.
                Check if current package is valid.
 
 )
-\@quotelevel=\count424
-\@quotereset=\count425
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/l3backend\l3backen
-d-pdfmode.def"
-File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count426
-\l__pdf_internal_box=\box62
-) (report.aux)
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\english
+.lbx"
+File: english.lbx 2019/08/31 v3.13a biblatex localization (PK/MW)
+)
+\@quotelevel=\count337
+\@quotereset=\count338
+ (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -974,38 +965,43 @@ LaTeX Font Info:    ... okay on input line 87.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-p
-df.mkii"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-pdf
+.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count427
-\scratchdimen=\dimen284
-\scratchbox=\box63
-\nofMPsegments=\count428
-\nofMParguments=\count429
+\scratchcounter=\count339
+\scratchdimen=\dimen196
+\scratchbox=\box44
+\nofMPsegments=\count340
+\nofMParguments=\count341
 \everyMPshowfont=\toks42
-\MPscratchCnt=\count430
-\MPscratchDim=\dimen285
-\MPnumerator=\count431
-\makeMPintoPDFobject=\count432
+\MPscratchCnt=\count342
+\MPscratchDim=\dimen197
+\MPnumerator=\count343
+\makeMPintoPDFobject=\count344
 \everyMPtoPDFconversion=\toks43
 )
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/epstopdf-pkg\epsto
-pdf-base.sty"
-Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-ba
+se.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvdefinek
+eys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+))
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
 ) ABD: EveryShipout initializing macros
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-
-("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\engli
-sh.lbx"
-File: english.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
-)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
@@ -1022,35 +1018,36 @@ Package biblatex Warning: The following entry could not be found
 (biblatex)                LaTeX afterwards.
 
 )
-Package biblatex Info: Reference section=0 on input line 87.
-Package biblatex Info: Reference segment=0 on input line 87.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 88.
+Package biblatex Info: Reference section=0 on input line 66.
+Package biblatex Info: Reference segment=0 on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 67.
 
- ("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
+ ("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 88.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 67.
 
- ("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 88
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 67
 .
- ("C:\Users\domwh\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ulasy.fd"
+
+("C:\Users\Dom\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 <structure.png, id=4, 816.04875pt x 199.60286pt>
 File: structure.png Graphic file (type png)
 <use structure.png>
-Package pdftex.def Info: structure.png  used on input line 94.
+Package pdftex.def Info: structure.png  used on input line 73.
 (pdftex.def)             Requested size: 418.25368pt x 102.30473pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 100--101
+Underfull \hbox (badness 10000) in paragraph at lines 79--80
 
  []
 
 
-Overfull \hbox (6.08745pt too wide) in paragraph at lines 102--103
+Overfull \hbox (6.08745pt too wide) in paragraph at lines 81--82
 \OT1/cmr/m/n/10.95 tional lay-ers ([][]\OT1/cmtt/m/n/10.95 torch.nn.Conv2d[]\OT
 1/cmr/m/n/10.95 ) fol-lowed by $2 \OMS/cmsy/m/n/10.95  \OT1/cmr/m/n/10.95 2$ a
 v-er-age pool-ing ([][]\OT1/cmtt/m/n/10.95 torch.nn.AvgPool2d[]\OT1/cmr/m/n/10.
@@ -1058,15 +1055,15 @@ v-er-age pool-ing ([][]\OT1/cmtt/m/n/10.95 torch.nn.AvgPool2d[]\OT1/cmr/m/n/10.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--103
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
 
  []
 
 [1
 
-{C:/Users/domwh/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./structure
-.png>]
-Overfull \hbox (33.49341pt too wide) in paragraph at lines 104--105
+{C:/Users/Dom/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./structure.p
+ng>]
+Overfull \hbox (33.49341pt too wide) in paragraph at lines 83--84
 \OT1/cmr/m/n/10.95 also with [][]\OT1/cmtt/m/n/10.95 LeakyReLU[]\OT1/cmr/m/n/10
 .95 , and fol-lowed by $2 \OMS/cmsy/m/n/10.95  \OT1/cmr/m/n/10.95 2$ near-est 
 neigh-bour up-sam-pling ([][]\OT1/cmtt/m/n/10.95 torch.nn.Upsample[]\OT1/cmr/m/
@@ -1074,80 +1071,102 @@ n/10.95 ).
  []
 
 
-Overfull \hbox (1.3937pt too wide) in paragraph at lines 104--105
+Overfull \hbox (1.3937pt too wide) in paragraph at lines 83--84
 \OT1/cmr/m/n/10.95 con-vert re-sults to $[0\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/1
 0.95 1]$ range suit-able for dis-play. The use of [][]\OT1/cmtt/m/n/10.95 torch
 .nn.ConvTranspose2d
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 104--105
+Underfull \hbox (badness 10000) in paragraph at lines 83--84
 
  []
 
 
-Overfull \hbox (0.66182pt too wide) in paragraph at lines 106--107
+Overfull \hbox (0.66182pt too wide) in paragraph at lines 85--86
 []\OT1/cmr/m/n/10.95 Parameters are op-ti-mised with Adam [5]. The val-ues for 
 the learn-ing rate [][]\OT1/cmtt/m/n/10.95 l_r = 1e-3
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
+Underfull \hbox (badness 10000) in paragraph at lines 85--86
 
  []
 
 
-Overfull \hbox (0.14513pt too wide) in paragraph at lines 116--117
+Overfull \hbox (0.14513pt too wide) in paragraph at lines 95--96
 \OT1/cmr/m/n/10.95 A cus-tom sub-class of [][]\OT1/cmtt/m/n/10.95 torchvision.d
 atasets.CIFAR10 []\OT1/cmr/m/n/10.95 was used. This com-prised $20\OML/cmm/m/it
 /10.95 ; \OT1/cmr/m/n/10.95 000$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--117
+Underfull \hbox (badness 10000) in paragraph at lines 95--96
 
  []
 
-[2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 131--132
+[2]
+<ae.png, id=25, 462.528pt x 346.896pt>
+File: ae.png Graphic file (type png)
+<use ae.png>
+Package pdftex.def Info: ae.png  used on input line 105.
+(pdftex.def)             Requested size: 188.21288pt x 141.15904pt.
+<d.png, id=26, 462.528pt x 346.896pt>
+File: d.png Graphic file (type png)
+<use d.png>
+Package pdftex.def Info: d.png  used on input line 107.
+(pdftex.def)             Requested size: 188.21288pt x 141.15904pt.
+ [3 <./ae.png> <./d.png>]
+<best.png, id=32, 32.12pt x 32.12pt>
+File: best.png Graphic file (type png)
+<use best.png>
+Package pdftex.def Info: best.png  used on input line 118.
+(pdftex.def)             Requested size: 32.1199pt x 32.1199pt.
+<batch.png, id=33, 278.03876pt x 278.03876pt>
+File: batch.png Graphic file (type png)
+<use batch.png>
+Package pdftex.def Info: batch.png  used on input line 124.
+(pdftex.def)             Requested size: 278.03807pt x 278.03807pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--131
 
  []
 
+[4
 
-Overfull \hbox (17.26419pt too wide) in paragraph at lines 135--135
+ <./best.png (PNG copy)> <./batch.png (PNG copy)>]
+Overfull \hbox (17.26419pt too wide) in paragraph at lines 134--134
 \OT1/cmr/m/n/10.95 Grow-ing Gen-er-a-tive Au-toen-coder''. In: \OT1/cmr/m/it/10
 .95 Asian Con-fer-ence on Com-puter Vi-sion (ACCV)\OT1/cmr/m/n/10.95 .
  []
 
 
-Overfull \hbox (3.85945pt too wide) in paragraph at lines 135--135
+Overfull \hbox (3.85945pt too wide) in paragraph at lines 134--134
 \OT1/cmr/m/n/10.95 Neu-ral Net-works''. In: \OT1/cmr/m/it/10.95 Sci-ence \OT1/c
 mr/m/n/10.95 313.5786 (2006), pp. 504{507. \OT1/cmr/m/sc/10.95 doi\OT1/cmr/m/n/
 10.95 : $\OT1/cmtt/m/n/10.95 10 . 1126 / science .
  []
 
-[4
-
-] [5]
-Overfull \hbox (1.40053pt too wide) in paragraph at lines 155--155
+[5]
+Overfull \hbox (1.40053pt too wide) in paragraph at lines 154--154
 []  \OT1/cmtt/m/n/10.95 (11): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1),
  padding=(1, 1))[] 
  []
 
 
-Overfull \hbox (1.40053pt too wide) in paragraph at lines 157--157
+Overfull \hbox (1.40053pt too wide) in paragraph at lines 156--156
 []  \OT1/cmtt/m/n/10.95 (13): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1),
  padding=(1, 1))[] 
  []
 
 
-Overfull \hbox (7.14922pt too wide) in paragraph at lines 160--160
+Overfull \hbox (7.14922pt too wide) in paragraph at lines 159--159
 []  \OT1/cmtt/m/n/10.95 (16): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1)
 , padding=(1, 1))[] 
  []
 
 
-Overfull \hbox (7.14922pt too wide) in paragraph at lines 162--162
+Overfull \hbox (7.14922pt too wide) in paragraph at lines 161--161
 []  \OT1/cmtt/m/n/10.95 (18): Conv2d(128, 16, kernel_size=(3, 3), stride=(1, 1)
 , padding=(1, 1))[] 
  []
@@ -1155,19 +1174,19 @@ Overfull \hbox (7.14922pt too wide) in paragraph at lines 162--162
 [6
 
 ]
-Overfull \hbox (1.40053pt too wide) in paragraph at lines 183--183
+Overfull \hbox (1.40053pt too wide) in paragraph at lines 182--182
 []  \OT1/cmtt/m/n/10.95 (10): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1),
  padding=(1, 1))[] 
  []
 
 
-Overfull \hbox (1.40053pt too wide) in paragraph at lines 185--185
+Overfull \hbox (1.40053pt too wide) in paragraph at lines 184--184
 []  \OT1/cmtt/m/n/10.95 (12): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1),
  padding=(1, 1))[] 
  []
 
 
-Overfull \hbox (1.40053pt too wide) in paragraph at lines 188--188
+Overfull \hbox (1.40053pt too wide) in paragraph at lines 187--187
 []  \OT1/cmtt/m/n/10.95 (15): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1),
  padding=(1, 1))[] 
  []
@@ -1180,32 +1199,31 @@ Package logreq Info: Writing requests to 'report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 23315 strings out of 481565
- 455276 string characters out of 2914159
- 1048295 words of memory out of 3000000
- 38174 multiletter control sequences out of 15000+200000
- 544585 words of font info for 74 fonts, out of 3000000 for 9000
+ 23231 strings out of 492450
+ 451620 string characters out of 3120938
+ 864399 words of memory out of 3000000
+ 27203 multiletter control sequences out of 15000+200000
+ 15887 words of font info for 64 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,11n,60p,816b,1218s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/domwh/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmcsc10.pfb><C:/Users/domwh/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmmi10.pfb><C:/Users/domwh/AppData/Local/Programs/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/domwh/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/domwh/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/domw
-h/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C
-:/Users/domwh/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmr6.pfb><C:/Users/domwh/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmr8.pfb><C:/Users/domwh/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmr9.pfb><C:/Users/domwh/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/domwh/AppData/Local/Progr
-ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/domwh/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users
-/domwh/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.
-pfb>
-Output written on report.pdf (7 pages, 290453 bytes).
+ 60i,12n,60p,816b,1196s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmcsc10.pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Dom/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Dom/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Dom/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/U
+sers/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.
+pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmr9.pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmss12.pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Dom/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Dom/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on report.pdf (7 pages, 484270 bytes).
 PDF statistics:
- 84 PDF objects out of 1000 (max. 8388607)
+ 90 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
