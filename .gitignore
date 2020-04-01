@@ -2,5 +2,6 @@
 data
 graphs
 images
+candidates
 ~$*.docx
 *.tmp

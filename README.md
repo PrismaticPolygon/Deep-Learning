@@ -6,6 +6,4 @@ Implementation of `Adversarially Constrained Autoencoder Interpolation (ACAI)`, 
 * [PyTorch](https://gist.github.com/kylemcdonald/e8ca989584b3b0e6526c0a737ed412f0)
 
 Notes [here](https://www.kdnuggets.com/2019/03/interpolation-autoencoders-adversarial-regularizer.html)
-YouTube discussion of paper [here]
-
-https://blog.paperspace.com/adversarial-autoencoders-with-pytorch/
+More notes [here](https://blog.paperspace.com/adversarial-autoencoders-with-pytorch/)

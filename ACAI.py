@@ -6,6 +6,7 @@ import torch
 import torchvision.transforms as transforms
 import numpy as np
 import matplotlib.pyplot as plt
+import json
 
 from torch.utils.data import DataLoader
 from torch.optim import Adam
@@ -16,17 +17,17 @@ from data import Pegasus, PegasusSampler
 from lib import AutoEncoder, Discriminator
 
 args = {
-    "epochs": 75,
+    "epochs": 250,
     "batch_size": 64,
     "depth": 16,
     "latent": 16,
-    "lr": 1e-3,
+    "lr": 1e-4,
     "advdepth": 16,
-    "advweight": 0.5,
-    "reg": 0.2,
+    "advweight": 0.3,
+    "reg": 0.1,
     "weight_decay": 1e-5,
     "width": 32,
-    "latent_width": 4,
+    "latent_width": 8,
     "device": "cuda"
 }
 
@@ -65,7 +66,6 @@ def calc_loss_disc(x, x_hat, discriminator, disc_mix, alpha):
 
     return loss + regulariser
 
-# The figure is consuming memory!
 
 def calc_loss_ae(x, x_hat, disc_mix):
 
@@ -80,8 +80,6 @@ d = Discriminator(args["scales"], args['advdepth'], args['latent']).to(args['dev
 
 # Optimiser for autoencoder parameters
 opt_ae = Adam(ae.parameters(), lr=args["lr"], weight_decay=args["weight_decay"])
-
-# Optimiser for discriminator parameters
 opt_d = Adam(d.parameters(), lr=args["lr"], weight_decay=args["weight_decay"])
 
 start_time = time.time()
@@ -90,19 +88,31 @@ losses_ae = np.zeros(args["epochs"])
 losses_d = np.zeros(args["epochs"])
 
 # Create output directories
-dirs = ["x", "x_hat", "d"]
-root = "images"
+root = "runs"
 
 if not os.path.exists(root):
 
     os.mkdir(root)
 
+# Create a new directory for this run
+
 run = datetime.datetime.today().strftime("%Y%m%d_%H%M")
-os.mkdir(os.path.join(root, run))
+path = os.path.join(root, run)
 
-for dir in dirs:
+print("\n***** RUN {} *****\n".format(run))
 
-    os.mkdir(os.path.join(root, run, dir))
+os.mkdir(path)
+os.mkdir(os.path.join(path, "images"))
+os.mkdir(os.path.join(path, "weights"))
+
+with open(os.path.join(root, run, "args.json"), "w") as file:
+
+    json.dump(args, file)
+
+# Create the output directories within the run directory
+for dir in ["x", "x_hat", "d"]:
+
+    os.mkdir(os.path.join(root, run, "images", dir))
 
 
 def imsave(tensor, folder, epoch):
@@ -114,9 +124,10 @@ def imsave(tensor, folder, epoch):
 
     plt.imshow(transposed, interpolation='nearest')  # Expects (M, N, 3)
 
-    plt.savefig("{}/{}/{}/{}.png".format(root, run, folder, epoch))
+    plt.savefig(os.path.join(root, run, "images", folder, str(epoch) + ".png"))
 
 
+# The figure is consuming memory!
 def output(tensor, y, alpha, preds, epoch):
 
     alpha = alpha.detach().cpu().squeeze().numpy()
@@ -157,7 +168,8 @@ def output(tensor, y, alpha, preds, epoch):
         plt.xlabel(label)
         plt.imshow(img, cmap=plt.cm.binary)
 
-    plt.savefig("{}/{}/{}/{}.png".format(root, run, "d", epoch))
+        plt.savefig(os.path.join(root, run, "images", "d", str(epoch) + ".png"))
+
     plt.clf()
 
 
@@ -216,5 +228,5 @@ for epoch in range(args["epochs"]):
 
     else:
 
-        torch.save(ae.state_dict(), "weights/ae_asd.pkl")
-        torch.save(d.state_dict(), "weights/d_asd.pkl")
+        torch.save(ae.state_dict(), os.path.join(root, run, "weights", "ae.pkl"))
+        torch.save(d.state_dict(),os.path.join(root, run, "weights", "d.pkl"))
