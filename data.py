@@ -16,7 +16,7 @@ class Pegasus(CIFAR10):
 
         super().__init__(root, train, transform, target_transform, download)
 
-        wing_indices = [0]  # 0 = planes, 2 = birds,
+        wing_indices = [2]  # 0 = planes, 2 = birds,
         body_indices = [7]  # 4 = deer, 7 = horses
 
         indices = np.arange(len(self.targets))

@@ -2,6 +2,7 @@ import os
 import torch
 import json
 import uuid
+import shutil
 
 import numpy as np
 import torchvision.transforms as transforms
@@ -12,7 +13,7 @@ from torch.utils.data import DataLoader
 from data import Pegasus, PegasusSampler
 from lib import AutoEncoder
 
-run = "runs/20200401_1159"
+run = "runs/20200331_1707"
 
 with open(run + "/args.json", "r") as file:
 
@@ -22,10 +23,11 @@ ae = AutoEncoder(args["scales"], args["depth"], args["latent"]).to(args["device"
 ae.load_state_dict(torch.load(run + "/weights/ae.pkl"))
 ae.eval()
 
-if not os.path.exists("candidates"):
+if os.path.exists("candidates"):
 
-    os.mkdir("candidates")
+    shutil.rmtree("candidates")
 
+os.mkdir("candidates")
 
 train_set = Pegasus(root='./data', train=True, download=True, transform=transforms.ToTensor())
 train_loader = DataLoader(train_set, batch_sampler=PegasusSampler(train_set, batch_size=args["batch_size"]))
