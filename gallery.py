@@ -14,7 +14,7 @@ class Gallery(Frame):
     def __init__(self, master=None):
 
         Frame.__init__(self, master)
-        w, h = 256, 256
+        w, h = 96, 96
 
         master.minsize(width=w, height=h)
         master.maxsize(width=w, height=h)
@@ -38,7 +38,7 @@ class Gallery(Frame):
 
         self.image = Image.open("candidates/" + images[self.i])
 
-        self.photo_image = ImageTk.PhotoImage(self.image.resize((256, 256)))
+        self.photo_image = ImageTk.PhotoImage(self.image.resize((96, 96)))
         self.label.configure(image=self.photo_image)
         self.label.image = self.photo_image
 
